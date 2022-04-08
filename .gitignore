@@ -1,0 +1,12 @@
+# IDEs
+.idea/
+
+# Dart
+.dart_tool/
+.packages
+
+# Generated code
+*.g.dart
+
+.env*
+!.env.example
