@@ -2,15 +2,15 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'paging.g.dart';
 
-@JsonSerializable(genericArgumentFactories: true)
+@JsonSerializable()
 class Page<T> {
   String href;
   List<T> items;
   int limit;
   int offset;
   int total;
-  String previous;
-  String next;
+  String? previous;
+  String? next;
 
   Page({
     required this.href,

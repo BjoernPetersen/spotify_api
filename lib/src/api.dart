@@ -107,7 +107,7 @@ class ClientCredentialsFlow
 }
 
 class SpotifyWebApi<S extends AuthenticationState> {
-  static Uri baseUrl = Uri.parse("https://api.spotify.com/v1");
+  static const String baseUrl = "https://api.spotify.com/v1";
 
   final RequestsClient _client;
   final AuthenticationFlow<S> _authFlow;
@@ -135,16 +135,15 @@ class SpotifyWebApi<S extends AuthenticationState> {
     required List<SearchType> types,
   }) async {
     final token = await _getAccessToken();
-    final url = baseUrl.resolve("/search");
-
-    url.queryParametersAll.addAll({
-      "q": [query],
-      "type": types.map((it) => it.name).toList(growable: false),
-    });
+    final url = Uri.parse(baseUrl + "/search");
 
     final response = await _client.get(
       url,
       headers: [Header.bearerAuth(token)],
+      params: {
+        "q": query,
+        "type": types.map((it) => it.name).join(","),
+      },
     );
     return response.body.decodeJson(SearchResponse.fromJson);
   }

@@ -16,14 +16,18 @@ class Header {
     required this.value,
   });
 
-  Header.basicAuth({
+  factory Header.basicAuth({
     required String username,
     required String password,
     Encoding encoding = utf8,
-  }) : this(
-          name: HttpHeaders.authorizationHeader,
-          value: "Basic ${hex.encode(encoding.encode("$username:$password"))}",
-        );
+  }) {
+    final bytes = encoding.encode("$username:$password");
+    final encoded = base64.encode(bytes);
+    return Header(
+      name: HttpHeaders.authorizationHeader,
+      value: "Basic $encoded",
+    );
+  }
 
   Header.bearerAuth(
     String token,
@@ -87,6 +91,19 @@ class ResponseBody {
   }
 }
 
+class HttpException implements Exception {}
+
+class HttpStatusException extends HttpException {
+  final Response response;
+
+  HttpStatusException(this.response);
+
+  @override
+  String toString() {
+    return "Unsuccessful status code ${response.statusCode}";
+  }
+}
+
 class RequestsClient {
   final http.Client _client;
 
@@ -95,25 +112,46 @@ class RequestsClient {
   Future<Response> get(
     Uri url, {
     List<Header> headers = const [],
+    Map<String, String> params = const {},
   }) async {
-    final response = await _client.get(url);
-    return Response(response);
+    final urlWithParams = url.replace(queryParameters: params);
+
+    print(urlWithParams);
+    final rawResponse = await _client.get(
+      urlWithParams,
+      headers: {
+        for (final header in headers) header.name: header.value,
+      },
+    );
+
+    final response = Response(rawResponse);
+    if (!response.isSuccessful) {
+      throw HttpStatusException(response);
+    }
+    return response;
   }
 
   Future<Response> post(
     Uri url, {
     required RequestBody body,
     List<Header> headers = const [],
+    Map<String, String> params = const {},
   }) async {
-    final response = await _client.post(
-      url,
+    final urlWithParams = url.replace(queryParameters: params);
+    final rawResponse = await _client.post(
+      urlWithParams,
       headers: {
         for (final header in headers) header.name: header.value,
         for (final header in body.headers) header.name: header.value,
       },
       body: body.body,
     );
-    return Response(response);
+
+    final response = Response(rawResponse);
+    if (!response.isSuccessful) {
+      throw HttpStatusException(response);
+    }
+    return response;
   }
 
   void close() {
