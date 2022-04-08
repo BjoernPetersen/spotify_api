@@ -5,7 +5,7 @@ part 'paging.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class Page<T> {
   String href;
-  List<T> tracks;
+  List<T> items;
   int limit;
   int offset;
   int total;
@@ -14,7 +14,7 @@ class Page<T> {
 
   Page({
     required this.href,
-    required this.tracks,
+    required this.items,
     required this.limit,
     required this.offset,
     required this.total,

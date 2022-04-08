@@ -47,6 +47,8 @@ class Response {
 
   int get statusCode => _response.statusCode;
 
+  bool get isSuccessful => statusCode >= 200 && statusCode < 300;
+
   ResponseBody get body => ResponseBody(_response.bodyBytes);
 }
 
@@ -78,6 +80,8 @@ class ResponseBody {
 
   ResponseBody(this.rawBytes);
 
+  String asString([Encoding encoding = utf8]) => encoding.decode(rawBytes);
+
   T decodeJson<T>(FromJson<T> fromJson) {
     return fromJson(jsonDecode(utf8.decode(rawBytes)));
   }
@@ -90,7 +94,6 @@ class RequestsClient {
 
   Future<Response> get(
     Uri url, {
-    Map<String, String> params = const {},
     List<Header> headers = const [],
   }) async {
     final response = await _client.get(url);
@@ -100,7 +103,6 @@ class RequestsClient {
   Future<Response> post(
     Uri url, {
     required RequestBody body,
-    Map<String, String> params = const {},
     List<Header> headers = const [],
   }) async {
     final response = await _client.post(

@@ -1,6 +1,7 @@
 import 'package:spotify_api/src/auth/response.dart';
 import 'package:spotify_api/src/requests.dart';
 import 'package:meta/meta.dart';
+import 'package:spotify_api/src/search/request.dart';
 import 'package:spotify_api/src/search/response.dart';
 
 class Token {
@@ -13,6 +14,8 @@ class Token {
 }
 
 class ExpiredTokenException implements Exception {}
+
+class RefreshException implements Exception {}
 
 abstract class AuthenticationState {
   String get accessToken;
@@ -88,6 +91,11 @@ class ClientCredentialsFlow
     } finally {
       client.close();
     }
+
+    if (!response.isSuccessful) {
+      throw RefreshException();
+    }
+
     final accessToken = response.body.decodeJson(AccessToken.fromJson);
     final token = Token(
       value: accessToken.accessToken,
@@ -124,12 +132,18 @@ class SpotifyWebApi<S extends AuthenticationState> {
 
   Future<SearchResponse> search({
     required String query,
+    required List<SearchType> types,
   }) async {
     final token = await _getAccessToken();
     final url = baseUrl.resolve("/search");
+
+    url.queryParametersAll.addAll({
+      "q": [query],
+      "type": types.map((it) => it.name).toList(growable: false),
+    });
+
     final response = await _client.get(
       url,
-      params: {"q": query},
       headers: [Header.bearerAuth(token)],
     );
     return response.body.decodeJson(SearchResponse.fromJson);
