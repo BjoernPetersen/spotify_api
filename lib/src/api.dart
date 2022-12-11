@@ -135,7 +135,7 @@ class SpotifyWebApi<S extends AuthenticationState> {
     required List<SearchType> types,
   }) async {
     final token = await _getAccessToken();
-    final url = Uri.parse(baseUrl + "/search");
+    final url = Uri.parse("$baseUrl/search");
 
     final response = await _client.get(
       url,

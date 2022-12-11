@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:convert/convert.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:spotify_api/src/model.dart';
