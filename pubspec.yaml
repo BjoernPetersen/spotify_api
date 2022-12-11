@@ -9,11 +9,11 @@ dependencies:
   http: ^0.13.4
   json_annotation: ^4.4.0
   logger: ^1.0.0
+  meta: ^1.0.0
 
 dev_dependencies:
   build_runner: ^2.0.0
   dotenv: ^4.0.0
   json_serializable: ^6.0.0
-  lints: ^1.0.0
-  meta: ^1.0.0
+  lints: ^2.0.0
   test: ^1.0.0
