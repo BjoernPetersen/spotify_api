@@ -1,5 +1,5 @@
 {
   "extends": [
-    "github>OpenAlcoholics/renovate-config:base"
+    "github>OpenAlcoholics/renovate-config"
   ]
 }
