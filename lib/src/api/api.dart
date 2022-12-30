@@ -24,6 +24,13 @@ abstract class SpotifyAlbumApi {
     String albumId, {
     String? market,
   });
+
+  Future<Page<Track>?> getAlbumTracks(
+    String albumId, {
+    String? market,
+    int? limit,
+    int? offset,
+  });
 }
 
 abstract class SpotifyTrackApi {

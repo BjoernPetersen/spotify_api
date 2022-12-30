@@ -9,7 +9,7 @@ part 'response.g.dart';
 @JsonSerializable()
 class Track {
   /// The album on which the track appears.
-  final Album album;
+  final Album? album;
 
   /// The artists who performed the track.
   final List<Artist> artists;
@@ -59,7 +59,7 @@ class Track {
   ///
   /// Note: the popularity value may lag behind actual popularity by a few days:
   /// the value is not updated in real time.
-  final int popularity;
+  final int? popularity;
 
   /// A link to a 30 second preview (MP3 format) of the track.
   final String? previewUrl;

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:spotify_api/src/api_models/model.dart';
 
 part 'pagination.g.dart';
 
@@ -21,6 +22,12 @@ class Page<T> {
     required this.previous,
     required this.next,
   });
+
+  factory Page.directFromJson(
+    Map<String, dynamic> json,
+    FromJson<T> fromJsonT,
+  ) =>
+      _$PageFromJson(json, (v) => fromJsonT(v as Map<String, dynamic>));
 
   factory Page.fromJson(
     Map<String, dynamic> json,

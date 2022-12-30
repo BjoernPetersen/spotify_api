@@ -10,11 +10,14 @@ Future<void> main() async {
   );
 
   try {
-    final track = await client.tracks.getTrack('75n8FqbBeBLW2jUzvjdjXV');
-    if (track == null) {
-      print("Track not found");
+    final tracks = await client.albums.getAlbumTracks('6Q1fxM7xBU5K2J1zo0usMz');
+    if (tracks == null) {
+      print('Album not found');
     } else {
-      print("Found track ${track.name} (popularity ${track.popularity})");
+      print('Found tracks:');
+      for (final track in tracks.items) {
+        print(track.name);
+      }
     }
   } finally {
     client.close();

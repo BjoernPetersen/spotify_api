@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/api_models/image.dart';
 
 part 'response.g.dart';
@@ -40,6 +41,9 @@ class Album {
 
   final int totalTracks;
 
+  /// The tracks of the album. Only present in some responses.
+  final Page<Track>? tracks;
+
   /// The type of the album.
   @JsonKey(name: "album_type")
   final AlbumType type;
@@ -56,6 +60,7 @@ class Album {
     required this.releaseDate,
     required this.releaseDatePrecision,
     required this.totalTracks,
+    required this.tracks,
     required this.type,
     required this.uri,
   });
