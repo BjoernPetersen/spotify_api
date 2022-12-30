@@ -22,6 +22,12 @@ class ClientCredentialsFlowStateState implements AuthenticationState {
 
   @override
   bool get isRefreshable => true;
+
+  @override
+  Future<void> store(StateStorage stateStorage) {
+    // Nope, we don't save it
+    return Future.value();
+  }
 }
 
 @immutable
@@ -33,6 +39,13 @@ class ClientCredentialsFlow
     required super.clientId,
     required String clientSecret,
   }) : _clientSecret = clientSecret;
+
+  @override
+  Future<ClientCredentialsFlowStateState?> restoreState(
+    StateStorage stateStorage,
+  ) {
+    return Future.value(null);
+  }
 
   @override
   Future<ClientCredentialsFlowStateState> retrieveToken(

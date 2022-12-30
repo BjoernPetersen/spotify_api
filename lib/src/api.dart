@@ -8,15 +8,24 @@ class SpotifyWebApi<S extends AuthenticationState> {
 
   final RequestsClient _client;
   final AuthenticationFlow<S> _authFlow;
+  final StateStorage? _stateStorage;
   S? _authState;
 
   SpotifyWebApi({
     required AuthenticationFlow<S> authFlow,
+    StateStorage? stateStorage,
   })  : _client = RequestsClient(),
-        _authFlow = authFlow;
+        _authFlow = authFlow,
+        _stateStorage = stateStorage;
 
   Future<String> _getAccessToken() async {
     S? authState = _authState;
+    final stateStorage = _stateStorage;
+
+    if (authState == null && stateStorage != null) {
+      authState = await _authFlow.restoreState(stateStorage);
+    }
+
     if (authState == null) {
       authState = await _authFlow.retrieveToken(_client, null);
     } else if (authState.isExpired && authState.isRefreshable) {
@@ -24,6 +33,11 @@ class SpotifyWebApi<S extends AuthenticationState> {
     } else if (authState.isExpired && !authState.isRefreshable) {
       throw ExpiredTokenException();
     }
+
+    if (stateStorage != null) {
+      authState.store(stateStorage);
+    }
+
     return authState.accessToken;
   }
 

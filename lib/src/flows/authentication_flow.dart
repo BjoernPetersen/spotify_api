@@ -30,12 +30,20 @@ abstract class AuthorizationCodeReceiver {
   );
 }
 
+abstract class StateStorage {
+  Future<void> store({required String key, required String? value});
+
+  Future<String?> load(String key);
+}
+
 abstract class AuthenticationState {
   String get accessToken;
 
   bool get isExpired;
 
   bool get isRefreshable;
+
+  Future<void> store(StateStorage stateStorage);
 }
 
 @immutable
@@ -47,6 +55,8 @@ abstract class AuthenticationFlow<S extends AuthenticationState> {
   AuthenticationFlow({
     required this.clientId,
   });
+
+  Future<S?> restoreState(StateStorage stateStorage);
 
   Future<S> retrieveToken(RequestsClient client, S? state);
 }

@@ -29,6 +29,11 @@ class AuthorizationCodeFlowState implements AuthenticationState {
 
   @override
   bool get isRefreshable => true;
+
+  @override
+  Future<void> store(StateStorage stateStorage) async {
+    await stateStorage.store(key: 'refresh', value: refreshToken);
+  }
 }
 
 const _kStateLength = 16;
@@ -55,6 +60,25 @@ class AuthorizationCodeFlow
   })  : _clientSecret = clientSecret,
         _redirectUri = redirectUri,
         _scopes = scopes;
+
+  @override
+  Future<AuthorizationCodeFlowState?> restoreState(
+    StateStorage stateStorage,
+  ) async {
+    final refreshToken = await stateStorage.load('refresh');
+    if (refreshToken == null) {
+      return null;
+    }
+
+    return AuthorizationCodeFlowState(
+      refreshToken: refreshToken,
+      // We just make up a fake, expired access token
+      accessToken: Token(
+        value: "",
+        expiration: DateTime.fromMillisecondsSinceEpoch(0),
+      ),
+    );
+  }
 
   String _generateState() {
     return List.generate(
