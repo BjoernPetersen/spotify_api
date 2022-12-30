@@ -7,7 +7,9 @@ import 'package:spotify_api/src/requests.dart';
 
 class ExpiredTokenException extends SpotifyApiException {}
 
-class RefreshException extends SpotifyApiException {}
+class RefreshException extends SpotifyApiException {
+  RefreshException([super.message]);
+}
 
 abstract class UserAuthorizationPrompt {
   FutureOr<void> call(Uri uri);
