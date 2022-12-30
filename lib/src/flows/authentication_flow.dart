@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/api_models/auth/response.dart';
+import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/requests.dart';
 
 class ExpiredTokenException extends SpotifyApiException {}
