@@ -1,5 +1,7 @@
+import 'package:spotify_api/src/api_models/error/response.dart';
 import 'package:spotify_api/src/api_models/search/request.dart';
 import 'package:spotify_api/src/api_models/search/response.dart';
+import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/flows/authentication_flow.dart';
 import 'package:spotify_api/src/requests.dart';
 
@@ -41,6 +43,22 @@ class SpotifyWebApi<S extends AuthenticationState> {
     return authState.accessToken;
   }
 
+  _checkErrors(Response response) {
+    if (!response.isSuccessful) {
+      final body = response.body.decodeJson(ErrorResponse.fromJson);
+      switch (response.statusCode) {
+        case 401:
+          throw AuthenticationException();
+        case 403:
+          throw AuthorizationException();
+        case 429:
+          throw RateLimitException();
+        default:
+          throw SpotifyApiException(body.error.message);
+      }
+    }
+  }
+
   Future<SearchResponse> search({
     required String query,
     required List<SearchType> types,
@@ -56,6 +74,9 @@ class SpotifyWebApi<S extends AuthenticationState> {
         "type": types.map((it) => it.name).join(","),
       },
     );
+
+    _checkErrors(response);
+
     return response.body.decodeJson(SearchResponse.fromJson);
   }
 
