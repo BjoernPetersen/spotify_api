@@ -50,6 +50,11 @@ class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
     return authState.accessToken;
   }
 
+  Future<List<Header>> get headers async {
+    final token = await getAccessToken();
+    return [Header.bearerAuth(token)];
+  }
+
   void checkErrors(Response response) {
     if (!response.isSuccessful) {
       final body = response.body.decodeJson(ErrorResponse.fromJson);
@@ -72,12 +77,11 @@ class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
     required List<SearchType> types,
   }) async {
     // TODO: move to subsection
-    final token = await getAccessToken();
     final url = Uri.parse("$baseUrl/search");
 
     final response = await client.get(
       url,
-      headers: [Header.bearerAuth(token)],
+      headers: await headers,
       params: {
         "q": query,
         "type": types.map((it) => it.name).join(","),
