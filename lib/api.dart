@@ -10,3 +10,4 @@ export 'package:spotify_api/src/api_models/tracks/response.dart';
 export 'package:spotify_api/src/flows/authentication_flow.dart';
 export 'package:spotify_api/src/flows/client_credentials.dart'
     show ClientCredentialsFlow;
+export 'package:spotify_api/src/flows/scopes.dart';
