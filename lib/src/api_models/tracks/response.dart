@@ -91,3 +91,13 @@ class Track {
 
   factory Track.fromJson(Map<String, dynamic> json) => _$TrackFromJson(json);
 }
+
+@immutable
+@JsonSerializable()
+class Tracks {
+  final List<Track?> tracks;
+
+  Tracks(this.tracks);
+
+  factory Tracks.fromJson(Map<String, dynamic> json) => _$TracksFromJson(json);
+}

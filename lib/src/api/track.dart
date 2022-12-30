@@ -28,4 +28,37 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
 
     return response.body.decodeJson(Track.fromJson);
   }
+
+  @override
+  Future<List<Track>> getTracks(
+    List<String> trackIds, {
+    String? market,
+  }) async {
+    final url = core.resolveUri("/tracks");
+
+    if (trackIds.length > 50) {
+      throw ArgumentError.value(
+        trackIds.length,
+        "trackIds",
+        "trackIds must be 50 at most",
+      );
+    }
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+      params: {
+        if (market != null) "market": market,
+        "ids": trackIds.join(","),
+      },
+    );
+
+    core.checkErrors(response);
+
+    return response.body
+        .decodeJson(Tracks.fromJson)
+        .tracks
+        .whereType<Track>()
+        .toList(growable: false);
+  }
 }

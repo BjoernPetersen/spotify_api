@@ -38,4 +38,9 @@ abstract class SpotifyTrackApi {
     String trackId, {
     String? market,
   });
+
+  Future<List<Track>> getTracks(
+    List<String> trackIds, {
+    String? market,
+  });
 }
