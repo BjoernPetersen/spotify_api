@@ -2,7 +2,7 @@ name: spotify_api
 version: 0.1.0
 
 environment:
-  sdk: ^2.16.0
+  sdk: ^2.18.0
 
 dependencies:
   convert: ^3.0.0
