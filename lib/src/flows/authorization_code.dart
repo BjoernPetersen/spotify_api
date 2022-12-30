@@ -96,7 +96,7 @@ class AuthorizationCodeFlow
         "response_type": "code",
         "redirect_uri": _redirectUri.toString(),
         "state": state,
-        "scope": _scopes.join(" "),
+        "scope": _scopes.map((s) => s.code).join(" "),
       },
     );
     final responseFuture = await authorizationCodeReceiver.receiveCode(

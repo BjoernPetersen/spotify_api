@@ -100,6 +100,9 @@ Future<void> main() async {
       port: 8082,
       path: '/authcallback',
     ),
+    scopes: [
+      Scope.userLibraryRead,
+    ],
   );
 
   final storage = FileStateStorage(File('state.json'));
