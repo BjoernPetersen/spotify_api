@@ -1,6 +1,8 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:spotify_api/api.dart';
 
+import 'example_utils.dart';
+
 Future<void> main(List<String> args) async {
   if (args.isEmpty) {
     throw ArgumentError("No args given!");
@@ -15,10 +17,12 @@ Future<void> main(List<String> args) async {
     throw StateError("Missing client ID or secret");
   }
 
+  final creds = loadCreds();
+
   final client = SpotifyWebApi(
     authFlow: ClientCredentialsFlow(
-      clientId: clientId,
-      clientSecret: clientSecret,
+      clientId: creds.clientId,
+      clientSecret: creds.clientSecret,
     ),
   );
   try {

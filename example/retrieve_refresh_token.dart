@@ -1,28 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dotenv/dotenv.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:spotify_api/api.dart';
+import 'package:spotify_api/src/requests.dart' as requests;
 
-class MemoryStateStorage implements StateStorage {
-  final _db = <String, String>{};
-
-  @override
-  Future<String?> load(String key) {
-    return Future.value(_db[key]);
-  }
-
-  @override
-  Future<void> store({required String key, required String? value}) async {
-    if (value == null) {
-      _db.remove(key);
-    } else {
-      _db[key] = value;
-    }
-  }
-}
+import 'example_utils.dart';
 
 class CliUserAuthorizationPrompt implements UserAuthorizationPrompt {
   @override
@@ -83,17 +67,11 @@ class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
 }
 
 Future<void> main() async {
-  final env = DotEnv(includePlatformEnvironment: true)..load();
-  final clientId = env["CLIENT_ID"];
-  final clientSecret = env["CLIENT_SECRET"];
-
-  if (clientId == null || clientSecret == null) {
-    throw StateError("Missing client ID or secret");
-  }
+  final creds = loadCreds();
 
   final authFlow = AuthorizationCodeFlow(
-    clientId: clientId,
-    clientSecret: clientSecret,
+    clientId: creds.clientId,
+    clientSecret: creds.clientSecret,
     redirectUri: Uri.parse('http://localhost:8082/authcallback'),
     userAuthorizationPrompt: CliUserAuthorizationPrompt(),
     authorizationCodeReceiver: AdHocServerAuthReceiver(
@@ -105,15 +83,14 @@ Future<void> main() async {
     ],
   );
 
-  final storage = FileStateStorage(File('state.json'));
-  final api = SpotifyWebApi(authFlow: authFlow, stateStorage: storage);
-
+  final storage = getStorage();
+  final client = requests.RequestsClient();
   try {
-    await api.search(
-      query: "finch frohe weihnacht",
-      types: [SearchType.track],
-    );
+    final state = await authFlow.retrieveToken(client, null);
+    await state.store(storage);
   } finally {
-    api.close();
+    client.close();
   }
+
+  print("The app is now authorized");
 }

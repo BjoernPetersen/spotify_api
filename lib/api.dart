@@ -1,4 +1,5 @@
 export 'package:spotify_api/src/api/api.dart';
+export 'package:spotify_api/src/api_models/albums/response.dart';
 export 'package:spotify_api/src/api_models/artists/response.dart';
 export 'package:spotify_api/src/api_models/auth/response.dart';
 export 'package:spotify_api/src/api_models/error/response.dart';
@@ -8,6 +9,7 @@ export 'package:spotify_api/src/api_models/playlists/response.dart';
 export 'package:spotify_api/src/api_models/search/request.dart';
 export 'package:spotify_api/src/api_models/search/response.dart';
 export 'package:spotify_api/src/api_models/tracks/response.dart';
+export 'package:spotify_api/src/api_models/image.dart';
 export 'package:spotify_api/src/exceptions.dart';
 export 'package:spotify_api/src/flows/authentication_flow.dart';
 export 'package:spotify_api/src/flows/authorization_code.dart'
