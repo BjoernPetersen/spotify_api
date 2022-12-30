@@ -12,4 +12,5 @@ export 'package:spotify_api/src/flows/authorization_code.dart'
     show AuthorizationCodeFlow;
 export 'package:spotify_api/src/flows/client_credentials.dart'
     show ClientCredentialsFlow;
+export 'package:spotify_api/src/flows/file_state_storage.dart';
 export 'package:spotify_api/src/flows/scopes.dart';

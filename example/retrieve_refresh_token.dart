@@ -40,21 +40,6 @@ class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
     required this.path,
   });
 
-  Future<void> _closeAfter(
-    HttpServer server,
-    Duration timeout,
-    Completer<AuthorizationCodeResponse?> completer,
-  ) async {
-    try {
-      await Future.delayed(timeout);
-      await server.close();
-    } finally {
-      if (!completer.isCompleted) {
-        completer.complete();
-      }
-    }
-  }
-
   @override
   Future<Future<AuthorizationCodeResponse?>> receiveCode(
     String state,
@@ -113,19 +98,19 @@ Future<void> main() async {
     userAuthorizationPrompt: CliUserAuthorizationPrompt(),
     authorizationCodeReceiver: AdHocServerAuthReceiver(
       port: 8082,
-      path: "/authcallback",
+      path: '/authcallback',
     ),
   );
 
-  final storage = MemoryStateStorage();
+  final storage = FileStateStorage(File('state.json'));
   final api = SpotifyWebApi(authFlow: authFlow, stateStorage: storage);
 
-  await api.search(
-    query: "finch frohe weihnacht",
-    types: [SearchType.track],
-  );
-
-  api.close();
-
-  print('Refresh token: ${await storage.load("refresh")}');
+  try {
+    await api.search(
+      query: "finch frohe weihnacht",
+      types: [SearchType.track],
+    );
+  } finally {
+    api.close();
+  }
 }
