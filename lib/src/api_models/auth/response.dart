@@ -1,7 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'response.g.dart';
 
+@immutable
 @JsonSerializable()
 class AccessToken {
   final String accessToken;

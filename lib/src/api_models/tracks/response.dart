@@ -1,8 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/artists/response.dart';
 
 part 'response.g.dart';
 
+@immutable
 @JsonSerializable()
 class Track {
   final String id;
