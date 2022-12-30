@@ -5,15 +5,34 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable()
-class AccessToken {
+class TokenResponse {
   final String accessToken;
+  final String? refreshToken;
   final int expiresIn;
 
-  AccessToken({
+  TokenResponse({
     required this.accessToken,
+    required this.refreshToken,
     required this.expiresIn,
   });
 
-  factory AccessToken.fromJson(Map<String, dynamic> json) =>
-      _$AccessTokenFromJson(json);
+  factory TokenResponse.fromJson(Map<String, dynamic> json) =>
+      _$TokenResponseFromJson(json);
+}
+
+@immutable
+@JsonSerializable()
+class AuthorizationCodeResponse {
+  final String state;
+  final String? code;
+  final String? error;
+
+  AuthorizationCodeResponse({
+    required this.state,
+    required this.code,
+    required this.error,
+  });
+
+  factory AuthorizationCodeResponse.fromJson(Map<String, dynamic> json) =>
+      _$AuthorizationCodeResponseFromJson(json);
 }

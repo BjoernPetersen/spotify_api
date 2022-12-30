@@ -1,9 +1,34 @@
 import 'package:meta/meta.dart';
+import 'package:spotify_api/src/api_models/auth/response.dart';
 import 'package:spotify_api/src/requests.dart';
 
 class ExpiredTokenException implements Exception {}
 
-class RefreshException implements Exception {}
+class RefreshException implements Exception {
+  final String? message;
+
+  RefreshException([this.message]);
+
+  @override
+  String toString() {
+    if (message != null) {
+      return "RefreshException ($message)";
+    } else {
+      return "RefreshException";
+    }
+  }
+}
+
+abstract class UserAuthorizationPrompt {
+  Future<void> call(Uri uri);
+}
+
+abstract class AuthorizationCodeReceiver {
+  Future<AuthorizationCodeResponse> receiveCode(
+    String state,
+    Duration timeout,
+  );
+}
 
 abstract class AuthenticationState {
   String get accessToken;
