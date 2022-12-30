@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spotify_api/src/artists/response.dart';
+import 'package:spotify_api/src/api_models/artists/response.dart';
 
 part 'response.g.dart';
 

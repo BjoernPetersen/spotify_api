@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-import 'package:spotify_api/src/model.dart';
+import 'package:spotify_api/src/api_models/model.dart';
 
 @immutable
 class Header {

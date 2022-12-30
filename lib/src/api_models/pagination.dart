@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'paging.g.dart';
+part 'pagination.g.dart';
 
 @JsonSerializable()
 class Page<T> {

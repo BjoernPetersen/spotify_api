@@ -1,6 +1,5 @@
-import 'package:spotify_api/src/api.dart';
 import 'package:dotenv/dotenv.dart';
-import 'package:spotify_api/src/search/request.dart';
+import 'package:spotify_api/api.dart';
 
 Future<void> main(List<String> args) async {
   if (args.isEmpty) {
