@@ -1,3 +1,6 @@
+import 'package:spotify_api/src/api/album.dart';
+import 'package:spotify_api/src/api/api.dart';
+import 'package:spotify_api/src/api/track.dart';
 import 'package:spotify_api/src/api_models/error/response.dart';
 import 'package:spotify_api/src/api_models/search/request.dart';
 import 'package:spotify_api/src/api_models/search/response.dart';
@@ -5,22 +8,26 @@ import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/flows/authentication_flow.dart';
 import 'package:spotify_api/src/requests.dart';
 
-class SpotifyWebApi<S extends AuthenticationState> {
+class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
   static const String baseUrl = "https://api.spotify.com/v1";
 
-  final RequestsClient _client;
+  final RequestsClient client;
   final AuthenticationFlow<S> _authFlow;
   final StateStorage? _stateStorage;
   S? _authState;
 
-  SpotifyWebApi({
+  CoreApi({
     required AuthenticationFlow<S> authFlow,
     StateStorage? stateStorage,
-  })  : _client = RequestsClient(),
+  })  : client = RequestsClient(),
         _authFlow = authFlow,
         _stateStorage = stateStorage;
 
-  Future<String> _getAccessToken() async {
+  Uri resolveUri(String path) {
+    return Uri.parse('$baseUrl$path');
+  }
+
+  Future<String> getAccessToken() async {
     S? authState = _authState;
     final stateStorage = _stateStorage;
 
@@ -29,9 +36,9 @@ class SpotifyWebApi<S extends AuthenticationState> {
     }
 
     if (authState == null) {
-      authState = await _authFlow.retrieveToken(_client, null);
+      authState = await _authFlow.retrieveToken(client, null);
     } else if (authState.isExpired && authState.isRefreshable) {
-      authState = await _authFlow.retrieveToken(_client, authState);
+      authState = await _authFlow.retrieveToken(client, authState);
     } else if (authState.isExpired && !authState.isRefreshable) {
       throw ExpiredTokenException();
     }
@@ -43,7 +50,7 @@ class SpotifyWebApi<S extends AuthenticationState> {
     return authState.accessToken;
   }
 
-  _checkErrors(Response response) {
+  void checkErrors(Response response) {
     if (!response.isSuccessful) {
       final body = response.body.decodeJson(ErrorResponse.fromJson);
       switch (response.statusCode) {
@@ -59,14 +66,16 @@ class SpotifyWebApi<S extends AuthenticationState> {
     }
   }
 
+  @override
   Future<SearchResponse> search({
     required String query,
     required List<SearchType> types,
   }) async {
-    final token = await _getAccessToken();
+    // TODO: move to subsection
+    final token = await getAccessToken();
     final url = Uri.parse("$baseUrl/search");
 
-    final response = await _client.get(
+    final response = await client.get(
       url,
       headers: [Header.bearerAuth(token)],
       params: {
@@ -75,12 +84,19 @@ class SpotifyWebApi<S extends AuthenticationState> {
       },
     );
 
-    _checkErrors(response);
+    checkErrors(response);
 
     return response.body.decodeJson(SearchResponse.fromJson);
   }
 
+  @override
+  SpotifyAlbumApi get albums => SpotifyAlbumApiImpl(this);
+
+  @override
+  SpotifyTrackApi get tracks => SpotifyTrackApiImpl(this);
+
+  @override
   void close() {
-    _client.close();
+    client.close();
   }
 }

@@ -1,4 +1,4 @@
-export 'package:spotify_api/src/api.dart';
+export 'package:spotify_api/src/api/api.dart';
 export 'package:spotify_api/src/api_models/artists/response.dart';
 export 'package:spotify_api/src/api_models/auth/response.dart';
 export 'package:spotify_api/src/api_models/error/response.dart';
