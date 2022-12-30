@@ -18,11 +18,9 @@ abstract class AuthenticationFlow<S extends AuthenticationState> {
   final baseUrl = Uri.parse('https://accounts.spotify.com');
 
   final String clientId;
-  final String clientSecret;
 
   AuthenticationFlow({
     required this.clientId,
-    required this.clientSecret,
   });
 
   Future<S> retrieveToken(RequestsClient client, S? state);

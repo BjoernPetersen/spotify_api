@@ -1,42 +1,23 @@
+import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/auth/response.dart';
 import 'package:spotify_api/src/flows/authentication_flow.dart';
 import 'package:spotify_api/src/flows/token.dart';
 import 'package:spotify_api/src/requests.dart';
 
-class ClientCredentialsFlowState implements AuthenticationState {
-  final Token _accessToken;
-
-  ClientCredentialsFlowState(this._accessToken);
-
-  @override
-  String get accessToken {
-    if (isExpired) {
-      throw ExpiredTokenException();
-    }
-    return _accessToken.value;
-  }
-
-  @override
-  bool get isExpired => _accessToken.isExpired;
-
-  @override
-  bool get isRefreshable => true;
-}
-
+@immutable
 class ClientCredentialsFlow
-    extends AuthenticationFlow<ClientCredentialsFlowState> {
+    extends AuthenticationFlow<TokenAuthenticationState> {
+  final String _clientSecret;
+
   ClientCredentialsFlow({
-    required String clientId,
+    required super.clientId,
     required String clientSecret,
-  }) : super(
-          clientId: clientId,
-          clientSecret: clientSecret,
-        );
+  }) : _clientSecret = clientSecret;
 
   @override
-  Future<ClientCredentialsFlowState> retrieveToken(
+  Future<TokenAuthenticationState> retrieveToken(
     RequestsClient client,
-    ClientCredentialsFlowState? state,
+    TokenAuthenticationState? state,
   ) async {
     final Response response;
     try {
@@ -48,7 +29,7 @@ class ClientCredentialsFlow
         url,
         body: body,
         headers: [
-          Header.basicAuth(username: clientId, password: clientSecret),
+          Header.basicAuth(username: clientId, password: _clientSecret),
         ],
       );
     } finally {
@@ -65,6 +46,6 @@ class ClientCredentialsFlow
       expiration: DateTime.now().add(Duration(seconds: accessToken.expiresIn)),
     );
 
-    return ClientCredentialsFlowState(token);
+    return TokenAuthenticationState(token);
   }
 }
