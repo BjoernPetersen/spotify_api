@@ -1,10 +1,31 @@
 import 'package:meta/meta.dart';
-import 'package:spotify_api/src/api/api.dart';
+import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
 @immutable
 class SpotifyAlbumApiImpl implements SpotifyAlbumApi {
-  final CoreApi coreApi;
+  final CoreApi core;
 
-  SpotifyAlbumApiImpl(this.coreApi);
+  SpotifyAlbumApiImpl(this.core);
+
+  @override
+  Future<Album?> getAlbum(String albumId, {String? market}) async {
+    final url = core.resolveUri("/albums/$albumId");
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+      params: {
+        if (market != null) "market": market,
+      },
+    );
+
+    if (response.statusCode == 404) {
+      return null;
+    }
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(Album.fromJson);
+  }
 }

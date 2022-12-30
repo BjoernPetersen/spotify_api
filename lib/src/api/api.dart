@@ -19,7 +19,12 @@ abstract class SpotifyWebApi<S extends AuthenticationState> {
   void close();
 }
 
-abstract class SpotifyAlbumApi {}
+abstract class SpotifyAlbumApi {
+  Future<Album?> getAlbum(
+    String albumId, {
+    String? market,
+  });
+}
 
 abstract class SpotifyTrackApi {
   Future<Track?> getTrack(
