@@ -114,8 +114,6 @@ class RequestsClient {
     Map<String, String> params = const {},
   }) async {
     final urlWithParams = url.replace(queryParameters: params);
-
-    print(urlWithParams);
     final rawResponse = await _client.get(
       urlWithParams,
       headers: {

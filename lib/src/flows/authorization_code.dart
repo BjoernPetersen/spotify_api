@@ -99,13 +99,17 @@ class AuthorizationCodeFlow
         "scope": _scopes.join(" "),
       },
     );
-    final responseFuture = authorizationCodeReceiver.receiveCode(
+    final responseFuture = await authorizationCodeReceiver.receiveCode(
       state,
       Duration(minutes: 1),
     );
     await userAuthorizationPrompt(promptUrl);
     // At this point we're waiting for the user to follow the prompt
     final response = await responseFuture;
+
+    if (response == null) {
+      throw RefreshException("Timeout during authorization");
+    }
 
     if (response.state != state) {
       throw RefreshException("Received response with invalid state");

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/auth/response.dart';
 import 'package:spotify_api/src/requests.dart';
@@ -20,11 +22,11 @@ class RefreshException implements Exception {
 }
 
 abstract class UserAuthorizationPrompt {
-  Future<void> call(Uri uri);
+  FutureOr<void> call(Uri uri);
 }
 
 abstract class AuthorizationCodeReceiver {
-  Future<AuthorizationCodeResponse> receiveCode(
+  Future<Future<AuthorizationCodeResponse?>> receiveCode(
     String state,
     Duration timeout,
   );
