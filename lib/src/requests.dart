@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 
 @immutable
@@ -92,17 +92,6 @@ class ResponseBody {
 
 class HttpException implements Exception {}
 
-class HttpStatusException extends HttpException {
-  final Response response;
-
-  HttpStatusException(this.response);
-
-  @override
-  String toString() {
-    return "Unsuccessful status code ${response.statusCode}";
-  }
-}
-
 class RequestsClient {
   final http.Client _client;
 
@@ -121,11 +110,7 @@ class RequestsClient {
       },
     );
 
-    final response = Response(rawResponse);
-    if (!response.isSuccessful) {
-      throw HttpStatusException(response);
-    }
-    return response;
+    return Response(rawResponse);
   }
 
   Future<Response> post(
@@ -144,11 +129,7 @@ class RequestsClient {
       body: body.body,
     );
 
-    final response = Response(rawResponse);
-    if (!response.isSuccessful) {
-      throw HttpStatusException(response);
-    }
-    return response;
+    return Response(rawResponse);
   }
 
   void close() {
