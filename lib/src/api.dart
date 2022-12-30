@@ -18,9 +18,9 @@ class SpotifyWebApi<S extends AuthenticationState> {
   Future<String> _getAccessToken() async {
     S? authState = _authState;
     if (authState == null) {
-      authState = await _authFlow.retrieveToken(null);
+      authState = await _authFlow.retrieveToken(_client, null);
     } else if (authState.isExpired && authState.isRefreshable) {
-      authState = await _authFlow.retrieveToken(authState);
+      authState = await _authFlow.retrieveToken(_client, authState);
     } else if (authState.isExpired && !authState.isRefreshable) {
       throw ExpiredTokenException();
     }

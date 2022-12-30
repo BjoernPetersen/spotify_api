@@ -35,9 +35,9 @@ class ClientCredentialsFlow
 
   @override
   Future<ClientCredentialsFlowState> retrieveToken(
+    RequestsClient client,
     ClientCredentialsFlowState? state,
   ) async {
-    final client = RequestsClient();
     final Response response;
     try {
       final url = baseUrl.resolve("/api/token");

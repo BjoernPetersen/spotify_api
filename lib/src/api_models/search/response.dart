@@ -14,5 +14,6 @@ class SearchResponse {
     required this.tracks,
   });
 
-  factory SearchResponse.fromJson(Map<String, dynamic> json) => _$SearchResponseFromJson(json);
+  factory SearchResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchResponseFromJson(json);
 }
