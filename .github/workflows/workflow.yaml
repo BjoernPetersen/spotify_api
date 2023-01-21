@@ -1,0 +1,94 @@
+name: Workflow
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    container: dart:2.18
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+      - name: Get dependencies
+        run: dart pub get
+      - name: Run code generation
+        run: dart run build_runner build
+      - name: Run tests
+        run: dart test
+
+  check_format:
+    name: Check Format
+    runs-on: ubuntu-latest
+    container: dart:2.18
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+      - name: Check lib formatting
+        run: dart format lib --set-exit-if-changed
+      - name: Check test formatting
+        run: dart format test --set-exit-if-changed
+      - name: Check example formatting
+        run: dart format example --set-exit-if-changed
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    container: dart:2.18
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+      - name: Get dependencies
+        run: dart pub get
+      - name: Run code generation
+        run: dart run build_runner build
+      - name: Run Analysis
+        run: dart analyze --fatal-infos
+
+  build_docker:
+    runs-on: ubuntu-latest
+    if: success() && github.event_name == 'pull_request'
+    needs:
+      - check_format
+      - lint
+      - test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build -t ghcr.io/woog-life/api:citest --build-arg "build=citest" .
+
+  push_docker:
+    runs-on: ubuntu-latest
+    if: success() && github.ref == 'refs/heads/main'
+    needs:
+      - check_format
+      - lint
+      - test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build the tagged Docker image
+        run: docker build -t ghcr.io/woog-life/api:${GITHUB_SHA} --build-arg "build=${GITHUB_SHA}" .
+      - name: Push the tagged Docker image
+        run: docker push ghcr.io/woog-life/api:${GITHUB_SHA}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push_docker
+    steps:
+      - uses: actions/checkout@v3
+      - name: Substitute environment variables in values.yaml
+        run: "envsubst < values.yaml > values_sub.yaml && mv values_sub.yaml values.yaml"
+      - uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm upgrade backend . --install --namespace=wooglife --atomic
+          kubeconfig: '${{ secrets.KUBECONFIG_RAW }}'
