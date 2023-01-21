@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dotenv/dotenv.dart';
+import 'package:file/local.dart';
 import 'package:spotify_api/api.dart';
 
 class ClientCredentials {
@@ -13,17 +13,20 @@ class ClientCredentials {
 
 ClientCredentials loadCreds() {
   final env = DotEnv(includePlatformEnvironment: true)..load();
-  final clientId = env["CLIENT_ID"];
-  final clientSecret = env["CLIENT_SECRET"];
+  final clientId = env['CLIENT_ID'];
+  final clientSecret = env['CLIENT_SECRET'];
 
   if (clientId == null || clientSecret == null) {
-    throw StateError("Missing client ID or secret");
+    throw StateError('Missing client ID or secret');
   }
 
   return ClientCredentials(clientId: clientId, clientSecret: clientSecret);
 }
 
-StateStorage getStorage() => FileStateStorage(File('state.json'));
+StateStorage getStorage() {
+  const fs = LocalFileSystem();
+  return FileStateStorage(fs.file('state.json'));
+}
 
 class _StubUserPrompt implements UserAuthorizationPrompt {
   @override

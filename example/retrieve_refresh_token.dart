@@ -92,5 +92,5 @@ Future<void> main() async {
     client.close();
   }
 
-  print("The app is now authorized");
+  print('The app is now authorized');
 }

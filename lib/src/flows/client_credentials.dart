@@ -52,9 +52,9 @@ class ClientCredentialsFlow
     RequestsClient client,
     ClientCredentialsFlowStateState? state,
   ) async {
-    final url = baseUrl.resolve("/api/token");
+    final url = baseUrl.resolve('/api/token');
     final body = RequestBody.formData({
-      "grant_type": "client_credentials",
+      'grant_type': 'client_credentials',
     });
     final response = await client.post(
       url,

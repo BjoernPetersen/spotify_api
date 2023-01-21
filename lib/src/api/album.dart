@@ -10,13 +10,13 @@ class SpotifyAlbumApiImpl implements SpotifyAlbumApi {
 
   @override
   Future<Album?> getAlbum(String albumId, {String? market}) async {
-    final url = core.resolveUri("/albums/$albumId");
+    final url = core.resolveUri('/albums/$albumId');
 
     final response = await core.client.get(
       url,
       headers: await core.headers,
       params: {
-        if (market != null) "market": market,
+        if (market != null) 'market': market,
       },
     );
 
@@ -36,15 +36,15 @@ class SpotifyAlbumApiImpl implements SpotifyAlbumApi {
     int? limit,
     int? offset,
   }) async {
-    final url = core.resolveUri("/albums/$albumId/tracks");
+    final url = core.resolveUri('/albums/$albumId/tracks');
 
     final response = await core.client.get(
       url,
       headers: await core.headers,
       params: {
-        if (market != null) "market": market,
-        if (limit != null) "limit": limit.toString(),
-        if (offset != null) "offset": offset.toString(),
+        if (market != null) 'market': market,
+        if (limit != null) 'limit': limit.toString(),
+        if (offset != null) 'offset': offset.toString(),
       },
     );
 

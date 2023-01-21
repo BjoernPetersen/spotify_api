@@ -12,9 +12,9 @@ Future<void> main() async {
   try {
     final track = await client.tracks.getTrack('75n8FqbBeBLW2jUzvjdjXV');
     if (track == null) {
-      print("Track not found");
+      print('Track not found');
     } else {
-      print("Found track ${track.name} (popularity ${track.popularity})");
+      print('Found track ${track.name} (popularity ${track.popularity})');
     }
   } finally {
     client.close();

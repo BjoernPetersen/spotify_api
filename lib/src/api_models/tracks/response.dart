@@ -24,7 +24,7 @@ class Track {
   final String id;
 
   /// Whether or not the track has explicit lyrics (false if unknown).
-  @JsonKey(name: "explicit")
+  @JsonKey(name: 'explicit')
   final bool isExplicit;
 
   /// Whether or not the track is from a local file.

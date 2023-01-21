@@ -10,13 +10,13 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
 
   @override
   Future<Track?> getTrack(String trackId, {String? market}) async {
-    final url = core.resolveUri("/tracks/$trackId");
+    final url = core.resolveUri('/tracks/$trackId');
 
     final response = await core.client.get(
       url,
       headers: await core.headers,
       params: {
-        if (market != null) "market": market,
+        if (market != null) 'market': market,
       },
     );
 
@@ -34,13 +34,13 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
     List<String> trackIds, {
     String? market,
   }) async {
-    final url = core.resolveUri("/tracks");
+    final url = core.resolveUri('/tracks');
 
     if (trackIds.length > 50) {
       throw ArgumentError.value(
         trackIds.length,
-        "trackIds",
-        "trackIds must be 50 at most",
+        'trackIds',
+        'trackIds must be 50 at most',
       );
     }
 
@@ -48,8 +48,8 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
       url,
       headers: await core.headers,
       params: {
-        if (market != null) "market": market,
-        "ids": trackIds.join(","),
+        if (market != null) 'market': market,
+        'ids': trackIds.join(','),
       },
     );
 

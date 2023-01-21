@@ -20,11 +20,11 @@ class Header {
     required String password,
     Encoding encoding = utf8,
   }) {
-    final bytes = encoding.encode("$username:$password");
+    final bytes = encoding.encode('$username:$password');
     final encoded = base64.encode(bytes);
     return Header(
       name: HttpHeaders.authorizationHeader,
-      value: "Basic $encoded",
+      value: 'Basic $encoded',
     );
   }
 
@@ -32,7 +32,7 @@ class Header {
     String token,
   ) : this(
           name: HttpHeaders.authorizationHeader,
-          value: "Bearer $token",
+          value: 'Bearer $token',
         );
 
   Header.contentType(

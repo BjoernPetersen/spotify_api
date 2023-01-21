@@ -1,0 +1,11 @@
+presets:
+  integration:
+    include_tags: integration
+
+
+tags:
+  integration:
+    skip: true
+    presets:
+      integration:
+        skip: false

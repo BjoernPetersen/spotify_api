@@ -14,7 +14,7 @@ Future<void> main() async {
       ['75n8FqbBeBLW2jUzvjdjXV', '3SCVUhmOKIhWYDhWBU1yC2'],
     );
 
-    print("Found tracks:");
+    print('Found tracks:');
     for (final track in tracks) {
       print(track.name);
     }

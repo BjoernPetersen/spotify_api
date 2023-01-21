@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:spotify_api/api.dart';
-import 'package:spotify_api/src/api_models/image.dart';
 
 part 'response.g.dart';
 
@@ -45,7 +44,7 @@ class Album {
   final Page<Track>? tracks;
 
   /// The type of the album.
-  @JsonKey(name: "album_type")
+  @JsonKey(name: 'album_type')
   final AlbumType type;
 
   /// The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)

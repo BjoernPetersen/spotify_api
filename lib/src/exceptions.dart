@@ -10,7 +10,7 @@ class SpotifyApiException implements Exception {
       return runtimeType.toString();
     }
 
-    return "$runtimeType: $message";
+    return '$runtimeType: $message';
   }
 }
 

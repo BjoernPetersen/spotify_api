@@ -74,7 +74,7 @@ class AuthorizationCodeFlow
       refreshToken: refreshToken,
       // We just make up a fake, expired access token
       accessToken: Token(
-        value: "",
+        value: '',
         expiration: DateTime.fromMillisecondsSinceEpoch(0),
       ),
     );
@@ -89,14 +89,14 @@ class AuthorizationCodeFlow
 
   Future<String> _authorize() async {
     final state = _generateState();
-    final authorizeUrl = baseUrl.resolve("/authorize");
+    final authorizeUrl = baseUrl.resolve('/authorize');
     final promptUrl = authorizeUrl.replace(
       queryParameters: {
-        "client_id": clientId,
-        "response_type": "code",
-        "redirect_uri": _redirectUri.toString(),
-        "state": state,
-        "scope": _scopes.map((s) => s.code).join(" "),
+        'client_id': clientId,
+        'response_type': 'code',
+        'redirect_uri': _redirectUri.toString(),
+        'state': state,
+        'scope': _scopes.map((s) => s.code).join(' '),
       },
     );
     final responseFuture = await authorizationCodeReceiver.receiveCode(
@@ -108,11 +108,11 @@ class AuthorizationCodeFlow
     final response = await responseFuture;
 
     if (response == null) {
-      throw RefreshException("Timeout during authorization");
+      throw RefreshException('Timeout during authorization');
     }
 
     if (response.state != state) {
-      throw RefreshException("Received response with invalid state");
+      throw RefreshException('Received response with invalid state');
     }
 
     if (response.error != null) {
@@ -133,13 +133,13 @@ class AuthorizationCodeFlow
         Header.basicAuth(username: clientId, password: _clientSecret),
       ],
       body: RequestBody.formData({
-        "grant_type": "refresh_token",
-        "refresh_token": refreshToken,
+        'grant_type': 'refresh_token',
+        'refresh_token': refreshToken,
       }),
     );
 
     if (!response.isSuccessful) {
-      throw RefreshException("Could not refresh access token");
+      throw RefreshException('Could not refresh access token');
     }
 
     final token = response.body.decodeJson(TokenResponse.fromJson);
@@ -167,9 +167,9 @@ class AuthorizationCodeFlow
         Header.basicAuth(username: clientId, password: _clientSecret),
       ],
       body: RequestBody.formData({
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": _redirectUri.toString(),
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': _redirectUri.toString(),
       }),
     );
 
@@ -185,7 +185,7 @@ class AuthorizationCodeFlow
     final refreshToken = token.refreshToken;
 
     if (refreshToken == null) {
-      throw RefreshException("Did not receive a refresh token!");
+      throw RefreshException('Did not receive a refresh token!');
     }
 
     return AuthorizationCodeFlowState(

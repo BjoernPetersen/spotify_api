@@ -5,16 +5,16 @@ import 'example_utils.dart';
 
 Future<void> main(List<String> args) async {
   if (args.isEmpty) {
-    throw ArgumentError("No args given!");
+    throw ArgumentError('No args given!');
   }
   final query = args[0];
 
   final env = DotEnv(includePlatformEnvironment: true)..load();
-  final clientId = env["CLIENT_ID"];
-  final clientSecret = env["CLIENT_SECRET"];
+  final clientId = env['CLIENT_ID'];
+  final clientSecret = env['CLIENT_SECRET'];
 
   if (clientId == null || clientSecret == null) {
-    throw StateError("Missing client ID or secret");
+    throw StateError('Missing client ID or secret');
   }
 
   final creds = loadCreds();
@@ -32,7 +32,7 @@ Future<void> main(List<String> args) async {
     );
     final tracks = result.tracks.items;
     if (tracks.isEmpty) {
-      print("Did not find any");
+      print('Did not find any');
     } else {
       final best = tracks.first;
       print(

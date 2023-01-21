@@ -9,7 +9,7 @@ import 'package:spotify_api/src/flows/authentication_flow.dart';
 import 'package:spotify_api/src/requests.dart';
 
 class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
-  static const String baseUrl = "https://api.spotify.com/v1";
+  static const String baseUrl = 'https://api.spotify.com/v1';
 
   final RequestsClient client;
   final AuthenticationFlow<S> _authFlow;
@@ -77,14 +77,14 @@ class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
     required List<SearchType> types,
   }) async {
     // TODO: move to subsection
-    final url = Uri.parse("$baseUrl/search");
+    final url = Uri.parse('$baseUrl/search');
 
     final response = await client.get(
       url,
       headers: await headers,
       params: {
-        "q": query,
-        "type": types.map((it) => it.name).join(","),
+        'q': query,
+        'type': types.map((it) => it.name).join(','),
       },
     );
 
