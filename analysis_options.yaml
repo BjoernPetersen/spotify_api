@@ -1,5 +1,10 @@
 include: package:lints/recommended.yaml
 
+analyzer:
+  exclude:
+    - lib/**/*.g.dart
+    - test/**/*.g.dart
+
 linter:
   rules:
     always_use_package_imports: true
