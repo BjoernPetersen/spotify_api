@@ -11,6 +11,10 @@ void main() {
     api = await loadApi();
   });
 
+  tearDownAll(() {
+    api.close();
+  });
+
   group('Search', () {
     group('songs:', () {
       test('wodka e', () async {

@@ -47,7 +47,7 @@ class _MemoryStateStorage extends StateStorage {
 
 Future<SpotifyWebApi> loadApi() async {
   final env = DotEnv(includePlatformEnvironment: true)
-    ..load(['.env.test', '.env']);
+    ..load(['.env', '.env.test']);
 
   final clientId = env['CLIENT_ID'];
   final clientSecret = env['CLIENT_SECRET'];
