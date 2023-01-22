@@ -43,6 +43,7 @@ class Header {
         );
 }
 
+@immutable
 class Response {
   final http.Response _response;
 
@@ -55,6 +56,7 @@ class Response {
   ResponseBody get body => ResponseBody(_response.bodyBytes);
 }
 
+@immutable
 class RequestBody {
   final Object body;
   final List<Header> headers;
@@ -78,6 +80,7 @@ class RequestBody {
         );
 }
 
+@immutable
 class ResponseBody {
   final List<int> rawBytes;
 
@@ -92,6 +95,15 @@ class ResponseBody {
 
 class HttpException implements Exception {}
 
+extension on Uri {
+  Uri includeParams(Map<String, String> params) {
+    final Map<String, String> newParams = Map.from(queryParameters);
+    newParams.addAll(params);
+    return replace(queryParameters: newParams);
+  }
+}
+
+@immutable
 class RequestsClient {
   final http.Client _client;
 
@@ -102,7 +114,7 @@ class RequestsClient {
     List<Header> headers = const [],
     Map<String, String> params = const {},
   }) async {
-    final urlWithParams = url.replace(queryParameters: params);
+    final urlWithParams = url.includeParams(params);
     final rawResponse = await _client.get(
       urlWithParams,
       headers: {
@@ -119,7 +131,7 @@ class RequestsClient {
     List<Header> headers = const [],
     Map<String, String> params = const {},
   }) async {
-    final urlWithParams = url.replace(queryParameters: params);
+    final urlWithParams = url.includeParams(params);
     final rawResponse = await _client.post(
       urlWithParams,
       headers: {
