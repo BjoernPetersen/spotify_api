@@ -30,7 +30,7 @@ Future<void> main(List<String> args) async {
       query: query,
       types: [SearchType.track],
     );
-    final tracks = result.tracks.items;
+    final tracks = result.tracks!.items;
     if (tracks.isEmpty) {
       print('Did not find any');
     } else {
