@@ -31,10 +31,19 @@ void main() {
       expect(nextPage, isNotNull);
       nextPage!;
       expect(nextPage.page.offset, isPositive);
+      expect(nextPage.page.items, hasLength(paginator.page.limit));
+    });
+
+    test('get next page with higher limit', () async {
+      final Paginator<Track>? nextPage = await paginator.nextPage(21);
+      expect(nextPage, isNotNull);
+      nextPage!;
+      expect(nextPage.page.offset, isPositive);
+      expect(nextPage.page.items, hasLength(21));
     });
 
     test('get 200 tracks', () async {
-      final tracks = await paginator.all().take(200).toList();
+      final tracks = await paginator.all(50).take(200).toList();
       expect(tracks, hasLength(200));
       expect(tracks.toSet(), hasLength(tracks.length));
     });

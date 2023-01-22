@@ -56,9 +56,9 @@ abstract class Paginator<T> {
 
   List<T> currentItems();
 
-  Stream<T> all();
+  Stream<T> all([int? pageSize]);
 
-  Future<Paginator<T>?> nextPage();
+  Future<Paginator<T>?> nextPage([int? pageSize]);
 
   Future<Paginator<T>?> previousPage();
 }

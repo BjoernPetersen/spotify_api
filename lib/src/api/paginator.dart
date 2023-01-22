@@ -13,11 +13,15 @@ class PaginatorImpl<T> implements Paginator<T> {
 
   PaginatorImpl(this.core, this.page) : _itemFromJson = _selectItemFromJson();
 
-  Future<Page<T>> _loadPage(String url) async {
+  Future<Page<T>> _loadPage(String url, [int? pageSize]) async {
     final uri = Uri.parse(url);
+
     final response = await core.client.get(
       uri,
       headers: await core.headers,
+      params: {
+        if (pageSize != null) 'limit': '$pageSize',
+      },
     );
 
     core.checkErrors(response);
@@ -51,17 +55,17 @@ class PaginatorImpl<T> implements Paginator<T> {
   }
 
   @override
-  Future<Paginator<T>?> nextPage() async {
+  Future<Paginator<T>?> nextPage([int? pageSize]) async {
     final next = page.next;
     if (next == null) {
       return null;
     }
 
-    return PaginatorImpl(core, await _loadPage(next));
+    return PaginatorImpl(core, await _loadPage(next, pageSize));
   }
 
   @override
-  Stream<T> all() async* {
+  Stream<T> all([int? pageSize]) async* {
     Page<T> page = this.page;
     while (true) {
       for (final item in page.items) {
@@ -73,7 +77,7 @@ class PaginatorImpl<T> implements Paginator<T> {
         break;
       }
 
-      page = await _loadPage(next);
+      page = await _loadPage(next, pageSize);
     }
   }
 }
