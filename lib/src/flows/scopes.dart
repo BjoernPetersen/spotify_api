@@ -38,8 +38,6 @@ enum Scope {
   ///
   /// Read your currently playing content.
   ///
-  ///
-  ///
   userReadCurrentlyPlaying('user-read-currently-playing'),
 
   /// ## Description

@@ -78,9 +78,7 @@ Future<void> main() async {
       port: 8082,
       path: '/authcallback',
     ),
-    scopes: [
-      Scope.userLibraryRead,
-    ],
+    scopes: Scope.values,
   );
 
   final storage = getStorage();

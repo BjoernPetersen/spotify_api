@@ -40,26 +40,9 @@ const _kStateLength = 16;
 const _kStateAlphabet =
     'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
-@immutable
-class AuthorizationCodeFlow
-    extends AuthenticationFlow<AuthorizationCodeFlowState> {
-  final Random _random = Random.secure();
-  final String _clientSecret;
-  final List<Scope> _scopes;
-  final Uri _redirectUri;
-  final UserAuthorizationPrompt userAuthorizationPrompt;
-  final AuthorizationCodeReceiver authorizationCodeReceiver;
-
-  AuthorizationCodeFlow({
-    required super.clientId,
-    required String clientSecret,
-    required Uri redirectUri,
-    required this.userAuthorizationPrompt,
-    required this.authorizationCodeReceiver,
-    List<Scope> scopes = const [],
-  })  : _clientSecret = clientSecret,
-        _redirectUri = redirectUri,
-        _scopes = scopes;
+mixin _AuthorizationCodeFlowMixin
+    on AuthenticationFlow<AuthorizationCodeFlowState> {
+  String get _clientSecret;
 
   @override
   Future<AuthorizationCodeFlowState?> restoreState(
@@ -79,6 +62,63 @@ class AuthorizationCodeFlow
       ),
     );
   }
+
+  Future<AuthorizationCodeFlowState> _refreshToken(
+    RequestsClient client,
+    String refreshToken,
+  ) async {
+    final url = baseUrl.resolve('/api/token');
+    final response = await client.post(
+      url,
+      headers: [
+        Header.basicAuth(username: clientId, password: _clientSecret),
+      ],
+      body: RequestBody.formData({
+        'grant_type': 'refresh_token',
+        'refresh_token': refreshToken,
+      }),
+    );
+
+    if (!response.isSuccessful) {
+      throw RefreshException('Could not refresh access token');
+    }
+
+    final token = response.body.decodeJson(TokenResponse.fromJson);
+    final accessToken = Token(
+      value: token.accessToken,
+      expiration: DateTime.now().add(Duration(seconds: token.expiresIn)),
+    );
+    final newRefreshToken = token.refreshToken ?? refreshToken;
+
+    return AuthorizationCodeFlowState(
+      refreshToken: newRefreshToken,
+      accessToken: accessToken,
+    );
+  }
+}
+
+@immutable
+class AuthorizationCodeFlow
+    extends AuthenticationFlow<AuthorizationCodeFlowState>
+    with _AuthorizationCodeFlowMixin {
+  final Random _random = Random.secure();
+  @override
+  final String _clientSecret;
+  final List<Scope> _scopes;
+  final Uri _redirectUri;
+  final UserAuthorizationPrompt userAuthorizationPrompt;
+  final AuthorizationCodeReceiver authorizationCodeReceiver;
+
+  AuthorizationCodeFlow({
+    required super.clientId,
+    required String clientSecret,
+    required Uri redirectUri,
+    required this.userAuthorizationPrompt,
+    required this.authorizationCodeReceiver,
+    List<Scope> scopes = const [],
+  })  : _clientSecret = clientSecret,
+        _redirectUri = redirectUri,
+        _scopes = scopes;
 
   String _generateState() {
     return List.generate(
@@ -120,39 +160,6 @@ class AuthorizationCodeFlow
     }
 
     return response.code!;
-  }
-
-  Future<AuthorizationCodeFlowState> _refreshToken(
-    RequestsClient client,
-    String refreshToken,
-  ) async {
-    final url = baseUrl.resolve('/api/token');
-    final response = await client.post(
-      url,
-      headers: [
-        Header.basicAuth(username: clientId, password: _clientSecret),
-      ],
-      body: RequestBody.formData({
-        'grant_type': 'refresh_token',
-        'refresh_token': refreshToken,
-      }),
-    );
-
-    if (!response.isSuccessful) {
-      throw RefreshException('Could not refresh access token');
-    }
-
-    final token = response.body.decodeJson(TokenResponse.fromJson);
-    final accessToken = Token(
-      value: token.accessToken,
-      expiration: DateTime.now().add(Duration(seconds: token.expiresIn)),
-    );
-    final newRefreshToken = token.refreshToken ?? refreshToken;
-
-    return AuthorizationCodeFlowState(
-      refreshToken: newRefreshToken,
-      accessToken: accessToken,
-    );
   }
 
   Future<AuthorizationCodeFlowState> _obtainInitialToken(
@@ -204,5 +211,32 @@ class AuthorizationCodeFlow
     } else {
       return await _refreshToken(client, state.refreshToken);
     }
+  }
+}
+
+@immutable
+class RefreshOnlyAuthorizationCodeFlow
+    extends AuthenticationFlow<AuthorizationCodeFlowState>
+    with _AuthorizationCodeFlowMixin {
+  @override
+  final String _clientSecret;
+
+  RefreshOnlyAuthorizationCodeFlow({
+    required super.clientId,
+    required String clientSecret,
+  }) : _clientSecret = clientSecret;
+
+  @override
+  Future<AuthorizationCodeFlowState> retrieveToken(
+    RequestsClient client,
+    AuthorizationCodeFlowState? state,
+  ) async {
+    if (state == null) {
+      throw RefreshException(
+        "Can't obtain an access token without existing state",
+      );
+    }
+
+    return await _refreshToken(client, state.refreshToken);
   }
 }
