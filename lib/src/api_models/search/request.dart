@@ -1,3 +1,4 @@
 enum SearchType {
+  album,
   track,
 }

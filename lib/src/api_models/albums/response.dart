@@ -19,6 +19,9 @@ enum DatePrecision {
 @immutable
 @JsonSerializable()
 class Album {
+  /// The artists of the album.
+  final List<Artist> artists;
+
   /// The markets in which the album is available.
   ///
   /// NOTE: an album is considered available in a market when at least 1
@@ -52,6 +55,7 @@ class Album {
   final String uri;
 
   Album({
+    required this.artists,
     required this.availableMarkets,
     required this.id,
     required this.images,

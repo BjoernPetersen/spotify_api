@@ -5,13 +5,13 @@ part 'pagination.g.dart';
 
 @JsonSerializable()
 class Page<T> {
-  String href;
-  List<T> items;
-  int limit;
-  int offset;
-  int total;
-  String? previous;
-  String? next;
+  final String href;
+  final List<T> items;
+  final int limit;
+  final int offset;
+  final int total;
+  final String? previous;
+  final String? next;
 
   Page({
     required this.href,
