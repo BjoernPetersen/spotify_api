@@ -2,6 +2,7 @@
 .idea/
 
 # Dart
+.coverage/
 .dart_tool/
 .packages
 
