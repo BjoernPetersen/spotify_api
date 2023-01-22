@@ -32,7 +32,6 @@ jobs:
 
   integration_test:
     name: Integration Tests
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     container: dart:2.18
     steps:
