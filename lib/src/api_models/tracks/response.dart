@@ -15,6 +15,7 @@ class Track {
   final List<Artist> artists;
 
   /// A list of the countries in which the track can be played.
+  @JsonKey(defaultValue: [])
   final List<String> availableMarkets;
 
   /// The track length in milliseconds.

@@ -26,6 +26,7 @@ class Album {
   ///
   /// NOTE: an album is considered available in a market when at least 1
   /// of its tracks is available in that market.
+  @JsonKey(defaultValue: [])
   final List<String> availableMarkets;
 
   final String id;
