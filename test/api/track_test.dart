@@ -60,6 +60,11 @@ void main() {
 
   group('Tracks', () {
     group('getTrack', () {
+      test('unknown track', () async {
+        final track = await api.tracks.getTrack('75n8FqbBeBLW3jUzvjdjXV');
+        expect(track, isNull);
+      });
+
       for (final track in tracks) {
         test(track.name, () async {
           final result = await api.tracks.getTrack(
