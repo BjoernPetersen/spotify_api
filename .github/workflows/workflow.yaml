@@ -19,7 +19,7 @@ jobs:
       - name: Run code generation
         run: dart run build_runner build
       - name: Run tests
-        run: dart test --file-reporter github:test-results.json --coverage=.coverage
+        run: dart test --file-reporter json:test-results.json --coverage=.coverage
       - name: Upload test report
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -49,7 +49,7 @@ jobs:
       - name: Run code generation
         run: dart run build_runner build
       - name: Run tests
-        run: dart test -P integration --file-reporter github:test-results.json --coverage=.coverage
+        run: dart test -P integration --file-reporter json:test-results.json --coverage=.coverage
         env:
           CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
