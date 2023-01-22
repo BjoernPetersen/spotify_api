@@ -6,7 +6,7 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/requests.dart' as requests;
 
-import '../example/example_utils.dart';
+import 'example_utils.dart';
 
 class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
   final int port;
