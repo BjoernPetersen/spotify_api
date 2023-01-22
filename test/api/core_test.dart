@@ -15,6 +15,15 @@ void main() {
     api.close();
   });
 
+  test('closing works', () async {
+    final api = await loadApi();
+    expect(api.close, returnsNormally);
+    expect(
+      api.search(query: 'test', types: [SearchType.track]),
+      throwsException,
+    );
+  });
+
   group('Search', () {
     group('songs:', () {
       test('wodka e', () async {
