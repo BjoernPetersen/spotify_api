@@ -28,27 +28,9 @@ StateStorage getStorage() {
   return FileStateStorage(fs.file('state.json'));
 }
 
-class _StubUserPrompt implements UserAuthorizationPrompt {
-  @override
-  void call(Uri uri) {}
-}
-
-class _StubAuthReceiver implements AuthorizationCodeReceiver {
-  @override
-  Future<Future<AuthorizationCodeResponse?>> receiveCode(
-    String state,
-    Duration timeout,
-  ) async {
-    throw UnimplementedError();
-  }
-}
-
-AuthenticationFlow flowWithoutRefresh(ClientCredentials creds) {
-  return AuthorizationCodeFlow(
+AuthenticationFlow refreshOnlyFlow(ClientCredentials creds) {
+  return RefreshOnlyAuthorizationCodeFlow(
     clientId: creds.clientId,
     clientSecret: creds.clientSecret,
-    redirectUri: Uri.parse('http://localhost'),
-    userAuthorizationPrompt: _StubUserPrompt(),
-    authorizationCodeReceiver: _StubAuthReceiver(),
   );
 }

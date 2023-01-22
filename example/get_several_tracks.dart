@@ -5,7 +5,7 @@ import 'example_utils.dart';
 Future<void> main() async {
   final creds = loadCreds();
   final client = SpotifyWebApi(
-    authFlow: flowWithoutRefresh(creds),
+    authFlow: refreshOnlyFlow(creds),
     stateStorage: getStorage(),
   );
 

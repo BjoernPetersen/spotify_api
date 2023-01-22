@@ -5,7 +5,7 @@ import 'example_utils.dart';
 Future<void> main() async {
   final creds = loadCreds();
   final client = SpotifyWebApi(
-    authFlow: flowWithoutRefresh(creds),
+    authFlow: refreshOnlyFlow(creds),
     stateStorage: getStorage(),
   );
 
@@ -15,9 +15,10 @@ Future<void> main() async {
       print('Album not found');
     } else {
       print('Found tracks:');
-      for (final track in tracks.items) {
+      final paginator = client.paginator(tracks);
+      await paginator.all().forEach((track) {
         print(track.name);
-      }
+      });
     }
   } finally {
     client.close();
