@@ -9,7 +9,6 @@ class Track {
   final String name;
   final String artistName;
   final bool isExplicit;
-  final String? market;
   final bool? isPlayable;
 
   const Track({
@@ -17,7 +16,6 @@ class Track {
     required this.name,
     required this.artistName,
     required this.isExplicit,
-    this.market,
     this.isPlayable,
   });
 }
@@ -46,7 +44,6 @@ const tracks = [
     name: 'Berentzen Korn',
     artistName: 'Volker Racho & Andy Theke',
     isExplicit: false,
-    market: 'de',
     isPlayable: false,
   ),
 ];
@@ -69,7 +66,7 @@ void main() {
         test(track.name, () async {
           final result = await api.tracks.getTrack(
             track.id,
-            market: track.market,
+            market: track.isPlayable == null ? null : 'de',
           );
           expect(result, isNotNull);
           result!;
@@ -83,6 +80,13 @@ void main() {
           }
         });
       }
+    });
+
+    test('getTracks', () async {
+      final trackIds = tracks.map((e) => e.id).toList();
+      final results = await api.tracks.getTracks(trackIds);
+      expect(results, hasLength(tracks.length));
+      expect(results.map((e) => e.id), containsAll(trackIds));
     });
   });
 }
