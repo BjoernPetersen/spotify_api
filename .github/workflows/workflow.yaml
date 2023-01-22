@@ -30,6 +30,34 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: .coverage/lcov.info
 
+  integration_test:
+    name: Integration Tests
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    container: dart:2.18
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+      - name: Get dependencies
+        run: dart pub get
+      - name: Run code generation
+        run: dart run build_runner build
+      - name: Run tests
+        run: dart test -P integration --coverage=.coverage
+        env:
+          CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+      - name: Install coverage package
+        run: dart pub global activate coverage
+      - name: Convert to LCOV
+        run: dart pub global run coverage:format_coverage --report-on=lib --lcov -o ./.coverage/lcov.info -i ./.coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: .coverage/lcov.info
+
   check_format:
     name: Check Format
     runs-on: ubuntu-latest
