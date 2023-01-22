@@ -24,7 +24,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
-          name: Unit Tests
+          name: Unit Test Results
           path: test-results.json
           reporter: dart-json
       - name: Install coverage package
@@ -58,7 +58,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
-          name: Integration Tests
+          name: Integration Test Results
           path: test-results.json
           reporter: dart-json
       - name: Install coverage package
