@@ -55,6 +55,10 @@ void main() {
     api = await loadApi();
   });
 
+  tearDownAll(() {
+    api.close();
+  });
+
   group('Tracks', () {
     group('getTrack', () {
       test('unknown track', () async {

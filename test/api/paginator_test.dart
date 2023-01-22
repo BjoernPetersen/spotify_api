@@ -11,6 +11,10 @@ void main() {
     api = await loadApi();
   });
 
+  tearDownAll(() {
+    api.close();
+  });
+
   group('search for love songs', () {
     late Paginator<Track> paginator;
 
