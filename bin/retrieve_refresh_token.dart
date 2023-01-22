@@ -6,7 +6,7 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/requests.dart' as requests;
 
-import 'example_utils.dart';
+import '../example/example_utils.dart';
 
 class CliUserAuthorizationPrompt implements UserAuthorizationPrompt {
   @override
@@ -67,6 +67,7 @@ class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
 }
 
 Future<void> main() async {
+  // TODO: accept args for URI
   final creds = loadCreds();
 
   final authFlow = AuthorizationCodeFlow(
