@@ -73,8 +73,7 @@ void example(SpotifyWebApi api, Page<Track> tracks) async {
 ## Authentication
 
 Before you can do anything in the API, you have to think about authentication. Spotify offers
-[four different OAuth flows](https://developer.spotify.com/documentation/general/guides/authorization/). The table below
-shows which flows are directly supported by this library:
+[four different OAuth flows](https://developer.spotify.com/documentation/general/guides/authorization/).
 
 | Name                         | Supported |
 |------------------------------|:---------:|
@@ -90,12 +89,21 @@ You'll need to [register your app with Spotify](https://developer.spotify.com/da
 library. Spotify will give you a client ID and a client secret, the latter of which you may not need, depending on the
 OAuth flow you want to use.
 
+### Persistent State
+
+It's strongly recommended to pass a `StateStorage` implementation to the API during initialization to persist
+authentication state, like your current refresh token. It's a simple, flat key-value storage, so there's lots of
+adequate implementation possibilities.
+
+If no `StateStorage` is used, the authentication state is only stored in-memory.
+
 ### Client credentials flow
 
 This is the simplest full OAuth flow, as it only requires you client ID and your client secret and works without user
 interaction. It's not possible to access any user data using this flow, though.
 
 Example:
+
 ```dart
 final api = SpotifyWebApi(
     authFlow: ClientCredentialsFlow(
@@ -104,3 +112,12 @@ final api = SpotifyWebApi(
     ),
 );
 ```
+
+### Authorization code flow
+
+The `AuthorizationCodeFlow` provides a framework to reduce some of this flow's complexity. You'll still need provide:
+
+- An implementation of `UserAuthorizationPrompt`
+    - Prompt the user to visit the Spotify OAuth authorization page
+- An implementation of `AuthorizationCodeReceiver`
+    - Receive the authorization code once the user confirmed your app's access

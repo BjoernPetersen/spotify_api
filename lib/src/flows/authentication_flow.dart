@@ -11,9 +11,7 @@ class RefreshException extends SpotifyApiException {
   RefreshException([super.message]);
 }
 
-abstract class UserAuthorizationPrompt {
-  FutureOr<void> call(Uri uri);
-}
+typedef UserAuthorizationPrompt = FutureOr<void> Function(Uri uri);
 
 abstract class AuthorizationCodeReceiver {
   Future<Future<AuthorizationCodeResponse?>> receiveCode(

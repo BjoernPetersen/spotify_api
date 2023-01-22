@@ -8,13 +8,6 @@ import 'package:spotify_api/src/requests.dart' as requests;
 
 import '../example/example_utils.dart';
 
-class CliUserAuthorizationPrompt implements UserAuthorizationPrompt {
-  @override
-  void call(Uri uri) {
-    print('Please visit $uri to authorize the app');
-  }
-}
-
 class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
   final int port;
   final String path;
@@ -66,6 +59,10 @@ class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
   }
 }
 
+void promptUser(Uri url) {
+  print('Please visit $url to authorize the app');
+}
+
 Future<void> main() async {
   // TODO: accept args for URI
   final creds = loadCreds();
@@ -74,7 +71,7 @@ Future<void> main() async {
     clientId: creds.clientId,
     clientSecret: creds.clientSecret,
     redirectUri: Uri.parse('http://localhost:8082/authcallback'),
-    userAuthorizationPrompt: CliUserAuthorizationPrompt(),
+    userAuthorizationPrompt: promptUser,
     authorizationCodeReceiver: AdHocServerAuthReceiver(
       port: 8082,
       path: '/authcallback',
