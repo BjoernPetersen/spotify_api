@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dotenv/dotenv.dart';
 import 'package:file/local.dart';
 import 'package:spotify_api/api.dart';
