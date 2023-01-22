@@ -1,5 +1,7 @@
 name: spotify_api
-version: 0.1.0
+version: 0.1.0-alpha.1
+homepage: https://github.com/BjoernPetersen/spotify_api
+description: A wrapper for the Spotify Web API
 
 environment:
   sdk: ^2.18.0
