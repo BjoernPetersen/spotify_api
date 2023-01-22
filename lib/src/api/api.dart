@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
@@ -16,9 +17,12 @@ abstract class SpotifyWebApi<S extends AuthenticationState> {
 
   SpotifyTrackApi get tracks;
 
+  Paginator<T> paginator<T>(Page<T> page);
+
   void close();
 }
 
+@immutable
 abstract class SpotifyAlbumApi {
   Future<Album?> getAlbum(
     String albumId, {
@@ -33,6 +37,7 @@ abstract class SpotifyAlbumApi {
   });
 }
 
+@immutable
 abstract class SpotifyTrackApi {
   Future<Track?> getTrack(
     String trackId, {
@@ -43,4 +48,17 @@ abstract class SpotifyTrackApi {
     List<String> trackIds, {
     String? market,
   });
+}
+
+@immutable
+abstract class Paginator<T> {
+  Page<T> get page;
+
+  List<T> currentItems();
+
+  Stream<T> all();
+
+  Future<Paginator<T>?> nextPage();
+
+  Future<Paginator<T>?> previousPage();
 }
