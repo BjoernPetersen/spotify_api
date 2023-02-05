@@ -24,13 +24,13 @@ class Page<T> {
   });
 
   factory Page.directFromJson(
-    Map<String, dynamic> json,
+    Json json,
     FromJson<T> fromJsonT,
   ) =>
       _$PageFromJson(json, (v) => fromJsonT(v as Map<String, dynamic>));
 
   factory Page.fromJson(
-    Map<String, dynamic> json,
+    Json json,
     T Function(Object?) fromJsonT,
   ) =>
       _$PageFromJson(json, fromJsonT);

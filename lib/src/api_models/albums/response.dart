@@ -1,6 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/src/api_models/artists/response.dart';
+import 'package:spotify_api/src/api_models/image.dart';
+import 'package:spotify_api/src/api_models/model.dart';
+import 'package:spotify_api/src/api_models/pagination.dart';
+import 'package:spotify_api/src/api_models/tracks/response.dart';
 
 part 'response.g.dart';
 
@@ -69,5 +73,5 @@ class Album {
     required this.uri,
   });
 
-  factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
+  factory Album.fromJson(Json json) => _$AlbumFromJson(json);
 }

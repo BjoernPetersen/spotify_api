@@ -15,6 +15,8 @@ abstract class SpotifyWebApi<S extends AuthenticationState> {
 
   SpotifyAlbumApi get albums;
 
+  SpotifyPlaylistApi get playlists;
+
   SpotifyTrackApi get tracks;
 
   Paginator<T> paginator<T>(Page<T> page);
@@ -34,6 +36,14 @@ abstract class SpotifyAlbumApi {
     String? market,
     int? limit,
     int? offset,
+  });
+}
+
+@immutable
+abstract class SpotifyPlaylistApi {
+  Future<Playlist?> getPlaylist(
+    String id, {
+    String? market,
   });
 }
 

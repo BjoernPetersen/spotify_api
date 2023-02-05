@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:spotify_api/src/api_models/model.dart';
 
 part 'response.g.dart';
 
@@ -23,5 +24,5 @@ class Artist {
     required this.popularity,
   });
 
-  factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
+  factory Artist.fromJson(Json json) => _$ArtistFromJson(json);
 }

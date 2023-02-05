@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:spotify_api/src/api_models/model.dart';
 import 'package:meta/meta.dart';
 
 part 'image.g.dart';
@@ -16,5 +17,5 @@ class Image {
     required this.width,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  factory Image.fromJson(Json json) => _$ImageFromJson(json);
 }
