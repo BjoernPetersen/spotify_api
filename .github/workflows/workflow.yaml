@@ -36,6 +36,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: .coverage/lcov.info
+          flags: unit
 
   integration_test:
     name: Integration Tests
@@ -70,6 +71,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: .coverage/lcov.info
+          flags: integration
 
   check_format:
     name: Check Format
