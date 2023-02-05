@@ -1,6 +1,7 @@
 import 'package:spotify_api/src/api/album.dart';
 import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/paginator.dart';
+import 'package:spotify_api/src/api/playlist.dart';
 import 'package:spotify_api/src/api/track.dart';
 import 'package:spotify_api/src/api_models/error/response.dart';
 import 'package:spotify_api/src/api_models/pagination.dart';
@@ -97,6 +98,9 @@ class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
 
   @override
   SpotifyAlbumApi get albums => SpotifyAlbumApiImpl(this);
+
+  @override
+  SpotifyPlaylistApi get playlists => SpotifyPlaylistApiImpl(this);
 
   @override
   SpotifyTrackApi get tracks => SpotifyTrackApiImpl(this);

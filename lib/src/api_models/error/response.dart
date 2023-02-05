@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import 'package:spotify_api/src/api_models/model.dart';
 part 'response.g.dart';
 
 @immutable
@@ -10,8 +11,7 @@ class ErrorResponse {
 
   ErrorResponse(this.error);
 
-  factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
-      _$ErrorResponseFromJson(json);
+  factory ErrorResponse.fromJson(Json json) => _$ErrorResponseFromJson(json);
 }
 
 @immutable
@@ -25,6 +25,6 @@ class ErrorResponseInfo {
     required this.message,
   });
 
-  factory ErrorResponseInfo.fromJson(Map<String, dynamic> json) =>
+  factory ErrorResponseInfo.fromJson(Json json) =>
       _$ErrorResponseInfoFromJson(json);
 }

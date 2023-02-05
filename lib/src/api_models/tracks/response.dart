@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/albums/response.dart';
 import 'package:spotify_api/src/api_models/artists/response.dart';
+import 'package:spotify_api/src/api_models/model.dart';
 
 part 'response.g.dart';
 
@@ -90,7 +91,7 @@ class Track {
     required this.uri,
   });
 
-  factory Track.fromJson(Map<String, dynamic> json) => _$TrackFromJson(json);
+  factory Track.fromJson(Json json) => _$TrackFromJson(json);
 }
 
 @immutable
@@ -100,5 +101,5 @@ class Tracks {
 
   Tracks(this.tracks);
 
-  factory Tracks.fromJson(Map<String, dynamic> json) => _$TracksFromJson(json);
+  factory Tracks.fromJson(Json json) => _$TracksFromJson(json);
 }

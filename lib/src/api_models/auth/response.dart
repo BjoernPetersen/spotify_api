@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:spotify_api/src/api_models/model.dart';
 
 part 'response.g.dart';
 
@@ -16,8 +17,7 @@ class TokenResponse {
     required this.expiresIn,
   });
 
-  factory TokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$TokenResponseFromJson(json);
+  factory TokenResponse.fromJson(Json json) => _$TokenResponseFromJson(json);
 }
 
 @immutable
@@ -33,6 +33,6 @@ class AuthorizationCodeResponse {
     required this.error,
   });
 
-  factory AuthorizationCodeResponse.fromJson(Map<String, dynamic> json) =>
+  factory AuthorizationCodeResponse.fromJson(Json json) =>
       _$AuthorizationCodeResponseFromJson(json);
 }

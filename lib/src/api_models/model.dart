@@ -1,5 +1,7 @@
+typedef Json = Map<String, dynamic>;
+
 abstract class RequestModel {
-  Map<String, dynamic> toJson();
+  Json toJson();
 }
 
-typedef FromJson<T> = T Function(Map<String, dynamic> json);
+typedef FromJson<T> = T Function(Json json);
