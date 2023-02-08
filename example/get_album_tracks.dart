@@ -15,7 +15,7 @@ Future<void> main() async {
       print('Album not found');
     } else {
       print('Found tracks:');
-      final paginator = client.paginator(tracks);
+      final paginator = await client.paginator(tracks);
       await paginator.all().forEach((track) {
         print(track.name);
       });

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/image.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 import 'package:spotify_api/src/api_models/pagination.dart';
@@ -6,8 +7,27 @@ import 'package:spotify_api/src/api_models/tracks/response.dart';
 
 part 'response.g.dart';
 
+@immutable
 @JsonSerializable()
-class Playlist {
+class PlaylistTrack {
+  final bool isLocal;
+  final DateTime? addedAt;
+
+  // TODO add addedBy User (nullable)
+  final Track track;
+
+  PlaylistTrack({
+    required this.addedAt,
+    required this.isLocal,
+    required this.track,
+  });
+
+  factory PlaylistTrack.fromJson(Json json) => _$PlaylistTrackFromJson(json);
+}
+
+@immutable
+@JsonSerializable()
+class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   /// The playlist description.
   ///
   /// Only returned for modified, verified playlists, otherwise null.
@@ -51,7 +71,7 @@ class Playlist {
   final String snapshotId;
 
   /// THe tracks of the playlist.
-  final Page<Track> tracks;
+  final TrackPage tracks;
 
   /// The
   /// [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)
@@ -70,5 +90,11 @@ class Playlist {
     required this.uri,
   });
 
-  factory Playlist.fromJson(Json json) => _$PlaylistFromJson(json);
+  factory Playlist.fromJson(Json json) => _$PlaylistFromJson(
+        json,
+        (json) => PageRef.fromJson(
+          json as Json,
+          PlaylistTrack.fromJson,
+        ) as TrackPage,
+      );
 }

@@ -1,14 +1,42 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 
 part 'pagination.g.dart';
 
+@immutable
+@sealed
 @JsonSerializable()
-class Page<T> {
+class PageRef<T> {
+  final String href;
+  final int total;
+
+  PageRef({
+    required this.href,
+    required this.total,
+  });
+
+  factory PageRef.fromJson(Json json, FromJson<T> tFromJson) {
+    if (json['items'] != null) {
+      return Page.directFromJson(json, tFromJson);
+    }
+
+    return _$PageRefFromJson(
+      json,
+      (json) => tFromJson(json as Json),
+    );
+  }
+}
+
+@immutable
+@JsonSerializable()
+class Page<T> implements PageRef<T> {
+  @override
   final String href;
   final List<T> items;
   final int limit;
   final int offset;
+  @override
   final int total;
   final String? previous;
   final String? next;
@@ -27,7 +55,7 @@ class Page<T> {
     Json json,
     FromJson<T> fromJsonT,
   ) =>
-      _$PageFromJson(json, (v) => fromJsonT(v as Map<String, dynamic>));
+      _$PageFromJson(json, (v) => fromJsonT(v as Json));
 
   factory Page.fromJson(
     Json json,

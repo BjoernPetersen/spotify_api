@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
@@ -19,7 +21,7 @@ abstract class SpotifyWebApi<S extends AuthenticationState> {
 
   SpotifyTrackApi get tracks;
 
-  Paginator<T> paginator<T>(Page<T> page);
+  FutureOr<Paginator<T>> paginator<T>(PageRef<T> page);
 
   void close();
 }
@@ -41,7 +43,9 @@ abstract class SpotifyAlbumApi {
 
 @immutable
 abstract class SpotifyPlaylistApi {
-  Future<Playlist?> getPlaylist(
+  Future<Page<Playlist<PageRef<PlaylistTrack>>>> getCurrentUsersPlaylists();
+
+  Future<Playlist<Page<PlaylistTrack>>?> getPlaylist(
     String id, {
     String? market,
   });
@@ -64,7 +68,7 @@ abstract class SpotifyTrackApi {
 abstract class Paginator<T> {
   Page<T> get page;
 
-  List<T> currentItems();
+  List<T> get currentItems;
 
   Stream<T> all([int? pageSize]);
 

@@ -7,9 +7,9 @@ part 'image.g.dart';
 @immutable
 @JsonSerializable()
 class Image {
-  final int height;
+  final int? height;
   final String url;
-  final int width;
+  final int? width;
 
   Image({
     required this.height,

@@ -51,7 +51,7 @@ void main() {
   group('Albums', () {
     group('getAlbum', () {
       test('unknown album', () async {
-        final album = await api.tracks.getTrack('5fhEhSIUCUbg0upSko7faC');
+        final album = await api.albums.getAlbum('5fhEhSIUCUbg0upSko7faC');
         expect(album, isNull);
       });
 
@@ -79,7 +79,7 @@ void main() {
           );
           expect(trackPage, isNotNull);
           trackPage!;
-          final paginator = api.paginator(trackPage);
+          final paginator = await api.paginator(trackPage);
           final tracks = await paginator.all().toList();
           expect(tracks, hasLength(album.trackCount));
         });
