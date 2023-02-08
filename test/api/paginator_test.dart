@@ -23,7 +23,7 @@ void main() {
       final firstPage = result.tracks;
       expect(firstPage, isNotNull);
       firstPage!;
-      paginator = api.paginator(firstPage);
+      paginator = await api.paginator(firstPage);
     });
 
     test('get non-existent previous', () {

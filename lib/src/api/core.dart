@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:spotify_api/src/api/album.dart';
 import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/paginator.dart';
@@ -106,7 +108,8 @@ class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
   SpotifyTrackApi get tracks => SpotifyTrackApiImpl(this);
 
   @override
-  Paginator<T> paginator<T>(Page<T> page) => PaginatorImpl(this, page);
+  FutureOr<Paginator<T>> paginator<T>(PageRef<T> page) =>
+      PaginatorImpl.fromPage(this, page);
 
   @override
   void close() {

@@ -1,48 +1,57 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:spotify_api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 
+abstract class PaginatorImpl {
+  PaginatorImpl._();
+
+  static FutureOr<Paginator<T>> fromPage<T>(
+    CoreApi core,
+    PageRef<T> page,
+  ) {
+    if (page is Page<T>) {
+      return _PaginatorImpl(core, page);
+    }
+    return _PageRefLoader(core, page).load();
+  }
+}
+
+class _PageRefLoader<T> with _PageLoader<T> {
+  @override
+  final CoreApi core;
+  @override
+  final FromJson<T> itemFromJson;
+  final PageRef<T> page;
+
+  _PageRefLoader(
+    this.core,
+    this.page,
+  ) : itemFromJson = _selectItemFromJson<T>();
+
+  Future<Paginator<T>> load() async {
+    final page = await _loadPage(url: this.page.href);
+    return _PaginatorImpl(core, page, itemFromJson);
+  }
+}
+
 @immutable
-class PaginatorImpl<T> implements Paginator<T> {
+class _PaginatorImpl<T> with _PageLoader<T> implements Paginator<T> {
+  @override
   final CoreApi core;
   @override
   final Page<T> page;
 
-  final FromJson<T> _itemFromJson;
+  @override
+  final FromJson<T> itemFromJson;
 
-  PaginatorImpl(this.core, this.page) : _itemFromJson = _selectItemFromJson();
-
-  Future<Page<T>> _loadPage(String url, [int? pageSize]) async {
-    final uri = Uri.parse(url);
-
-    final response = await core.client.get(
-      uri,
-      headers: await core.headers,
-      params: {
-        if (pageSize != null) 'limit': '$pageSize',
-      },
-    );
-
-    core.checkErrors(response);
-
-    return response.body.decodeJson((json) {
-      final keys = json.keys.toList();
-      if (keys.length != 1) {
-        throw SpotifyApiException('Pagination result is not supported');
-      }
-
-      final key = keys[0];
-
-      return Page.directFromJson(
-        json[key],
-        _itemFromJson,
-      );
-    });
-  }
+  _PaginatorImpl(this.core, this.page, [FromJson<T>? itemFromJson])
+      : itemFromJson = itemFromJson ?? _selectItemFromJson<T>();
 
   @override
-  List<T> currentItems() => page.items;
+  List<T> get currentItems => page.items;
 
   @override
   Future<Paginator<T>?> previousPage() async {
@@ -51,7 +60,11 @@ class PaginatorImpl<T> implements Paginator<T> {
       return null;
     }
 
-    return PaginatorImpl(core, await _loadPage(previous));
+    return _PaginatorImpl(
+        core,
+        await _loadPage(
+          url: previous,
+        ));
   }
 
   @override
@@ -61,7 +74,12 @@ class PaginatorImpl<T> implements Paginator<T> {
       return null;
     }
 
-    return PaginatorImpl(core, await _loadPage(next, pageSize));
+    return _PaginatorImpl(
+        core,
+        await _loadPage(
+          url: next,
+          pageSize: pageSize,
+        ));
   }
 
   @override
@@ -77,8 +95,61 @@ class PaginatorImpl<T> implements Paginator<T> {
         break;
       }
 
-      page = await _loadPage(next, pageSize);
+      page = await _loadPage(
+        url: next,
+        pageSize: pageSize,
+      );
     }
+  }
+}
+
+mixin _PageLoader<T> {
+  CoreApi get core;
+
+  FromJson<T> get itemFromJson;
+
+  Page<T> _decodeResponse(Json json) {
+    final keys = json.keys.toSet();
+
+    if (keys.length == 1) {
+      // assume it's a JSON object with a single key and a Page-value
+      final key = keys.first;
+      return Page.directFromJson(json[key], itemFromJson);
+    }
+
+    const pageKeys = [
+      'items',
+      'href',
+      'total',
+      'limit',
+      'offset',
+    ];
+
+    if (keys.containsAll(pageKeys)) {
+      // it's just a direct page
+      return Page.directFromJson(json, itemFromJson);
+    }
+
+    throw SpotifyApiException('Pagination result is not supported');
+  }
+
+  Future<Page<T>> _loadPage({
+    required String url,
+    int? pageSize,
+  }) async {
+    final uri = Uri.parse(url);
+
+    final response = await core.client.get(
+      uri,
+      headers: await core.headers,
+      params: {
+        if (pageSize != null) 'limit': '$pageSize',
+      },
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(_decodeResponse);
   }
 }
 
@@ -88,6 +159,10 @@ FromJson<T> _selectItemFromJson<T>() {
       return Album.fromJson as FromJson<T>;
     case Artist:
       return Artist.fromJson as FromJson<T>;
+    case Playlist:
+      return ((json) => Playlist.fromJson(json)) as FromJson<T>;
+    case PlaylistTrack:
+      return PlaylistTrack.fromJson as FromJson<T>;
     case Track:
       return Track.fromJson as FromJson<T>;
     default:

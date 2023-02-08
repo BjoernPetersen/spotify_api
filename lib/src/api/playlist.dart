@@ -9,7 +9,24 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
   SpotifyPlaylistApiImpl(this.core);
 
   @override
-  Future<Playlist?> getPlaylist(
+  Future<Page<Playlist<PageRef<PlaylistTrack>>>>
+      getCurrentUsersPlaylists() async {
+    final url = core.resolveUri('/me/playlists');
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(
+      (json) => Page.directFromJson(json, Playlist.fromJson),
+    );
+  }
+
+  @override
+  Future<Playlist<Page<PlaylistTrack>>?> getPlaylist(
     String id, {
     String? market,
   }) async {
