@@ -58,6 +58,9 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   ///
   /// For more about public/private status, see
   /// [Working with Playlists](https://developer.spotify.com/documentation/general/guides/working-with-playlists/).
+  ///
+  /// **Warning:** the API returns inconsistent values for the public status.
+  /// It seems that using the getPlaylist(id) endpoint gives the best results.
   @JsonKey(name: 'public')
   final bool? isPublic;
 

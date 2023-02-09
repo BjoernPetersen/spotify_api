@@ -40,16 +40,37 @@ void main() {
         test('contains doof', () {
           expect(
             playlists
-                .map((e) => e.name)
-                .where((e) => e == doofTitle)
+                .map((e) => e.id)
+                .where((e) => e == doofId)
                 .toList(growable: false),
             hasLength(1),
           );
         });
 
-        test('doof has the correct ID', () {
-          final doof = playlists.singleWhere((e) => e.name == doofTitle);
-          expect(doof.id, doofId);
+        group('doof', () {
+          late final Playlist<PageRef<PlaylistTrack>> doof;
+
+          setUpAll(() {
+            doof = playlists.singleWhere((e) => e.id == doofId);
+          });
+
+          test('has the correct metadata', () {
+            expect(doof.id, doofId);
+            expect(doof.name, doofTitle);
+            // This is inconsistent for this endpoint
+            // expect(doof.isPublic, true);
+            expect(doof.isCollaborative, false);
+            expect(doof.description, 'Wie bin ich hierhergekommen?');
+          });
+
+          test('has at least 300 tracks', () async {
+            final tracks = doof.tracks;
+            final paginator = await api.paginator(tracks);
+            expect(
+              paginator.all(50).take(300).toList(),
+              completion(hasLength(300)),
+            );
+          });
         });
       });
     });
@@ -66,6 +87,11 @@ void main() {
         expect(playlist, isNotNull);
         playlist!;
         expect(playlist.id, doofId);
+        expect(playlist.id, doofId);
+        expect(playlist.name, doofTitle);
+        expect(playlist.isPublic, true);
+        expect(playlist.isCollaborative, false);
+        expect(playlist.description, 'Wie bin ich hierhergekommen?');
       });
     });
   });
