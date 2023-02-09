@@ -26,6 +26,17 @@ class PageRef<T> {
       (json) => tFromJson(json as Json),
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PageRef &&
+          runtimeType == other.runtimeType &&
+          href == other.href &&
+          total == other.total;
+
+  @override
+  int get hashCode => href.hashCode ^ total.hashCode;
 }
 
 @immutable
@@ -62,4 +73,18 @@ class Page<T> implements PageRef<T> {
     T Function(Object?) fromJsonT,
   ) =>
       _$PageFromJson(json, fromJsonT);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Page &&
+          runtimeType == other.runtimeType &&
+          href == other.href &&
+          limit == other.limit &&
+          offset == other.offset &&
+          total == other.total;
+
+  @override
+  int get hashCode =>
+      href.hashCode ^ limit.hashCode ^ offset.hashCode ^ total.hashCode;
 }
