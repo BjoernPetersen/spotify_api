@@ -6,7 +6,7 @@ import 'package:spotify_api/src/api/paginator.dart';
 import 'package:spotify_api/src/api/playlist.dart';
 import 'package:spotify_api/src/api/track.dart';
 import 'package:spotify_api/src/api_models/error/response.dart';
-import 'package:spotify_api/src/api_models/pagination.dart';
+import 'package:spotify_api/src/api_models/page.dart';
 import 'package:spotify_api/src/api_models/search/request.dart';
 import 'package:spotify_api/src/api_models/search/response.dart';
 import 'package:spotify_api/src/exceptions.dart';

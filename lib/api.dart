@@ -3,7 +3,7 @@ export 'package:spotify_api/src/api_models/albums/response.dart';
 export 'package:spotify_api/src/api_models/artists/response.dart';
 export 'package:spotify_api/src/api_models/auth/response.dart';
 export 'package:spotify_api/src/api_models/error/response.dart';
-export 'package:spotify_api/src/api_models/pagination.dart';
+export 'package:spotify_api/src/api_models/page.dart';
 export 'package:spotify_api/src/api_models/playlists/request.dart';
 export 'package:spotify_api/src/api_models/playlists/response.dart';
 export 'package:spotify_api/src/api_models/search/request.dart';

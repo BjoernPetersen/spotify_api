@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 
-part 'pagination.g.dart';
+part 'page.g.dart';
 
 @immutable
 @sealed
