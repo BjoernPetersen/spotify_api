@@ -26,6 +26,10 @@ void main() {
       paginator = await api.paginator(firstPage);
     });
 
+    test('get current items', () {
+      expect(paginator.currentItems, paginator.page.items);
+    });
+
     test('get non-existent previous', () {
       expect(paginator.previousPage(), completion(isNull));
     });
@@ -36,6 +40,13 @@ void main() {
       nextPage!;
       expect(nextPage.page.offset, isPositive);
       expect(nextPage.page.items, hasLength(paginator.page.limit));
+    });
+
+    test('get previous page of next page', () async {
+      final nextPage = await paginator.nextPage();
+      nextPage!;
+      final previousPage = await nextPage.previousPage();
+      expect(previousPage?.page, paginator.page);
     });
 
     test('get next page with higher limit', () async {
