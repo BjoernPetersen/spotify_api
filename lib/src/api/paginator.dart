@@ -1,9 +1,15 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
+import 'package:spotify_api/src/api_models/albums/response.dart';
+import 'package:spotify_api/src/api_models/artists/response.dart';
 import 'package:spotify_api/src/api_models/model.dart';
+import 'package:spotify_api/src/api_models/pagination.dart';
+import 'package:spotify_api/src/api_models/playlists/response.dart';
+import 'package:spotify_api/src/api_models/tracks/response.dart';
+import 'package:spotify_api/src/exceptions.dart';
 
 abstract class PaginatorImpl {
   PaginatorImpl._();
