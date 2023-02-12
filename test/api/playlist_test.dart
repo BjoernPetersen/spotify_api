@@ -87,7 +87,6 @@ void main() {
         expect(playlist, isNotNull);
         playlist!;
         expect(playlist.id, doofId);
-        expect(playlist.id, doofId);
         expect(playlist.name, doofTitle);
         expect(playlist.isPublic, true);
         expect(playlist.isCollaborative, false);
