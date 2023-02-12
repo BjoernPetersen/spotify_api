@@ -45,6 +45,13 @@ abstract class SpotifyAlbumApi {
 
 @immutable
 abstract class SpotifyPlaylistApi {
+  Future<Playlist<Page<PlaylistTrack>>> createPlaylist({
+    required String userId,
+    required String name,
+    PlaylistVisibility? visibility,
+    String? description,
+  });
+
   Future<Page<Playlist<PageRef<PlaylistTrack>>>> getCurrentUsersPlaylists();
 
   Future<Playlist<Page<PlaylistTrack>>?> getPlaylist(

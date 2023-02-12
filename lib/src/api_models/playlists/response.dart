@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/image.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 import 'package:spotify_api/src/api_models/page.dart';
+import 'package:spotify_api/src/api_models/playlists/visibility.dart';
 import 'package:spotify_api/src/api_models/tracks/response.dart';
 import 'package:spotify_api/src/api_models/users/response.dart';
 
@@ -81,6 +82,20 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   /// [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)
   /// for the playlist.
   final String uri;
+
+  PlaylistVisibility? get visibility {
+    if (isCollaborative) {
+      return PlaylistVisibility.collaborative;
+    }
+    switch (isPublic) {
+      case true:
+        return PlaylistVisibility.public;
+      case false:
+        return PlaylistVisibility.private;
+      case null:
+        return null;
+    }
+  }
 
   Playlist({
     required this.description,
