@@ -61,4 +61,30 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
         .whereType<Track>()
         .toList(growable: false);
   }
+
+  @override
+  Future<Page<SavedTrack>> getSavedTracks({
+    int? limit,
+    String? market,
+  }) async {
+    final url = core.resolveUri('/me/tracks');
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+      params: {
+        if (limit != null) 'limit': limit.toString(),
+        if (market != null) 'market': market,
+      },
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(
+      (json) => Page.directFromJson(
+        json,
+        SavedTrack.fromJson,
+      ),
+    );
+  }
 }
