@@ -62,6 +62,11 @@ abstract class SpotifyTrackApi {
     List<String> trackIds, {
     String? market,
   });
+
+  Future<Page<SavedTrack>> getSavedTracks({
+    String? market,
+    int? limit,
+  });
 }
 
 @immutable

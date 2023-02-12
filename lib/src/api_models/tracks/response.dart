@@ -103,3 +103,14 @@ class Tracks {
 
   factory Tracks.fromJson(Json json) => _$TracksFromJson(json);
 }
+
+@immutable
+@JsonSerializable()
+class SavedTrack {
+  final DateTime addedAt;
+  final Track track;
+
+  SavedTrack({required this.addedAt, required this.track});
+
+  factory SavedTrack.fromJson(Json json) => _$SavedTrackFromJson(json);
+}

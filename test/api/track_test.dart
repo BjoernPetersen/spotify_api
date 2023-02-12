@@ -92,5 +92,25 @@ void main() {
       expect(results, hasLength(tracks.length));
       expect(results.map((e) => e.id), containsAll(trackIds));
     });
+
+    group('getSavedTracks', () {
+      test('get 10', () async {
+        final page = await api.tracks.getSavedTracks(limit: 10);
+        expect(page.limit, 10);
+        expect(page.offset, 0);
+        expect(page.next, isNotNull);
+        expect(page.items, hasLength(10));
+      });
+
+      test('get 100', () async {
+        final firstPage = await api.tracks.getSavedTracks(limit: 50);
+        final paginator = await api.paginator(firstPage);
+
+        expect(
+          paginator.all().take(100).toList(),
+          completion(hasLength(100)),
+        );
+      });
+    });
   });
 }

@@ -169,6 +169,8 @@ FromJson<T> _selectItemFromJson<T>() {
       return ((json) => Playlist.fromJson(json)) as FromJson<T>;
     case PlaylistTrack:
       return PlaylistTrack.fromJson as FromJson<T>;
+    case SavedTrack:
+      return SavedTrack.fromJson as FromJson<T>;
     case Track:
       return Track.fromJson as FromJson<T>;
     default:
