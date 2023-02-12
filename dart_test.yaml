@@ -1,11 +1,17 @@
 presets:
   integration:
     include_tags: integration
-
+  leaky:
+    include_tags: leaky
 
 tags:
   integration:
     skip: true
     presets:
       integration:
+        skip: false
+  leaky:
+    skip: true
+    presets:
+      leaky:
         skip: false
