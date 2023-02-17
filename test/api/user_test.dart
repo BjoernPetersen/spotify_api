@@ -1,3 +1,4 @@
+@Tags(['integration'])
 import 'package:spotify_api/api.dart';
 import 'package:test/test.dart';
 
