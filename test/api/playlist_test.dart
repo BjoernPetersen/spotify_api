@@ -95,5 +95,16 @@ void main() {
         expect(playlist.owner, isNotNull);
       });
     });
+    group('getPlaylistCoverImage', () {
+      test('for doof', () async {
+        final result = api.playlists.getPlaylistCoverImage(doofId);
+        await expectLater(result, completes);
+        final images = await result;
+        expect(images, isNotEmpty);
+        for (final image in images) {
+          expect(image.url, allOf(isNotNull, isNotEmpty));
+        }
+      });
+    });
   });
 }

@@ -7,8 +7,13 @@ part 'image.g.dart';
 @immutable
 @JsonSerializable()
 class Image {
+  /// The image height in pixels.
   final int? height;
+
+  /// The source URL of the image.
   final String url;
+
+  /// The image width in pixels.
   final int? width;
 
   Image({

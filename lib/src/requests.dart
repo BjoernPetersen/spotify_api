@@ -88,6 +88,15 @@ class ResponseBody {
 
   String asString([Encoding encoding = utf8]) => encoding.decode(rawBytes);
 
+  List<T> decodeJsonList<T>(FromJson<T> itemFromJson) {
+    final List decoded = jsonDecode(
+      utf8.decode(rawBytes),
+    );
+    return decoded
+        .map((e) => itemFromJson(e as Map<String, dynamic>))
+        .toList(growable: false);
+  }
+
   T decodeJson<T>(FromJson<T> fromJson) {
     return fromJson(jsonDecode(utf8.decode(rawBytes)));
   }

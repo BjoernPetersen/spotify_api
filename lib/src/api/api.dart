@@ -58,6 +58,8 @@ abstract class SpotifyPlaylistApi {
     String id, {
     String? market,
   });
+
+  Future<List<Image>> getPlaylistCoverImage(String playlistId);
 }
 
 @immutable
