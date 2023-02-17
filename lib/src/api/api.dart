@@ -64,6 +64,8 @@ abstract class SpotifyPlaylistApi {
 
 @immutable
 abstract class SpotifyTrackApi {
+  Future<List<bool>> checkUsersSavedTracks(List<String> ids);
+
   Future<Track?> getTrack(
     String trackId, {
     String? market,
@@ -78,7 +80,6 @@ abstract class SpotifyTrackApi {
     String? market,
     int? limit,
   });
-
   Future<void> removeUsersSavedTracks(List<String> ids);
   Future<void> saveTracksForCurrentUser(List<String> ids);
 }

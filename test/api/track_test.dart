@@ -60,6 +60,50 @@ void main() {
   });
 
   group('Tracks', () {
+    group('checkUsersSavedTracks', () {
+      final savedSongs = const [
+        '0G7vexduCvboPyIGjJXQIC',
+        '3QN1kcUYlHrtyph4B0nzvz',
+        '3lYQM1tw5LAfwnfMMYWWIM',
+      ];
+      for (final id in savedSongs) {
+        test('single song is present $id', () {
+          expect(
+            api.tracks.checkUsersSavedTracks([id]),
+            completion([true]),
+          );
+        });
+      }
+
+      test('batch presence check', () {
+        expect(
+          api.tracks.checkUsersSavedTracks(savedSongs),
+          completion([true, true, true]),
+        );
+      });
+
+      final unsavedSongs = const [
+        '3hOHqkmcLF57wqcFY9HPsj',
+        '5y59n0ENwYhZSl62PeUwa5',
+      ];
+
+      for (final id in unsavedSongs) {
+        test('single song is not present $id', () {
+          expect(
+            api.tracks.checkUsersSavedTracks([id]),
+            completion([false]),
+          );
+        });
+      }
+
+      test('batch absence check', () {
+        expect(
+          api.tracks.checkUsersSavedTracks(unsavedSongs),
+          completion([false, false]),
+        );
+      });
+    });
+
     group('getTrack', () {
       test('unknown track', () async {
         final track = await api.tracks.getTrack('75n8FqbBeBLW3jUzvjdjXV');

@@ -11,6 +11,27 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
   SpotifyTrackApiImpl(this.core);
 
   @override
+  Future<List<bool>> checkUsersSavedTracks(List<String> ids) async {
+    if (ids.isEmpty) {
+      throw ArgumentError.value(ids, 'ids', 'ids may not be empty');
+    }
+
+    final url = core.resolveUri('/me/tracks/contains');
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+      params: {
+        'ids': ids.join(','),
+      },
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJsonPrimitiveList();
+  }
+
+  @override
   Future<Track?> getTrack(String trackId, {String? market}) async {
     final url = core.resolveUri('/tracks/$trackId');
 
