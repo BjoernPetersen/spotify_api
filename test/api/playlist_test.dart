@@ -61,6 +61,7 @@ void main() {
             // expect(doof.isPublic, true);
             expect(doof.isCollaborative, false);
             expect(doof.description, 'Wie bin ich hierhergekommen?');
+            expect(doof.owner, isNotNull);
           });
 
           test('has at least 300 tracks', () async {
@@ -91,6 +92,7 @@ void main() {
         expect(playlist.isPublic, true);
         expect(playlist.isCollaborative, false);
         expect(playlist.description, 'Wie bin ich hierhergekommen?');
+        expect(playlist.owner, isNotNull);
       });
     });
   });
