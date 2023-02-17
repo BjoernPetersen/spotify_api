@@ -4,6 +4,7 @@ import 'package:spotify_api/src/api_models/image.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 import 'package:spotify_api/src/api_models/page.dart';
 import 'package:spotify_api/src/api_models/tracks/response.dart';
+import 'package:spotify_api/src/api_models/users/response.dart';
 
 part 'response.g.dart';
 
@@ -12,12 +13,12 @@ part 'response.g.dart';
 class PlaylistTrack {
   final bool isLocal;
   final DateTime? addedAt;
-
-  // TODO add addedBy User (nullable)
+  final User? addedBy;
   final Track track;
 
   PlaylistTrack({
     required this.addedAt,
+    required this.addedBy,
     required this.isLocal,
     required this.track,
   });
