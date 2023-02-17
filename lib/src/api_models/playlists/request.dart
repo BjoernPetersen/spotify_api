@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 import 'package:spotify_api/src/api_models/playlists/visibility.dart';
 
 part 'request.g.dart';
 
+@immutable
 @JsonSerializable()
 class CreatePlaylist implements RequestModel {
   final String? description;
@@ -31,5 +33,35 @@ class CreatePlaylist implements RequestModel {
             visibility == null ? null : visibility == PlaylistVisibility.public;
 
   @override
-  Map<String, dynamic> toJson() => _$CreatePlaylistToJson(this);
+  Json toJson() => _$CreatePlaylistToJson(this);
+}
+
+@immutable
+@JsonSerializable()
+class AddItemsToPlaylist implements RequestModel {
+  final List<String> uris;
+  final int? position;
+
+  AddItemsToPlaylist({
+    required this.uris,
+    required this.position,
+  });
+
+  @override
+  Json toJson() => _$AddItemsToPlaylistToJson(this);
+}
+
+@immutable
+@JsonSerializable()
+class RemoveItemsFromPlaylist implements RequestModel {
+  final List<String> uris;
+  final String snapshotId;
+
+  RemoveItemsFromPlaylist({
+    required this.uris,
+    required this.snapshotId,
+  });
+
+  @override
+  Json toJson() => _$RemoveItemsFromPlaylistToJson(this);
 }

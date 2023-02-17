@@ -6,6 +6,7 @@ import '../integration.dart';
 
 const doofTitle = 'Wer das hört ist doof.';
 const doofId = '2uORns35GPUssVlNaGs2wS';
+const testPlaylist = '6CgJ0JHOcbCMoyTY9keo6K';
 
 void main() {
   late SpotifyWebApi api;
@@ -111,6 +112,35 @@ void main() {
       await expectLater(result, completes);
       final page = await result;
       expect(page.items, isNotEmpty);
+    });
+
+    group('edit playlist items', () {
+      test('add and remove', () async {
+        const uris = [
+          'spotify:track:3laRvOk6S4Z2XXvmPUG7Jb',
+          'spotify:track:3PR0wowQgI2qRHPs10eWyd',
+        ];
+
+        final add = api.playlists.addItemsToPlaylist(
+          playlistId: testPlaylist,
+          uris: uris,
+        );
+        await expectLater(
+          add,
+          completion(isNotEmpty),
+        );
+
+        final snapshotId = await add;
+
+        await expectLater(
+          api.playlists.removePlaylistItems(
+            playlistId: testPlaylist,
+            uris: uris,
+            snapshotId: snapshotId,
+          ),
+          completion(isNotEmpty),
+        );
+      });
     });
   });
 }

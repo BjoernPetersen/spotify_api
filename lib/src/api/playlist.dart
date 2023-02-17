@@ -10,6 +10,28 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
   SpotifyPlaylistApiImpl(this.core);
 
   @override
+  Future<String> addItemsToPlaylist({
+    required String playlistId,
+    required List<String> uris,
+    int? position,
+  }) async {
+    final url = core.resolveUri('/playlists/$playlistId/tracks');
+
+    final response = await core.client.post(
+      url,
+      headers: await core.headers,
+      body: RequestBody.json(AddItemsToPlaylist(
+        uris: uris,
+        position: position,
+      )),
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(PlaylistSnapshot.fromJson).snapshotId;
+  }
+
+  @override
   Future<Playlist<Page<PlaylistTrack>>> createPlaylist({
     required String userId,
     required String name,
@@ -107,5 +129,28 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
     return response.body.decodeJson(
       (json) => Page.directFromJson(json, PlaylistTrack.fromJson),
     );
+  }
+
+
+  @override
+  Future<String> removePlaylistItems({
+    required String playlistId,
+    required List<String> uris,
+    required String snapshotId,
+  }) async {
+    final url = core.resolveUri('/playlists/$playlistId/tracks');
+
+    final response = await core.client.delete(
+      url,
+      headers: await core.headers,
+      body: RequestBody.json(RemoveItemsFromPlaylist(
+        uris: uris,
+        snapshotId: snapshotId,
+      )),
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(PlaylistSnapshot.fromJson).snapshotId;
   }
 }

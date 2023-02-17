@@ -120,3 +120,14 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
         ) as TrackPage,
       );
 }
+
+@immutable
+@JsonSerializable()
+class PlaylistSnapshot {
+  final String snapshotId;
+
+  PlaylistSnapshot(this.snapshotId);
+
+  factory PlaylistSnapshot.fromJson(Json json) =>
+      _$PlaylistSnapshotFromJson(json);
+}

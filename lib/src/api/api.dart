@@ -45,6 +45,15 @@ abstract class SpotifyAlbumApi {
 
 @immutable
 abstract class SpotifyPlaylistApi {
+  /// Add one or more items to a user's playlist.
+  ///
+  /// Returns a snapshot ID for the playlist.
+  Future<String> addItemsToPlaylist({
+    required String playlistId,
+    required List<String> uris,
+    int? position,
+  });
+
   Future<Playlist<Page<PlaylistTrack>>> createPlaylist({
     required String userId,
     required String name,
@@ -66,6 +75,15 @@ abstract class SpotifyPlaylistApi {
     String? market,
     int? limit,
     int? offset,
+  });
+
+  /// Remove one or more items from a user's playlist.
+  ///
+  /// Returns a snapshot ID for the playlist.
+  Future<String> removePlaylistItems({
+    required String playlistId,
+    required List<String> uris,
+    required String snapshotId,
   });
 }
 

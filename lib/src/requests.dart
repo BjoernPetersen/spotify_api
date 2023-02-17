@@ -141,6 +141,7 @@ class RequestsClient {
 
   Future<Response> delete(
     Uri url, {
+    required RequestBody? body,
     List<Header> headers = const [],
     Map<String, String> params = const {},
   }) async {
@@ -150,6 +151,7 @@ class RequestsClient {
       headers: {
         for (final header in headers) header.name: header.value,
       },
+      body: body?.body,
     );
 
     return Response(rawResponse);

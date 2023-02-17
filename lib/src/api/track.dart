@@ -121,6 +121,7 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
 
     final response = await core.client.delete(
       url,
+      body: null,
       headers: await core.headers,
       params: {
         'ids': ids.join(','),
