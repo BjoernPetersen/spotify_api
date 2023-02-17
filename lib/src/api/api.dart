@@ -21,6 +21,8 @@ abstract class SpotifyWebApi<S extends AuthenticationState> {
 
   SpotifyTrackApi get tracks;
 
+  SpotifyUserApi get users;
+
   FutureOr<Paginator<T>> paginator<T>(PageRef<T> page);
 
   void close();
@@ -67,6 +69,11 @@ abstract class SpotifyTrackApi {
     String? market,
     int? limit,
   });
+}
+
+@immutable
+abstract class SpotifyUserApi {
+  Future<User> getCurrentUsersProfile();
 }
 
 @immutable

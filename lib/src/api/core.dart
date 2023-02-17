@@ -5,6 +5,7 @@ import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/paginator.dart';
 import 'package:spotify_api/src/api/playlist.dart';
 import 'package:spotify_api/src/api/track.dart';
+import 'package:spotify_api/src/api/user.dart';
 import 'package:spotify_api/src/api_models/error/response.dart';
 import 'package:spotify_api/src/api_models/page.dart';
 import 'package:spotify_api/src/api_models/search/request.dart';
@@ -106,6 +107,9 @@ class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
 
   @override
   SpotifyTrackApi get tracks => SpotifyTrackApiImpl(this);
+
+  @override
+  SpotifyUserApi get users => SpotifyUserApiImpl(this);
 
   @override
   FutureOr<Paginator<T>> paginator<T>(PageRef<T> page) =>
