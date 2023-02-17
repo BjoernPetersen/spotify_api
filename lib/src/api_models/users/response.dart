@@ -6,7 +6,7 @@ import 'package:spotify_api/src/api_models/model.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class User {
   /// The country of the user, as set in the user's account profile.
   /// An [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
@@ -75,7 +75,7 @@ class User {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ExplicitContentSettings {
   /// When true, indicates that explicit content should not be played.
   final bool filterEnabled;

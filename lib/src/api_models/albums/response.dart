@@ -21,7 +21,7 @@ enum DatePrecision {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Album {
   /// The artists of the album.
   final List<Artist> artists;

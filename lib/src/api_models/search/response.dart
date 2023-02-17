@@ -10,7 +10,7 @@ import 'package:spotify_api/src/api_models/tracks/response.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class SearchResponse {
   final Page<Album>? albums;
   final Page<Artist>? artists;

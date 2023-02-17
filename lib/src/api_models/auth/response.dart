@@ -5,7 +5,7 @@ import 'package:spotify_api/src/api_models/model.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class TokenResponse {
   final String accessToken;
   final String? refreshToken;
@@ -21,7 +21,7 @@ class TokenResponse {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class AuthorizationCodeResponse {
   final String state;
   final String? code;

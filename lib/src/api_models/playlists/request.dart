@@ -6,7 +6,7 @@ import 'package:spotify_api/src/api_models/playlists/visibility.dart';
 part 'request.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class CreatePlaylist implements RequestModel {
   final String? description;
   @JsonKey(name: 'collaborative')
@@ -37,7 +37,7 @@ class CreatePlaylist implements RequestModel {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class AddItemsToPlaylist implements RequestModel {
   final List<String> uris;
   final int? position;
@@ -52,7 +52,7 @@ class AddItemsToPlaylist implements RequestModel {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class RemoveItemsFromPlaylist implements RequestModel {
   final List<String> uris;
   final String snapshotId;
@@ -67,7 +67,7 @@ class RemoveItemsFromPlaylist implements RequestModel {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class ReplacePlaylistItems implements RequestModel {
   final List<String> uris;
 
@@ -78,7 +78,7 @@ class ReplacePlaylistItems implements RequestModel {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class ReorderPlaylistItems implements RequestModel {
   final int insertBefore;
   final int rangeLength;

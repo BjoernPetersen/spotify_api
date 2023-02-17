@@ -7,7 +7,7 @@ import 'package:spotify_api/src/api_models/model.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Track {
   /// The album on which the track appears.
   final Album? album;
@@ -95,7 +95,7 @@ class Track {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Tracks {
   final List<Track?> tracks;
 
@@ -105,7 +105,7 @@ class Tracks {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class SavedTrack {
   final DateTime addedAt;
   final Track track;

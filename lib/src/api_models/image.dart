@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 part 'image.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Image {
   /// The image height in pixels.
   final int? height;

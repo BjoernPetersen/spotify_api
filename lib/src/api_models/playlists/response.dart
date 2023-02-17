@@ -10,7 +10,7 @@ import 'package:spotify_api/src/api_models/users/response.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class PlaylistTrack {
   final bool isLocal;
   final DateTime? addedAt;
@@ -28,7 +28,7 @@ class PlaylistTrack {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   /// The playlist description.
   ///
@@ -122,7 +122,7 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class PlaylistSnapshot {
   final String snapshotId;
 

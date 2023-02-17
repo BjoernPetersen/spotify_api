@@ -5,7 +5,7 @@ import 'package:spotify_api/src/api_models/model.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Artist {
   final String id;
   final String name;

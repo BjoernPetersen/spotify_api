@@ -5,7 +5,7 @@ import 'package:spotify_api/src/api_models/model.dart';
 part 'response.g.dart';
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ErrorResponse {
   final ErrorResponseInfo error;
 
@@ -15,7 +15,7 @@ class ErrorResponse {
 }
 
 @immutable
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ErrorResponseInfo {
   final int status;
   final String message;
