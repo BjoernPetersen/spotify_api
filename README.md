@@ -18,7 +18,7 @@ The main entry point to the API is the `SpotifyWebApi` class. The Dart API is or
 collected in groups, e.g. `tracks` or `albums`.
 
 ```dart
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/spotify_api.dart';
 
 Future<void> example(AuthenticationFlow authFlow) async {
     final api = SpotifyWebApi(

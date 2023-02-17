@@ -1,6 +1,6 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:file/local.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/spotify_api.dart';
 
 class ClientCredentials {
   final String clientId;

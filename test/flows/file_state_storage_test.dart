@@ -1,6 +1,6 @@
 import 'package:file/file.dart';
 import 'package:file/memory.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/spotify_api.dart';
 import 'package:test/test.dart';
 import 'package:file_testing/file_testing.dart';
 

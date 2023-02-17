@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/requests.dart' as requests;
 
 import 'example_utils.dart';

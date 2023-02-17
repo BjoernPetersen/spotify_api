@@ -1,5 +1,5 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/spotify_api.dart';
 
 class _MemoryStateStorage extends StateStorage {
   final Map<String, String> _values = {};

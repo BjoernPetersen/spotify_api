@@ -1,4 +1,4 @@
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/api/core.dart';
 import 'package:meta/meta.dart';
 import 'package:spotify_api/src/requests.dart';

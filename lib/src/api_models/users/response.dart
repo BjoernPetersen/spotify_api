@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/src/api_models/image.dart';
 import 'package:spotify_api/src/api_models/model.dart';
 
 part 'response.g.dart';
