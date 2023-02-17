@@ -94,6 +94,7 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
       case false:
         return PlaylistVisibility.private;
       case null:
+      default:
         return null;
     }
   }
