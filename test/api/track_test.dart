@@ -112,5 +112,30 @@ void main() {
         );
       });
     });
+
+    group('edit saved tracks', () {
+      test('save empty IDs', () {
+        expect(
+          () => api.tracks.saveTracksForCurrentUser([]),
+          throwsArgumentError,
+        );
+      });
+
+      test('remove empty IDs', () {
+        expect(
+          () => api.tracks.removeUsersSavedTracks([]),
+          throwsArgumentError,
+        );
+      });
+
+      test('happy path', () async {
+        final ids = [
+          '3hOHqkmcLF57wqcFY9HPsj',
+          '5y59n0ENwYhZSl62PeUwa5',
+        ];
+        await expectLater(api.tracks.saveTracksForCurrentUser(ids), completes);
+        await expectLater(api.tracks.removeUsersSavedTracks(ids), completes);
+      });
+    });
   });
 }

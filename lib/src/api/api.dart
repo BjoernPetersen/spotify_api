@@ -78,6 +78,9 @@ abstract class SpotifyTrackApi {
     String? market,
     int? limit,
   });
+
+  Future<void> removeUsersSavedTracks(List<String> ids);
+  Future<void> saveTracksForCurrentUser(List<String> ids);
 }
 
 @immutable

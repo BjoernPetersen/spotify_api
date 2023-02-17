@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:spotify_api/api.dart';
+import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
+import 'package:spotify_api/src/api_models/page.dart';
+import 'package:spotify_api/src/api_models/tracks/response.dart';
 
 @immutable
 class SpotifyTrackApiImpl implements SpotifyTrackApi {
@@ -86,5 +88,44 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
         SavedTrack.fromJson,
       ),
     );
+  }
+
+  @override
+  Future<void> removeUsersSavedTracks(List<String> ids) async {
+    if (ids.isEmpty) {
+      throw ArgumentError.value(ids, 'ids', 'ids may not be empty');
+    }
+
+    final url = core.resolveUri('/me/tracks');
+
+    final response = await core.client.delete(
+      url,
+      headers: await core.headers,
+      params: {
+        'ids': ids.join(','),
+      },
+    );
+
+    core.checkErrors(response);
+  }
+
+  @override
+  Future<void> saveTracksForCurrentUser(List<String> ids) async {
+    if (ids.isEmpty) {
+      throw ArgumentError.value(ids, 'ids', 'ids may not be empty');
+    }
+
+    final url = core.resolveUri('/me/tracks');
+
+    final response = await core.client.put(
+      url,
+      body: null,
+      headers: await core.headers,
+      params: {
+        'ids': ids.join(','),
+      },
+    );
+
+    core.checkErrors(response);
   }
 }

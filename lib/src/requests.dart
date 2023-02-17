@@ -134,9 +134,25 @@ class RequestsClient {
     return Response(rawResponse);
   }
 
+  Future<Response> delete(
+    Uri url, {
+    List<Header> headers = const [],
+    Map<String, String> params = const {},
+  }) async {
+    final urlWithParams = url.includeParams(params);
+    final rawResponse = await _client.delete(
+      urlWithParams,
+      headers: {
+        for (final header in headers) header.name: header.value,
+      },
+    );
+
+    return Response(rawResponse);
+  }
+
   Future<Response> post(
     Uri url, {
-    required RequestBody body,
+    required RequestBody? body,
     List<Header> headers = const [],
     Map<String, String> params = const {},
   }) async {
@@ -145,9 +161,30 @@ class RequestsClient {
       urlWithParams,
       headers: {
         for (final header in headers) header.name: header.value,
-        for (final header in body.headers) header.name: header.value,
+        if (body != null)
+          for (final header in body.headers) header.name: header.value,
       },
-      body: body.body,
+      body: body?.body,
+    );
+
+    return Response(rawResponse);
+  }
+
+  Future<Response> put(
+    Uri url, {
+    required RequestBody? body,
+    List<Header> headers = const [],
+    Map<String, String> params = const {},
+  }) async {
+    final urlWithParams = url.includeParams(params);
+    final rawResponse = await _client.put(
+      urlWithParams,
+      headers: {
+        for (final header in headers) header.name: header.value,
+        if (body != null)
+          for (final header in body.headers) header.name: header.value,
+      },
+      body: body?.body,
     );
 
     return Response(rawResponse);
