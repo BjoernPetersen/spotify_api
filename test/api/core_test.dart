@@ -58,5 +58,19 @@ void main() {
         expect(first.artists[0].name, 'Gebrüder');
       });
     });
+
+    group('playlists:', () {
+      test('die dusch playlist', () async {
+        final results = await api.search(
+          query: 'die dusch playlist',
+          types: [SearchType.playlist],
+        );
+        final playlists = results.playlists?.items;
+        expect(playlists, isNotEmpty);
+        playlists!;
+        final playlist = playlists[0];
+        expect(playlist.id, '4YArDKpHGrn7xNLQQsWUnh');
+      });
+    });
   });
 }
