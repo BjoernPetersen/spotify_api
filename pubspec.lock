@@ -369,6 +369,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  sane_uuid:
+    dependency: "direct dev"
+    description:
+      name: sane_uuid
+      sha256: "615f6d25e6d7e0c59ea0fb5ce0cdf043ce110af15b19b3c35ca1441e5bb06972"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-alpha.4"
   shelf:
     dependency: "direct dev"
     description:

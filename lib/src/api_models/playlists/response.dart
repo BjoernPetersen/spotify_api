@@ -69,7 +69,8 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   /// The name of the playlist.
   final String name;
 
-  // TODO: owner information
+  /// The user who owns the playlist.
+  final User owner;
 
   /// The version identifier for the current playlist.
   /// Can be supplied in other requests to target a specific playlist version.
@@ -104,6 +105,7 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
     required this.isCollaborative,
     required this.isPublic,
     required this.name,
+    required this.owner,
     required this.snapshotId,
     required this.tracks,
     required this.uri,
