@@ -1,1 +1,10 @@
 !lib/**/*.g.dart
+example/
+test/
+tool/
+analysis_options.yaml
+build.yaml
+dart_test.yaml
+Makefile
+renovate.json
+state.json
