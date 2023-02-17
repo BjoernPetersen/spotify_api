@@ -115,11 +115,19 @@ void main() {
     });
 
     group('edit playlist items', () {
+      setUpAll(() async {
+        await api.playlists.replacePlaylistItems(
+          playlistId: testPlaylist,
+          uris: [],
+        );
+      });
+
       const uris = [
         'spotify:track:3laRvOk6S4Z2XXvmPUG7Jb',
         'spotify:track:3PR0wowQgI2qRHPs10eWyd',
         'spotify:track:5UGHG3Mz66pNTvF6kxxRkH',
       ];
+
       test('add and remove', () async {
         final add = api.playlists.addItemsToPlaylist(
           playlistId: testPlaylist,
