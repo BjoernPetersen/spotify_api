@@ -44,6 +44,7 @@ class User {
   final String id;
 
   /// The user's profile image.
+  @JsonKey(defaultValue: [])
   final List<Image> images;
 
   /// The user's Spotify subscription level: "premium", "free", etc.
