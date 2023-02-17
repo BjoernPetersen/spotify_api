@@ -60,6 +60,13 @@ abstract class SpotifyPlaylistApi {
   });
 
   Future<List<Image>> getPlaylistCoverImage(String playlistId);
+
+  Future<Page<PlaylistTrack>> getPlaylistItems(
+    String playlistId, {
+    String? market,
+    int? limit,
+    int? offset,
+  });
 }
 
 @immutable
@@ -80,7 +87,9 @@ abstract class SpotifyTrackApi {
     String? market,
     int? limit,
   });
+
   Future<void> removeUsersSavedTracks(List<String> ids);
+
   Future<void> saveTracksForCurrentUser(List<String> ids);
 }
 

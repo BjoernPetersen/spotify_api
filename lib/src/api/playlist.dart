@@ -87,4 +87,25 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
 
     return response.body.decodeJsonList(Image.fromJson);
   }
+
+  @override
+  Future<Page<PlaylistTrack>> getPlaylistItems(
+    String playlistId, {
+    String? market,
+    int? limit,
+    int? offset,
+  }) async {
+    final url = core.resolveUri('/playlists/$playlistId/tracks');
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(
+      (json) => Page.directFromJson(json, PlaylistTrack.fromJson),
+    );
+  }
 }

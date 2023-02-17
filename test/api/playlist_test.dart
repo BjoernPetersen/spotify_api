@@ -106,5 +106,11 @@ void main() {
         }
       });
     });
+    test('getPlaylistItems', () async {
+      final result = api.playlists.getPlaylistItems(doofId);
+      await expectLater(result, completes);
+      final page = await result;
+      expect(page.items, isNotEmpty);
+    });
   });
 }
