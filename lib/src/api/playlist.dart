@@ -131,7 +131,6 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
     );
   }
 
-
   @override
   Future<String> removePlaylistItems({
     required String playlistId,
@@ -147,6 +146,50 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
         uris: uris,
         snapshotId: snapshotId,
       )),
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(PlaylistSnapshot.fromJson).snapshotId;
+  }
+
+  @override
+  Future<String> reorderPlaylistItems({
+    required String playlistId,
+    required String snapshotId,
+    required int rangeStart,
+    required int insertBefore,
+    int rangeLength = 1,
+  }) async {
+    final url = core.resolveUri('/playlists/$playlistId/tracks');
+
+    final response = await core.client.put(
+      url,
+      headers: await core.headers,
+      body: RequestBody.json(ReorderPlaylistItems(
+        insertBefore: insertBefore,
+        rangeLength: rangeLength,
+        rangeStart: rangeStart,
+        snapshotId: snapshotId,
+      )),
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(PlaylistSnapshot.fromJson).snapshotId;
+  }
+
+  @override
+  Future<String> replacePlaylistItems({
+    required String playlistId,
+    required List<String> uris,
+  }) async {
+    final url = core.resolveUri('/playlists/$playlistId/tracks');
+
+    final response = await core.client.put(
+      url,
+      headers: await core.headers,
+      body: RequestBody.json(ReplacePlaylistItems(uris)),
     );
 
     core.checkErrors(response);

@@ -115,12 +115,12 @@ void main() {
     });
 
     group('edit playlist items', () {
+      const uris = [
+        'spotify:track:3laRvOk6S4Z2XXvmPUG7Jb',
+        'spotify:track:3PR0wowQgI2qRHPs10eWyd',
+        'spotify:track:5UGHG3Mz66pNTvF6kxxRkH',
+      ];
       test('add and remove', () async {
-        const uris = [
-          'spotify:track:3laRvOk6S4Z2XXvmPUG7Jb',
-          'spotify:track:3PR0wowQgI2qRHPs10eWyd',
-        ];
-
         final add = api.playlists.addItemsToPlaylist(
           playlistId: testPlaylist,
           uris: uris,
@@ -140,6 +140,74 @@ void main() {
           ),
           completion(isNotEmpty),
         );
+      });
+
+      group('with existing items', () {
+        late String snapshotId;
+
+        setUp(() async {
+          snapshotId = await api.playlists.addItemsToPlaylist(
+            playlistId: testPlaylist,
+            uris: uris,
+          );
+        });
+
+        tearDown(() async {
+          await api.playlists.removePlaylistItems(
+            playlistId: testPlaylist,
+            uris: uris,
+            snapshotId: snapshotId,
+          );
+        });
+
+        test('reorder items', () async {
+          snapshotId = await api.playlists.reorderPlaylistItems(
+            playlistId: testPlaylist,
+            snapshotId: snapshotId,
+            rangeStart: 0,
+            insertBefore: 2,
+          );
+
+          final items = await api.playlists.getPlaylistItems(testPlaylist);
+
+          expect(
+            items.items.map((e) => e.track.uri).toList(),
+            [
+              'spotify:track:3PR0wowQgI2qRHPs10eWyd',
+              'spotify:track:3laRvOk6S4Z2XXvmPUG7Jb',
+              'spotify:track:5UGHG3Mz66pNTvF6kxxRkH',
+            ],
+          );
+        });
+
+        test('clear items', () async {
+          snapshotId = await api.playlists.replacePlaylistItems(
+            playlistId: testPlaylist,
+            uris: [],
+          );
+
+          final items = await api.playlists.getPlaylistItems(testPlaylist);
+
+          expect(
+            items.items.map((e) => e.track.uri),
+            isEmpty,
+          );
+        });
+
+        test('replace items', () async {
+          const uri = 'spotify:track:1YkaW893HdtoFku3jnPAO2';
+          snapshotId = await api.playlists.replacePlaylistItems(
+            playlistId: testPlaylist,
+            uris: [uri],
+          );
+
+          final items = await api.playlists.getPlaylistItems(testPlaylist);
+
+          expect(
+            items.items.map((e) => e.track.uri).toList(),
+            [uri],
+          );
+        });
       });
     });
   });

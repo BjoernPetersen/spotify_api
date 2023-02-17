@@ -65,3 +65,33 @@ class RemoveItemsFromPlaylist implements RequestModel {
   @override
   Json toJson() => _$RemoveItemsFromPlaylistToJson(this);
 }
+
+@immutable
+@JsonSerializable()
+class ReplacePlaylistItems implements RequestModel {
+  final List<String> uris;
+
+  ReplacePlaylistItems(this.uris);
+
+  @override
+  Json toJson() => _$ReplacePlaylistItemsToJson(this);
+}
+
+@immutable
+@JsonSerializable()
+class ReorderPlaylistItems implements RequestModel {
+  final int insertBefore;
+  final int rangeLength;
+  final int rangeStart;
+  final String snapshotId;
+
+  ReorderPlaylistItems({
+    required this.insertBefore,
+    required this.rangeLength,
+    required this.rangeStart,
+    required this.snapshotId,
+  });
+
+  @override
+  Json toJson() => _$ReorderPlaylistItemsToJson(this);
+}

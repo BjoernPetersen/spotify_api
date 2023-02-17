@@ -85,6 +85,44 @@ abstract class SpotifyPlaylistApi {
     required List<String> uris,
     required String snapshotId,
   });
+
+  /// Reorder items in a playlist.
+  ///
+  /// [rangeStart] The position of the first item to be reordered.
+  ///
+  /// [insertBefore] The position where the items should be inserted.
+  /// To reorder the items to the end of the playlist, simply set insert_before
+  /// to the position after the last item.
+  ///
+  // Examples:
+  ///- To reorder the first item to the last position in a playlist with 10
+  ///  items, set range_start to 0, and insert_before to 10.
+  ///- To reorder the last item in a playlist with 10 items to the start of the
+  ///  playlist, set range_start to 9, and insert_before to 0.
+  ///
+  /// [rangeLength] The amount of items to be reordered. Defaults to 1 if not
+  /// set. The range of items to be reordered begins from the
+  /// range_start position, and includes the range_length subsequent items.
+  ///
+  /// Example:
+  /// To move the items at index 9-10 to the start of the playlist, range_start
+  /// is set to 9, and range_length is set to 2.
+  Future<String> reorderPlaylistItems({
+    required String playlistId,
+    required String snapshotId,
+    required int rangeStart,
+    required int insertBefore,
+    int rangeLength = 1,
+  });
+
+  /// Replace items in a playlist.
+  ///
+  /// Replacing items in a playlist will overwrite its existing items. This
+  /// operation can be used for replacing or clearing items in a playlist.
+  Future<String> replacePlaylistItems({
+    required String playlistId,
+    required List<String> uris,
+  });
 }
 
 @immutable
