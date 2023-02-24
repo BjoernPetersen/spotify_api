@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   convert: ^3.0.0
-  file: ^6.0.0
   http: ^0.13.4
   json_annotation: ^4.8.0
   logger: ^1.0.0
@@ -17,6 +16,7 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.0.0
   dotenv: ^4.0.0
+  file: ^6.0.0
   file_testing: ^3.0.0
   json_serializable: ^6.0.0
   lints: ^2.0.0

@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## 0.3.0-alpha
+
+### Breaking Changes
+
+- Remove `FileRefreshTokenStorage`
 
 ## 0.2.1-alpha
 

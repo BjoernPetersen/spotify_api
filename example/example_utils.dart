@@ -1,4 +1,5 @@
 import 'package:dotenv/dotenv.dart';
+import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:spotify_api/spotify_api.dart';
 
@@ -21,8 +22,32 @@ ClientCredentials loadCreds() {
   return ClientCredentials(clientId: clientId, clientSecret: clientSecret);
 }
 
+class _FileRefreshTokenStorage implements RefreshTokenStorage {
+  final File _file;
+
+  _FileRefreshTokenStorage(this._file);
+
+  @override
+  Future<String> load() async {
+    if (!await _file.exists()) {
+      throw RefreshException('Refresh token storage file does not exist');
+    }
+    final content = _file.readAsStringSync();
+    return content.trim();
+  }
+
+  @override
+  Future<void> store(String refreshToken) async {
+    _file.writeAsStringSync(
+      refreshToken,
+      mode: FileMode.writeOnly,
+      flush: true,
+    );
+  }
+}
+
 RefreshTokenStorage fileRefreshTokenStorage() {
-  return FileRefreshTokenStorage(LocalFileSystem().file('refresh.txt'));
+  return _FileRefreshTokenStorage(LocalFileSystem().file('refresh.txt'));
 }
 
 AccessTokenRefresher accessTokenRefresher(ClientCredentials creds) {

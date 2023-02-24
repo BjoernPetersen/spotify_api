@@ -20,7 +20,6 @@ export 'package:spotify_api/src/auth/authorization_code.dart'
     show AuthorizationCodeRefresher, AuthorizationCodeUserAuthorization;
 export 'package:spotify_api/src/auth/client_credentials.dart'
     show ClientCredentialsRefresher;
-export 'package:spotify_api/src/auth/refresh_token_storage/file.dart';
 export 'package:spotify_api/src/auth/refresh_token_storage/memory.dart';
 export 'package:spotify_api/src/auth/scopes.dart';
 export 'package:spotify_api/src/auth/user_authorization.dart';
