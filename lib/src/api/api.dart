@@ -4,10 +4,9 @@ import 'package:meta/meta.dart';
 import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
-abstract class SpotifyWebApi<S extends AuthenticationState> {
+abstract class SpotifyWebApi {
   factory SpotifyWebApi({
-    required AuthenticationFlow<S> authFlow,
-    StateStorage? stateStorage,
+    required AccessTokenRefresher refresher,
   }) = CoreApi;
 
   Future<SearchResponse> search({

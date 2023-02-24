@@ -11,47 +11,35 @@ import 'package:spotify_api/src/api_models/page.dart';
 import 'package:spotify_api/src/api_models/search/request.dart';
 import 'package:spotify_api/src/api_models/search/response.dart';
 import 'package:spotify_api/src/exceptions.dart';
-import 'package:spotify_api/src/flows/authentication_flow.dart';
+import 'package:spotify_api/src/auth/access_token_refresher.dart';
 import 'package:spotify_api/src/requests.dart';
 
-class CoreApi<S extends AuthenticationState> implements SpotifyWebApi<S> {
+class CoreApi implements SpotifyWebApi {
   static const String baseUrl = 'https://api.spotify.com/v1';
 
   final RequestsClient client;
-  final AuthenticationFlow<S> _authFlow;
-  final StateStorage? _stateStorage;
-  S? _authState;
+  final AccessTokenRefresher _accessTokenRefresher;
+  TokenInfo? _authState;
 
   CoreApi({
-    required AuthenticationFlow<S> authFlow,
-    StateStorage? stateStorage,
+    required AccessTokenRefresher refresher,
   })  : client = RequestsClient(),
-        _authFlow = authFlow,
-        _stateStorage = stateStorage;
+        _accessTokenRefresher = refresher;
 
   Uri resolveUri(String path) {
     return Uri.parse('$baseUrl$path');
   }
 
   Future<String> getAccessToken() async {
-    S? authState = _authState;
-    final stateStorage = _stateStorage;
-
-    if (authState == null && stateStorage != null) {
-      authState = await _authFlow.restoreState(stateStorage);
-    }
+    var authState = _authState;
 
     if (authState == null) {
-      authState = await _authFlow.retrieveToken(client, null);
-    } else if (authState.isExpired && authState.isRefreshable) {
-      authState = await _authFlow.retrieveToken(client, authState);
-    } else if (authState.isExpired && !authState.isRefreshable) {
-      throw ExpiredTokenException();
+      authState = await _accessTokenRefresher.retrieveToken(client);
+    } else if (authState.isExpired) {
+      authState = await _accessTokenRefresher.retrieveToken(client);
     }
 
-    if (stateStorage != null) {
-      authState.store(stateStorage);
-    }
+    _authState = authState;
 
     return authState.accessToken;
   }
