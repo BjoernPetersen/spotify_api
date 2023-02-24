@@ -26,20 +26,20 @@ void main() {
 
   group('Search', () {
     group('songs:', () {
-      test('wodka e', () async {
+      test('kai hat frei', () async {
         final results = await api.search(
-          query: 'wodka e',
+          query: 'kai hat frei',
           types: [SearchType.track],
         );
 
         final tracks = results.tracks?.items;
         expect(tracks, allOf(isNotNull, isNotEmpty));
         final firstTrack = tracks![0];
-        expect(firstTrack.name, 'Wodka E');
-        expect(firstTrack.id, '0wREoBwSaZSHWopt8rNq9S');
-        expect(firstTrack.album?.name, 'Wodka E');
+        expect(firstTrack.name, 'Kai hat frei');
+        expect(firstTrack.id, '6STex7m06JWdXoxK5EjTjS');
+        expect(firstTrack.album?.name, 'Fliesentisch Romantik 2');
         expect(firstTrack.artists, hasLength(1));
-        expect(firstTrack.artists[0].name, 'Balek');
+        expect(firstTrack.artists[0].name, 'FiNCH');
       });
     });
 
