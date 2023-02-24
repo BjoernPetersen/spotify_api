@@ -19,21 +19,3 @@ class TokenResponse {
 
   factory TokenResponse.fromJson(Json json) => _$TokenResponseFromJson(json);
 }
-
-@Deprecated('Use UserAuthorizationCallbackBody')
-@immutable
-@JsonSerializable(createToJson: false)
-class AuthorizationCodeResponse {
-  final String state;
-  final String? code;
-  final String? error;
-
-  AuthorizationCodeResponse({
-    required this.state,
-    required this.code,
-    required this.error,
-  });
-
-  factory AuthorizationCodeResponse.fromJson(Json json) =>
-      _$AuthorizationCodeResponseFromJson(json);
-}

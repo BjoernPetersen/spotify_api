@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - Now compatible with the Web platform
+- Previously deprecated `AuthorizationCodeResponse` removed
 
 ## 0.2.0-alpha
 
