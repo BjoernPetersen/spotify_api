@@ -20,6 +20,7 @@ class TokenResponse {
   factory TokenResponse.fromJson(Json json) => _$TokenResponseFromJson(json);
 }
 
+@Deprecated('Use UserAuthorizationCallbackBody')
 @immutable
 @JsonSerializable(createToJson: false)
 class AuthorizationCodeResponse {

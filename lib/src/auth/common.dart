@@ -1,3 +1,5 @@
+final baseAuthUrl = Uri.https('accounts.spotify.com');
+
 class Token {
   final String value;
   final DateTime expiration;

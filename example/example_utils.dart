@@ -21,14 +21,14 @@ ClientCredentials loadCreds() {
   return ClientCredentials(clientId: clientId, clientSecret: clientSecret);
 }
 
-StateStorage getStorage() {
-  const fs = LocalFileSystem();
-  return FileStateStorage(fs.file('state.json'));
+RefreshTokenStorage fileRefreshTokenStorage() {
+  return FileRefreshTokenStorage(LocalFileSystem().file('refresh.txt'));
 }
 
-AuthenticationFlow refreshOnlyFlow(ClientCredentials creds) {
-  return RefreshOnlyAuthorizationCodeFlow(
+AccessTokenRefresher accessTokenRefresher(ClientCredentials creds) {
+  return AuthorizationCodeRefresher(
     clientId: creds.clientId,
     clientSecret: creds.clientSecret,
+    refreshTokenStorage: fileRefreshTokenStorage(),
   );
 }

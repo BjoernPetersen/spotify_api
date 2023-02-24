@@ -20,9 +20,9 @@ collected in groups, e.g. `tracks` or `albums`.
 ```dart
 import 'package:spotify_api/spotify_api.dart';
 
-Future<void> example(AuthenticationFlow authFlow) async {
+Future<void> example(AccessTokenRefresher refresher) async {
     final api = SpotifyWebApi(
-        authFlow: authFlow,
+        refresher: refresher,
     );
 
     // Search for tracks, albums, etc.
@@ -36,7 +36,7 @@ Future<void> example(AuthenticationFlow authFlow) async {
 }
 ```
 
-The `AuthenticationFlow` is expected as a given in this example. See [Authentication](#authentication) for more
+The `AccessTokenRefresher` is expected as a given in this example. See [Authentication](#authentication) for more
 information.
 
 ### Pagination
@@ -91,22 +91,28 @@ OAuth flow you want to use.
 
 ### Persistent State
 
-It's strongly recommended to pass a `StateStorage` implementation to the API during initialization to persist
-authentication state, like your current refresh token. It's a simple, flat key-value storage, so there's lots of
-adequate implementation possibilities.
+The Authorization Code OAuth flows yield you a long-lived refresh token. That token should be persisted if you want to
+be able to obtain new access tokens without user interaction. For that purpose, there's a simple
+`RefreshTokenStorage` interface that you'll need to implement.
 
-If no `StateStorage` is used, the authentication state is only stored in-memory.
+There are two implementations available in the library, but it's strongly recommended to choose a more sophisticated
+implementation:
+
+- An in-memory implementation (`MemoryRefreshTokenStorage`)
+- A very simple text file implementation (`FileRefreshTokenStorage`)
+  - This one will write the refresh token to a configurable file on the local disk
+  - Make sure the file location is at least somewhat secure!
 
 ### Client credentials flow
 
 This is the simplest full OAuth flow, as it only requires you client ID and your client secret and works without user
-interaction. It's not possible to access any user data using this flow, though.
+interaction. It's not possible to access any user data using this flow.
 
 Example:
 
 ```dart
 final api = SpotifyWebApi(
-    authFlow: ClientCredentialsFlow(
+    refresher: ClientCredentialsRefresher(
         clientId: 'myclientid',
         clientSecret: 'supersecret',
     ),
@@ -115,9 +121,4 @@ final api = SpotifyWebApi(
 
 ### Authorization code flow
 
-The `AuthorizationCodeFlow` provides a framework to reduce some of this flow's complexity. You'll still need provide:
-
-- An implementation of `UserAuthorizationPrompt`
-    - Prompt the user to visit the Spotify OAuth authorization page
-- An implementation of `AuthorizationCodeReceiver`
-    - Receive the authorization code once the user confirmed your app's access
+TODO: describe

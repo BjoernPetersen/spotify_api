@@ -8,7 +8,7 @@ import 'package:spotify_api/src/requests.dart' as requests;
 
 import '../example/example_utils.dart';
 
-class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
+class AdHocServerAuthReceiver {
   final int port;
   final String path;
 
@@ -17,45 +17,43 @@ class AdHocServerAuthReceiver implements AuthorizationCodeReceiver {
     required this.path,
   });
 
-  @override
-  Future<Future<AuthorizationCodeResponse?>> receiveCode(
-    String state,
-    Duration timeout,
-  ) async {
-    final result = Completer<AuthorizationCodeResponse?>();
+  Stream<UserAuthorizationCallbackBody> listen(Future<void> cancel) async* {
+    final controller = StreamController<UserAuthorizationCallbackBody>();
+    HttpServer? server;
+    cancel.whenComplete(() async {
+      final saveServer = server;
+      if (saveServer != null) {
+        await saveServer.close(force: true);
+      }
+      await controller.close();
+    });
 
     Future<Response> handleRequest(Request request) async {
       if (request.url.path != path.substring(1)) {
         return Response.notFound('Not found');
       }
 
-      final AuthorizationCodeResponse parsed;
+      final UserAuthorizationCallbackBody parsed;
       try {
-        parsed = AuthorizationCodeResponse.fromJson(
+        parsed = UserAuthorizationCallbackBody.fromJson(
           request.url.queryParameters,
         );
       } on Exception {
         return Response.badRequest();
       }
 
-      if (parsed.state != state) {
-        return Response.forbidden('Invalid state');
-      }
-
-      result.complete(parsed);
+      controller.add(parsed);
 
       return Response.ok('You can close this window now.');
     }
 
-    final pipeline = Pipeline().addHandler(handleRequest);
-    final server = await shelf_io.serve(
-      pipeline,
+    server = await shelf_io.serve(
+      handleRequest,
       InternetAddress.loopbackIPv4,
       port,
     );
-    result.future.timeout(timeout);
-    result.future.whenComplete(() => server.close());
-    return result.future;
+
+    yield* controller.stream;
   }
 }
 
@@ -67,26 +65,50 @@ Future<void> main() async {
   // TODO: accept args for URI
   final creds = loadCreds();
 
-  final authFlow = AuthorizationCodeFlow(
+  const timeout = Duration(minutes: 5);
+
+  final auth = AuthorizationCodeUserAuthorization(
     clientId: creds.clientId,
     clientSecret: creds.clientSecret,
     redirectUri: Uri.parse('http://localhost:8082/authcallback'),
-    userAuthorizationPrompt: promptUser,
-    authorizationCodeReceiver: AdHocServerAuthReceiver(
-      port: 8082,
-      path: '/authcallback',
-    ),
-    scopes: Scope.values,
+    stateManager: TtlRandomStateManager(ttl: timeout),
   );
 
-  final storage = getStorage();
+  final authUrl = await auth.generateAuthorizationUrl(scopes: Scope.values);
+  promptUser(authUrl);
+
+  final receiver = AdHocServerAuthReceiver(port: 8082, path: '/authcallback');
+  final cancel = Completer<void>();
+  final callbacks = receiver.listen(
+    cancel.future.timeout(timeout),
+  );
+
   final client = requests.RequestsClient();
+  String? refreshToken;
   try {
-    final state = await authFlow.retrieveToken(client, null);
-    await state.store(storage);
+    await for (final callback in callbacks) {
+      try {
+        refreshToken = await auth.handleCallback(
+          callback: callback,
+          client: client,
+        );
+        break;
+      } on UserAuthorizationException catch (e) {
+        print('Could not process callback: $e');
+      } on StateMismatchException {
+        print('Ignoring callback with mismatched state');
+      }
+    }
   } finally {
+    cancel.complete();
     client.close();
   }
 
-  print('The app is now authorized');
+  if (refreshToken == null) {
+    print('No refresh token obtained');
+  } else {
+    final storage = fileRefreshTokenStorage();
+    await storage.store(refreshToken);
+    print('The app is now authorized');
+  }
 }

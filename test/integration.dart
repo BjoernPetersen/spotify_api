@@ -1,68 +1,52 @@
 import 'package:dotenv/dotenv.dart';
+import 'package:meta/meta.dart';
 import 'package:spotify_api/spotify_api.dart';
 
-class _MemoryStateStorage extends StateStorage {
-  final Map<String, String> _values = {};
+@immutable
+class ClientCredentials {
+  final String clientId;
+  final String clientSecret;
 
-  _MemoryStateStorage([Map<String, String>? initialValues]) {
-    if (initialValues != null) {
-      _values.addAll(initialValues);
-    }
+  ClientCredentials({
+    required this.clientId,
+    required this.clientSecret,
+  });
+}
+
+DotEnv _loadEnv() {
+  return DotEnv(includePlatformEnvironment: true)..load(['.env', '.env.test']);
+}
+
+ClientCredentials loadCredentials([DotEnv? env]) {
+  env ??= _loadEnv();
+  final clientId = env['CLIENT_ID'];
+  final clientSecret = env['CLIENT_SECRET'];
+
+  if (clientId == null || clientSecret == null) {
+    throw StateError('Client ID or secret missing');
   }
 
-  static void _checkKey(String key) {
-    final trimmed = key.trim();
-    if (trimmed.length != key.length) {
-      throw ArgumentError.value(
-        key,
-        'key',
-        'key may not contain trailing or leading whitespace',
-      );
-    }
-
-    if (trimmed.isEmpty) {
-      throw ArgumentError.value(key, 'key', 'key may not be blank');
-    }
-  }
-
-  @override
-  Future<String?> load(String key) async {
-    _checkKey(key);
-    return _values[key];
-  }
-
-  @override
-  Future<void> store({
-    required String key,
-    required String? value,
-  }) async {
-    _checkKey(key);
-    if (value == null) {
-      _values.remove(key);
-    } else {
-      _values[key] = value;
-    }
-  }
+  return ClientCredentials(
+    clientId: clientId,
+    clientSecret: clientSecret,
+  );
 }
 
 Future<SpotifyWebApi> loadApi() async {
-  final env = DotEnv(includePlatformEnvironment: true)
-    ..load(['.env', '.env.test']);
-
-  final clientId = env['CLIENT_ID'];
-  final clientSecret = env['CLIENT_SECRET'];
+  final env = _loadEnv();
+  final creds = loadCredentials(env);
   final refreshToken = env['REFRESH_TOKEN'];
 
-  if (clientId == null || clientSecret == null || refreshToken == null) {
-    throw StateError('Not all required variables set');
+  if (refreshToken == null) {
+    throw StateError('Missing REFRESH_TOKEN');
   }
 
-  final state = _MemoryStateStorage({'refresh': refreshToken});
+  final storage = MemoryRefreshTokenStorage(refreshToken);
   return SpotifyWebApi(
-    authFlow: RefreshOnlyAuthorizationCodeFlow(
-      clientId: clientId,
-      clientSecret: clientSecret,
+    refresher: AuthorizationCodeRefresher(
+      clientId: creds.clientId,
+      clientSecret: creds.clientSecret,
+      refreshTokenStorage: storage,
     ),
-    stateStorage: state,
   );
 }
