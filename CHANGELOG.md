@@ -1,5 +1,7 @@
 # Changelog
 
+## [Unreleased]
+
 ## 0.2.1-alpha
 
 - Now compatible with the Web platform
