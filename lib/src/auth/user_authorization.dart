@@ -1,7 +1,6 @@
 import 'package:spotify_api/src/api_models/auth/request.dart';
 import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/auth/scopes.dart';
-import 'package:spotify_api/src/requests.dart';
 
 class UserAuthorizationException extends SpotifyApiException {
   UserAuthorizationException([super.message]);
