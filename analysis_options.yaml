@@ -7,8 +7,15 @@ analyzer:
 
 linter:
   rules:
+    always_declare_return_types: true
     always_use_package_imports: true
+    avoid_positional_boolean_parameters: true
+    avoid_relative_lib_imports: true
+    avoid_slow_async_io: true
+    avoid_void_async: true
+    do_not_use_environment: true
     library_private_types_in_public_api: true
+    only_throw_errors: true
     prefer_single_quotes: true
     sort_pub_dependencies: true
     type_annotate_public_apis: true

@@ -20,13 +20,13 @@ class FileRefreshTokenStorage implements RefreshTokenStorage {
     if (!await _file.exists()) {
       throw RefreshException('Refresh token storage file does not exist');
     }
-    final content = await _file.readAsString();
+    final content = _file.readAsStringSync();
     return content.trim();
   }
 
   @override
   Future<void> store(String refreshToken) async {
-    await _file.writeAsString(
+    _file.writeAsStringSync(
       refreshToken,
       mode: FileMode.writeOnly,
       flush: true,
