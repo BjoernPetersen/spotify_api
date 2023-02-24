@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Now compatible with the Web platform
+
 ## 0.2.0-alpha
 
 ### Breaking Changes

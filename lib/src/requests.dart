@@ -1,9 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:spotify_api/src/api_models/model.dart';
+
+enum ContentType {
+  json('application/json'),
+  ;
+
+  final String value;
+
+  const ContentType(this.value);
+}
 
 @immutable
 class Header {
@@ -23,7 +31,7 @@ class Header {
     final bytes = encoding.encode('$username:$password');
     final encoded = base64.encode(bytes);
     return Header(
-      name: HttpHeaders.authorizationHeader,
+      name: 'Authorization',
       value: 'Basic $encoded',
     );
   }
@@ -31,14 +39,14 @@ class Header {
   Header.bearerAuth(
     String token,
   ) : this(
-          name: HttpHeaders.authorizationHeader,
+          name: 'Authorization',
           value: 'Bearer $token',
         );
 
   Header.contentType(
     ContentType type,
   ) : this(
-          name: HttpHeaders.contentTypeHeader,
+          name: 'Content-Type',
           value: type.value,
         );
 }
