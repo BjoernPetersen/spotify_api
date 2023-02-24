@@ -1,9 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## 0.2.1-alpha
 
 - Now compatible with the Web platform
 - Previously deprecated `AuthorizationCodeResponse` removed
+- Fixed signature of `UserAuthorizationFlow` to not require a RequestsClient instance
 
 ## 0.2.0-alpha
 
