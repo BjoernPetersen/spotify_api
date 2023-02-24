@@ -52,6 +52,5 @@ abstract class UserAuthorizationFlow {
   Future<String> handleCallback({
     String? userContext,
     required UserAuthorizationCallbackBody callback,
-    required RequestsClient client,
   });
 }

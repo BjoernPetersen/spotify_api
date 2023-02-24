@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:spotify_api/spotify_api.dart';
-import 'package:spotify_api/src/requests.dart' as requests;
 
 import '../example/example_utils.dart';
 
@@ -83,14 +82,12 @@ Future<void> main() async {
     cancel.future.timeout(timeout),
   );
 
-  final client = requests.RequestsClient();
   String? refreshToken;
   try {
     await for (final callback in callbacks) {
       try {
         refreshToken = await auth.handleCallback(
           callback: callback,
-          client: client,
         );
         break;
       } on UserAuthorizationException catch (e) {
@@ -101,7 +98,6 @@ Future<void> main() async {
     }
   } finally {
     cancel.complete();
-    client.close();
   }
 
   if (refreshToken == null) {

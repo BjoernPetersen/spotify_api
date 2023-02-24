@@ -129,7 +129,6 @@ class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
   Future<String> handleCallback({
     String? userContext,
     required UserAuthorizationCallbackBody callback,
-    required RequestsClient client,
   }) async {
     if (!await stateManager.validateState(
       state: callback.state,
@@ -150,9 +149,14 @@ class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
       );
     }
 
-    return await _obtainRefreshToken(
-      client: client,
-      authorizationCode: code,
-    );
+    final client = RequestsClient();
+    try {
+      return await _obtainRefreshToken(
+        client: client,
+        authorizationCode: code,
+      );
+    } finally {
+      client.close();
+    }
   }
 }
