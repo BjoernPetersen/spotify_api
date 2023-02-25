@@ -32,11 +32,9 @@ class ClientCredentialsRefresher extends AccessTokenRefresher {
     }
 
     final accessToken = response.body.decodeJson(TokenResponse.fromJson);
-    final token = Token(
+    return TokenInfo(
       value: accessToken.accessToken,
       expiration: now.add(Duration(seconds: accessToken.expiresIn)),
     );
-
-    return TokenInfo(token);
   }
 }

@@ -10,8 +10,8 @@ import 'package:spotify_api/src/api_models/error/response.dart';
 import 'package:spotify_api/src/api_models/page.dart';
 import 'package:spotify_api/src/api_models/search/request.dart';
 import 'package:spotify_api/src/api_models/search/response.dart';
-import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/auth/access_token_refresher.dart';
+import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/requests.dart';
 
 class CoreApi implements SpotifyWebApi {
@@ -30,12 +30,19 @@ class CoreApi implements SpotifyWebApi {
     return Uri.parse('$baseUrl$path');
   }
 
-  Future<String> getAccessToken() async {
+  @override
+  Future<String> get rawAccessToken {
+    return _getAccessToken(minLifetime: const Duration(minutes: 10));
+  }
+
+  Future<String> get accessToken {
+    return _getAccessToken(minLifetime: const Duration(minutes: 1));
+  }
+
+  Future<String> _getAccessToken({required Duration minLifetime}) async {
     var authState = _authState;
 
-    if (authState == null) {
-      authState = await _accessTokenRefresher.retrieveToken(client);
-    } else if (authState.isExpired) {
+    if (authState == null || authState.expiresWithin(minLifetime)) {
       authState = await _accessTokenRefresher.retrieveToken(client);
     }
 
@@ -45,7 +52,7 @@ class CoreApi implements SpotifyWebApi {
   }
 
   Future<List<Header>> get headers async {
-    final token = await getAccessToken();
+    final token = await accessToken;
     return [Header.bearerAuth(token)];
   }
 

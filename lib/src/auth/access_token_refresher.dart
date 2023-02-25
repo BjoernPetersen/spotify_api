@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:spotify_api/src/auth/common.dart';
 import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/requests.dart';
 
@@ -13,23 +12,28 @@ class RefreshException extends SpotifyApiException {
 
 abstract class RefreshTokenStorage {
   Future<void> store(String refreshToken);
+
   Future<String> load();
 }
 
 @immutable
 class TokenInfo {
-  final Token _accessToken;
+  final String _value;
+  final DateTime expiration;
 
-  TokenInfo(this._accessToken);
+  TokenInfo({required String value, required this.expiration}) : _value = value;
+
+  bool get isExpired => expiration.isBefore(DateTime.now());
+
+  bool expiresWithin(Duration duration) =>
+      expiration.isBefore(DateTime.now().add(duration));
 
   String get accessToken {
     if (isExpired) {
       throw ExpiredTokenException();
     }
-    return _accessToken.value;
+    return _value;
   }
-
-  bool get isExpired => _accessToken.isExpired;
 }
 
 @immutable

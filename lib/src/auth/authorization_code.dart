@@ -49,7 +49,7 @@ class AuthorizationCodeRefresher extends AccessTokenRefresher {
     }
 
     final token = response.body.decodeJson(TokenResponse.fromJson);
-    final accessToken = Token(
+    final accessToken = TokenInfo(
       value: token.accessToken,
       expiration: now.add(Duration(seconds: token.expiresIn)),
     );
@@ -59,7 +59,7 @@ class AuthorizationCodeRefresher extends AccessTokenRefresher {
       await _refreshTokenStorage.store(newRefreshToken);
     }
 
-    return TokenInfo(accessToken);
+    return accessToken;
   }
 }
 

@@ -9,6 +9,9 @@ abstract class SpotifyWebApi {
     required AccessTokenRefresher refresher,
   }) = CoreApi;
 
+  /// Returns a Spotify access token that is valid for at least 10 minutes.
+  Future<String> get rawAccessToken;
+
   Future<SearchResponse> search({
     required String query,
     required List<SearchType> types,

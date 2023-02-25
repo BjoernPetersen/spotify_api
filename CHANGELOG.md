@@ -1,6 +1,9 @@
 # Changelog
 
-## [Unreleased]
+## 0.3.1-alpha
+
+- Add `rawAccessToken` getter
+- Export RequestsClient in `extension.dart` module
 
 ## 0.3.0-alpha
 
