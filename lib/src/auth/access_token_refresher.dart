@@ -38,11 +38,5 @@ class TokenInfo {
 
 @immutable
 abstract class AccessTokenRefresher {
-  final String clientId;
-
-  AccessTokenRefresher({
-    required this.clientId,
-  });
-
   Future<TokenInfo> retrieveToken(RequestsClient client);
 }

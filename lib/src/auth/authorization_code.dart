@@ -11,14 +11,16 @@ import 'package:spotify_api/src/requests.dart';
 
 @immutable
 class AuthorizationCodeRefresher extends AccessTokenRefresher {
+  final String _clientId;
   final String _clientSecret;
   final RefreshTokenStorage _refreshTokenStorage;
 
   AuthorizationCodeRefresher({
-    required super.clientId,
+    required String clientId,
     required String clientSecret,
     required RefreshTokenStorage refreshTokenStorage,
-  })  : _clientSecret = clientSecret,
+  })  : _clientId = clientId,
+        _clientSecret = clientSecret,
         _refreshTokenStorage = refreshTokenStorage;
 
   @override
@@ -36,7 +38,10 @@ class AuthorizationCodeRefresher extends AccessTokenRefresher {
     final response = await client.post(
       url,
       headers: [
-        Header.basicAuth(username: clientId, password: _clientSecret),
+        Header.basicAuth(
+          username: _clientId,
+          password: _clientSecret,
+        ),
       ],
       body: RequestBody.formData({
         'grant_type': 'refresh_token',

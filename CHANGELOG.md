@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Breaking Changes
+
+- Remove `clientId` field from abstract `AccessTokenRefresher`
+
 ## 0.3.1-alpha
 
 - Add `rawAccessToken` getter

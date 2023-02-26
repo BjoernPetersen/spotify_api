@@ -6,12 +6,14 @@ import 'package:spotify_api/src/requests.dart';
 
 @immutable
 class ClientCredentialsRefresher extends AccessTokenRefresher {
+  final String _clientId;
   final String _clientSecret;
 
   ClientCredentialsRefresher({
-    required super.clientId,
+    required String clientId,
     required String clientSecret,
-  }) : _clientSecret = clientSecret;
+  })  : _clientId = clientId,
+        _clientSecret = clientSecret;
 
   @override
   Future<TokenInfo> retrieveToken(RequestsClient client) async {
@@ -23,7 +25,10 @@ class ClientCredentialsRefresher extends AccessTokenRefresher {
         'grant_type': 'client_credentials',
       }),
       headers: [
-        Header.basicAuth(username: clientId, password: _clientSecret),
+        Header.basicAuth(
+          username: _clientId,
+          password: _clientSecret,
+        ),
       ],
     );
 
