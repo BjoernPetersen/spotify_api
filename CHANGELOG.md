@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] 0.4.0-alpha
+## 0.4.0-alpha
 
 - Improve error handling
   - RateLimitingException now contains the duration after which a retry should be done
