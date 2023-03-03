@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [Unreleased] 0.4.0-alpha
+
+- Improve error handling
+  - RateLimitingException now contains the duration after which a retry should be done
+  - Not attempt is made to decode rate limiting error responses (they're not JSON)
 
 ### Breaking Changes
 

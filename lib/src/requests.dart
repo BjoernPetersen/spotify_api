@@ -61,6 +61,8 @@ class Response {
 
   bool get isSuccessful => statusCode >= 200 && statusCode < 300;
 
+  String? header(String headerName) => _response.headers[headerName];
+
   ResponseBody get body => ResponseBody(_response.bodyBytes);
 }
 

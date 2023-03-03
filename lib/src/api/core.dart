@@ -58,15 +58,25 @@ class CoreApi implements SpotifyWebApi {
 
   void checkErrors(Response response) {
     if (!response.isSuccessful) {
-      final body = response.body.decodeJson(ErrorResponse.fromJson);
       switch (response.statusCode) {
         case 401:
           throw AuthenticationException();
         case 403:
           throw AuthorizationException();
         case 429:
-          throw RateLimitException();
+          final retryAfterSeconds = response.header('Retry-After');
+
+          if (retryAfterSeconds == null) {
+            throw RateLimitException(null);
+          }
+
+          throw RateLimitException(
+            DateTime.now()
+                .toUtc()
+                .add(Duration(seconds: int.parse(retryAfterSeconds))),
+          );
         default:
+          final body = response.body.decodeJson(ErrorResponse.fromJson);
           throw SpotifyApiException(body.error.message);
       }
     }

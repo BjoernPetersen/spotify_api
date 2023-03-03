@@ -18,4 +18,8 @@ class AuthenticationException extends SpotifyApiException {}
 
 class AuthorizationException extends SpotifyApiException {}
 
-class RateLimitException extends SpotifyApiException {}
+class RateLimitException extends SpotifyApiException {
+  final DateTime? retryAfter;
+
+  RateLimitException(this.retryAfter);
+}
