@@ -1,16 +1,23 @@
 class SpotifyApiException implements Exception {
   final String? message;
+  final int? statusCode;
 
-  SpotifyApiException([this.message]);
+  SpotifyApiException([this.message, this.statusCode]);
 
   @override
   String toString() {
     final message = this.message;
-    if (message == null) {
-      return runtimeType.toString();
-    }
+    final statusCode = this.statusCode;
 
-    return '$runtimeType: $message';
+    if (message == null && statusCode == null) {
+      return runtimeType.toString();
+    } else if (message == null && statusCode == null) {
+      return '$runtimeType ($statusCode)';
+    } else if (message != null && statusCode == null) {
+      return '$runtimeType: $message';
+    } else {
+      return '$runtimeType ($statusCode): $message';
+    }
   }
 }
 

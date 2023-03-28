@@ -77,7 +77,7 @@ class CoreApi implements SpotifyWebApi {
           );
         default:
           final body = response.body.decodeJson(ErrorResponse.fromJson);
-          throw SpotifyApiException(body.error.message);
+          throw SpotifyApiException(body.error.message, response.statusCode);
       }
     }
   }

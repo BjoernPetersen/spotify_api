@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+
+- Generic `SpotifyApiException` may contain statusCode now
+
 ## 0.4.0-alpha
 
 - Improve error handling
