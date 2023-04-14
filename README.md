@@ -95,8 +95,8 @@ The Authorization Code OAuth flows yield you a long-lived refresh token. That to
 be able to obtain new access tokens without user interaction. For that purpose, there's a simple
 `RefreshTokenStorage` interface that you'll need to implement.
 
-There is a `MemoryRefreshTokenStorage` implementation available, but that will essentially not persist updated refresh
-tokens, essentially discarding all refresh token updates.
+There is a `MemoryRefreshTokenStorage` implementation available, but that will not persist updated refresh
+tokens beyond the object's lifetime, essentially discarding all refresh token updates.
 
 ### Client credentials flow
 
