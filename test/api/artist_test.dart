@@ -72,18 +72,29 @@ void main() {
           throwsArgumentError,
         );
       });
+
+      test('too many IDs', () {
+        final ids = List.generate(51, (_) => 'invalid-id');
+        expect(
+          api.artists.getArtists(ids),
+          throwsArgumentError,
+        );
+      });
+
       test('invalid ID', () {
         expect(
           api.artists.getArtists(['6K5OMRw5vqUna1tvbbCG']),
           completion(isEmpty),
         );
       });
+
       test('unknown ID', () {
         expect(
           api.artists.getArtists(['6uFK5OMRw5vqUna1tvbbCG']),
           completion(isEmpty),
         );
       });
+
       test('example artists', () async {
         await expectLater(
             api.artists.getArtists(artists.map((it) => it.id).toList()),
