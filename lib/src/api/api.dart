@@ -50,6 +50,11 @@ abstract class SpotifyAlbumApi {
 @immutable
 abstract class SpotifyArtistApi {
   Future<Artist?> getArtist(String artistId);
+
+  Future<List<Track>> getTopTracks({
+    required String artistId,
+    required String market,
+  });
 }
 
 @immutable
