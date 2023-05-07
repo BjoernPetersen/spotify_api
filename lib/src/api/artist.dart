@@ -25,6 +25,37 @@ class SpotifyArtistApiImpl implements SpotifyArtistApi {
   }
 
   @override
+  Future<List<Artist>> getArtists(List<String> artistIds) async {
+    final url = core.resolveUri('/artists');
+
+    if (artistIds.isEmpty) {
+      throw ArgumentError.value(artistIds, 'artistIds', 'must not be empty');
+    } else if (artistIds.length > 50) {
+      throw ArgumentError.value(
+        artistIds.length,
+        'artistIds',
+        'must be 50 at most',
+      );
+    }
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+      params: {
+        'ids': artistIds.join(','),
+      },
+    );
+
+    core.checkErrors(response);
+
+    return response.body
+        .decodeJson(Artists.fromJson)
+        .artists
+        .whereType<Artist>()
+        .toList(growable: false);
+  }
+
+  @override
   Future<List<Track>> getTopTracks({
     required String artistId,
     required String market,
