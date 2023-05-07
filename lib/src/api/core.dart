@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:spotify_api/src/api/album.dart';
 import 'package:spotify_api/src/api/api.dart';
+import 'package:spotify_api/src/api/artist.dart';
 import 'package:spotify_api/src/api/paginator.dart';
 import 'package:spotify_api/src/api/playlist.dart';
 import 'package:spotify_api/src/api/track.dart';
@@ -106,6 +107,9 @@ class CoreApi implements SpotifyWebApi {
 
   @override
   SpotifyAlbumApi get albums => SpotifyAlbumApiImpl(this);
+
+  @override
+  SpotifyArtistApi get artists => SpotifyArtistApiImpl(this);
 
   @override
   SpotifyPlaylistApi get playlists => SpotifyPlaylistApiImpl(this);

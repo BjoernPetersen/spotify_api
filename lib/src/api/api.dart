@@ -19,6 +19,8 @@ abstract class SpotifyWebApi {
 
   SpotifyAlbumApi get albums;
 
+  SpotifyArtistApi get artists;
+
   SpotifyPlaylistApi get playlists;
 
   SpotifyTrackApi get tracks;
@@ -43,6 +45,11 @@ abstract class SpotifyAlbumApi {
     int? limit,
     int? offset,
   });
+}
+
+@immutable
+abstract class SpotifyArtistApi {
+  Future<Artist?> getArtist(String artistId);
 }
 
 @immutable
