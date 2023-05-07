@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Added artist lookup and artist's top tracks lookup
 - Generic `SpotifyApiException` may contain statusCode now
 
 ## 0.4.0-alpha
