@@ -1,5 +1,6 @@
 @Tags(['integration'])
 library;
+
 import 'package:test/test.dart';
 import 'package:spotify_api/spotify_api.dart';
 
