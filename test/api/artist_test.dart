@@ -47,7 +47,7 @@ void main() {
 
   group('Artists', () {
     group('getArtist', () {
-      test('unknown artist', () async {
+      test('unknown artist', () {
         expect(
           api.artists.getArtist('5fhEhSIUCUbg0upSko7faC'),
           completion(isNull),
@@ -62,6 +62,50 @@ void main() {
           expect(artist.id, spec.id);
           expect(artist.name, spec.name);
         });
+      }
+    });
+
+    group('getTopTracks', () {
+      test('unknown artist', () {
+        final id = '6uFK5OMRw5vqUna1tvbbCG';
+        expect(
+          api.artists.getTopTracks(artistId: id, market: 'de'),
+          throwsA(isA<NotFoundException>()),
+        );
+      });
+
+      test('invalid artist ID', () {
+        final id = '6K5OMRw5vqUna1tvbbCG';
+        expect(
+          api.artists.getTopTracks(artistId: id, market: 'de'),
+          throwsA(isA<NotFoundException>()),
+        );
+      });
+
+      test('unknown market', () {
+        final artist = artists[0];
+        expect(
+          api.artists.getTopTracks(artistId: artist.id, market: 'xx'),
+          throwsA(isA<NotFoundException>()),
+        );
+      });
+
+      for (final spec in artists) {
+        if (spec.popularSongIds.isNotEmpty) {
+          test(spec.name, () async {
+            final future = api.artists.getTopTracks(
+              artistId: spec.id,
+              market: 'de',
+            );
+            await expectLater(future, completion(isNotNull));
+            final tracks = await future;
+            expect(tracks, isNotEmpty);
+            final trackIds = tracks.map((e) => e.id).toList();
+            for (final track in spec.popularSongIds) {
+              expect(trackIds, containsOnce(track));
+            }
+          });
+        }
       }
     });
   });

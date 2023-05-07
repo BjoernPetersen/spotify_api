@@ -30,3 +30,18 @@ class RateLimitException extends SpotifyApiException {
 
   RateLimitException(this.retryAfter);
 }
+
+enum ResourceType {
+  artist,
+  market,
+}
+
+class NotFoundException extends SpotifyApiException {
+  final ResourceType type;
+  final String id;
+
+  NotFoundException({
+    required this.type,
+    required this.id,
+  }) : super('Could not find ${type.name} $id');
+}
