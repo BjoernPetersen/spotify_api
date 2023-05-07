@@ -51,6 +51,8 @@ abstract class SpotifyAlbumApi {
 abstract class SpotifyArtistApi {
   Future<Artist?> getArtist(String artistId);
 
+  Future<List<Artist>> getArtists(List<String> artistIds);
+
   Future<List<Track>> getTopTracks({
     required String artistId,
     required String market,

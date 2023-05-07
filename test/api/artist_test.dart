@@ -65,6 +65,32 @@ void main() {
       }
     });
 
+    group('getArtists', () {
+      test('empty list', () {
+        expect(
+          api.artists.getArtists([]),
+          throwsArgumentError,
+        );
+      });
+      test('invalid ID', () {
+        expect(
+          api.artists.getArtists(['6K5OMRw5vqUna1tvbbCG']),
+          completion(isEmpty),
+        );
+      });
+      test('unknown ID', () {
+        expect(
+          api.artists.getArtists(['6uFK5OMRw5vqUna1tvbbCG']),
+          completion(isEmpty),
+        );
+      });
+      test('example artists', () async {
+        await expectLater(
+            api.artists.getArtists(artists.map((it) => it.id).toList()),
+            completion(hasLength(2)));
+      });
+    });
+
     group('getTopTracks', () {
       test('unknown artist', () {
         final id = '6uFK5OMRw5vqUna1tvbbCG';

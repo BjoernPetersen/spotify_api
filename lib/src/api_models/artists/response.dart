@@ -26,3 +26,13 @@ class Artist {
 
   factory Artist.fromJson(Json json) => _$ArtistFromJson(json);
 }
+
+@immutable
+@JsonSerializable(createToJson: false)
+class Artists {
+  final List<Artist?> artists;
+
+  Artists(this.artists);
+
+  factory Artists.fromJson(Json json) => _$ArtistsFromJson(json);
+}
