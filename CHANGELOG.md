@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## 0.5.0-alpha
 
 - Added artist lookup and artist's top tracks lookup
 - Generic `SpotifyApiException` may contain statusCode now
