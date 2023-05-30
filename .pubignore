@@ -1,5 +1,5 @@
 !lib/**/*.g.dart
-example/
+!example/
 test/
 tool/
 analysis_options.yaml
