@@ -1,7 +1,7 @@
 name: spotify_api
 version: 0.5.1-alpha
 homepage: https://github.com/BjoernPetersen/spotify_api
-description: A wrapper for the Spotify Web API, implemented in pure Dart.
+description: A wrapper for the Spotify Web API, implemented in Dart.
 
 environment:
   sdk: ^3.0.0
