@@ -10,7 +10,7 @@ dependencies:
   convert: ^3.0.0
   http: ^1.0.0
   json_annotation: ^4.8.1
-  logger: ^1.0.0
+  logger: ^2.0.0
   meta: ^1.0.0
 
 dev_dependencies:
