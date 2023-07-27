@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - 'main'
-  pull_request:
+  pull_request: { }
 
 
 jobs:
@@ -20,13 +20,13 @@ jobs:
         run: dart run build_runner build
       - name: Run tests
         run: dart test --file-reporter json:test-results.json --coverage=.coverage
-#      - name: Upload test report
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          name: Unit Test Results
-#          path: test-results.json
-#          reporter: dart-json
+      #      - name: Upload test report
+      #        uses: dorny/test-reporter@v1
+      #        if: success() || failure()
+      #        with:
+      #          name: Unit Test Results
+      #          path: test-results.json
+      #          reporter: dart-json
       - name: Install coverage package
         run: dart pub global activate coverage
       - name: Convert to LCOV
@@ -54,13 +54,13 @@ jobs:
           CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
-#      - name: Upload test report
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          name: Integration Test Results
-#          path: test-results.json
-#          reporter: dart-json
+      #      - name: Upload test report
+      #        uses: dorny/test-reporter@v1
+      #        if: success() || failure()
+      #        with:
+      #          name: Integration Test Results
+      #          path: test-results.json
+      #          reporter: dart-json
       - name: Install coverage package
         run: dart pub global activate coverage
       - name: Convert to LCOV
