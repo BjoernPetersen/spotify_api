@@ -101,10 +101,10 @@ packages:
     dependency: transitive
     description:
       name: built_value
-      sha256: "598a2a682e2a7a90f08ba39c0aaa9374c5112340f0a2e275f61b59389543d166"
+      sha256: ff627b645b28fb8bdb69e645f910c2458fd6b65f6585c3a53e0626024897dedf
       url: "https://pub.dev"
     source: hosted
-    version: "8.6.1"
+    version: "8.6.2"
   checked_yaml:
     dependency: transitive
     description:
@@ -373,10 +373,10 @@ packages:
     dependency: "direct dev"
     description:
       name: sane_uuid
-      sha256: "615f6d25e6d7e0c59ea0fb5ce0cdf043ce110af15b19b3c35ca1441e5bb06972"
+      sha256: "5e83f796a7d19d38d3ba3a940642998fdd8c4a4049be135ed25404e37f76a18c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-alpha.4"
+    version: "1.0.0-alpha.5"
   shelf:
     dependency: "direct dev"
     description:
@@ -533,10 +533,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "0fae432c85c4ea880b33b497d32824b97795b04cdaa74d270219572a1f50268d"
+      sha256: c538be99af830f478718b51630ec1b6bee5e74e52c8a802d328d9e71d35d2583
       url: "https://pub.dev"
     source: hosted
-    version: "11.9.0"
+    version: "11.10.0"
   watcher:
     dependency: transitive
     description:
