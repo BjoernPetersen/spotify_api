@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: asdf-vm/actions/install@v2
       - name: Get dependencies
         run: dart pub get
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: asdf-vm/actions/install@v2
       - name: Get dependencies
         run: dart pub get
@@ -76,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: asdf-vm/actions/install@v2
       - name: Check lib formatting
         run: dart format lib --set-exit-if-changed
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: asdf-vm/actions/install@v2
       - name: Get dependencies
         run: dart pub get
