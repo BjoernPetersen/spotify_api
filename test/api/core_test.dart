@@ -64,14 +64,14 @@ void main() {
     group('playlists:', () {
       test('die dusch playlist', () async {
         final results = await api.search(
-          query: 'die dusch playlist',
+          query: 'this is finch',
           types: [SearchType.playlist],
         );
         final playlists = results.playlists?.items;
         expect(playlists, isNotEmpty);
         playlists!;
         final playlist = playlists[0];
-        expect(playlist.id, '4YArDKpHGrn7xNLQQsWUnh');
+        expect(playlist.id, '37i9dQZF1DZ06evO17S0Ea');
       });
     });
   });
