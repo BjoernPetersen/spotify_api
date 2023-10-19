@@ -161,17 +161,17 @@ mixin _PageLoader<T> {
 
 FromJson<T> _selectItemFromJson<T>() {
   switch (T) {
-    case Album:
+    case const (Album):
       return Album.fromJson as FromJson<T>;
-    case Artist:
+    case const (Artist):
       return Artist.fromJson as FromJson<T>;
-    case Playlist:
+    case const (Playlist):
       return ((json) => Playlist.fromJson(json)) as FromJson<T>;
-    case PlaylistTrack:
+    case const (PlaylistTrack):
       return PlaylistTrack.fromJson as FromJson<T>;
-    case SavedTrack:
+    case const (SavedTrack):
       return SavedTrack.fromJson as FromJson<T>;
-    case Track:
+    case const (Track):
       return Track.fromJson as FromJson<T>;
     default:
       throw UnimplementedError('No Paginator support for $T yet');
