@@ -141,10 +141,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: "595a29b55ce82d53398e1bcc2cba525d7bd7c59faeb2d2540e9d42c390cfeeeb"
+      sha256: "0cec992efb6feaa6141779723bf0119d5f511ebd658aa5225d9bac53cb7e609e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.4"
+    version: "1.7.0"
   crypto:
     dependency: transitive
     description:
@@ -165,10 +165,10 @@ packages:
     dependency: "direct dev"
     description:
       name: dotenv
-      sha256: e169b516bc7b88801919e1c508772bcb8e3d0d1776a43f74ab692c57e741cd8a
+      sha256: "379e64b6fc82d3df29461d349a1796ecd2c436c480d4653f3af6872eccbc90e1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.0"
   file:
     dependency: "direct dev"
     description:
