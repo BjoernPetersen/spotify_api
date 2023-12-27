@@ -79,12 +79,16 @@ void main() {
       });
     });
     group('getPlaylist', () {
-      test('unknown playlist', () async {
-        final playlist = await api.playlists.getPlaylist(
-          '2uERns35GPUssVlNaGs2wS',
-        );
-        expect(playlist, isNull);
-      });
+      test(
+        'unknown playlist',
+        () async {
+          final playlist = await api.playlists.getPlaylist(
+            '2uERns35GPUssVlNaGs2wS',
+          );
+          expect(playlist, isNull);
+        },
+        skip: 'Spotify responds with an internal server error for this one.',
+      );
 
       test('doof', () async {
         final playlist = await api.playlists.getPlaylist(doofId);
