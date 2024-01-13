@@ -12,6 +12,8 @@ jobs:
 
   check-commits:
     uses: BlindfoldedSurgery/actions-actions/.github/workflows/commitizen-check.yml@v2
+    with:
+      python-version: "3.11"
 
   test:
     name: Test
