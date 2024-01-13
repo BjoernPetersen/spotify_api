@@ -16,7 +16,7 @@ class Artist {
   ///
   /// The artist's popularity is calculated from the popularity of all the
   /// artist's tracks.
-  final int? popularity;
+  final double? popularity;
 
   Artist({
     required this.id,
