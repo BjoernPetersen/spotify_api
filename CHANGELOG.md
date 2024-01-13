@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 (2024-01-13)
+
+### BREAKING CHANGES
+
+- **artist**: Change type of popularity to double?
+- **deps**: Updated dependency logger to `^2.0.0`
+
 ## 0.5.1-alpha
 
 - Added artist lookup and artist's top tracks lookup

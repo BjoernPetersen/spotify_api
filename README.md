@@ -5,11 +5,14 @@
 
 A Spotify Web API wrapper written in Dart.
 
-## Alpha Notice
+## Stability
 
-This project is in an alpha stage. Most notably, not all endpoints are available yet, and some response fields are not
-modeled. If you are missing something in particular, feel free to
+This project is in an early stage. Most notably, not all endpoints are available yet, and some
+response fields are not modeled. If you are missing something in particular, feel free to
 [open a new issue on GitHub](https://github.com/BjoernPetersen/spotify_api/issues).
+
+This project follows semantic versioning, so minor and patch version updates will not contain
+breaking changes.
 
 ## Usage
 

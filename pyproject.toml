@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "spotify-api-commitizen"
 description = "Repository tooling for spotify_api"
-version = "0.5.1-alpha"
+version = "1.0.0"
 authors = ["Björn Petersen <git@bjoernpetersen.net>"]
 license = "MIT"
 
