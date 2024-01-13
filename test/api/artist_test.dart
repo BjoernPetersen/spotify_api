@@ -84,7 +84,11 @@ void main() {
       test('invalid ID', () {
         expect(
           api.artists.getArtists(['6K5OMRw5vqUna1tvbbCG']),
-          completion(isEmpty),
+          throwsA(
+            isA<SpotifyApiException>()
+                .having((e) => e.statusCode, 'statusCode', 400)
+                .having((e) => e.message, 'message', contains('Invalid')),
+          ),
         );
       });
 
