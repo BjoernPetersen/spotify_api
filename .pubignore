@@ -9,3 +9,6 @@ Makefile
 renovate.json
 state.json
 refresh.txt
+
+pyproject.toml
+poetry.lock
