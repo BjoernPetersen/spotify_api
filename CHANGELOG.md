@@ -1,9 +1,5 @@
 # Changelog
 
-## 0.6.0-alpha
-
-- Updated dependency logger to `^2.0.0`
-
 ## 0.5.1-alpha
 
 - Added artist lookup and artist's top tracks lookup

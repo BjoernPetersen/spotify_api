@@ -8,3 +8,7 @@ watch:
 
 .PHONY: integration-test
 	dart test -P integration -t integration
+
+.PHONY: pre-commit
+pre-commit:
+	poetry run pre-commit install --hook-type commit-msg

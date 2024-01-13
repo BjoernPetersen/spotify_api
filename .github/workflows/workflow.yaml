@@ -10,6 +10,9 @@ jobs:
   validate-renovate-config:
     uses: BlindfoldedSurgery/renovate-config/.github/workflows/validate.yml@main
 
+  check-commits:
+    uses: BlindfoldedSurgery/actions-actions/.github/workflows/commitizen-check.yml@v2
+
   test:
     name: Test
     runs-on: ubuntu-latest
