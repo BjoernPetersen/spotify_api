@@ -11,6 +11,7 @@ export 'package:spotify_api/src/api_models/playlists/response.dart';
 export 'package:spotify_api/src/api_models/playlists/visibility.dart';
 export 'package:spotify_api/src/api_models/search/request.dart';
 export 'package:spotify_api/src/api_models/search/response.dart';
+export 'package:spotify_api/src/api_models/tracks/request.dart';
 export 'package:spotify_api/src/api_models/tracks/response.dart';
 export 'package:spotify_api/src/api_models/users/response.dart';
 export 'package:spotify_api/src/exceptions.dart';

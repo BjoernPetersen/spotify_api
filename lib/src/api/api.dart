@@ -163,6 +163,19 @@ abstract class SpotifyTrackApi {
   Future<void> removeUsersSavedTracks(List<String> ids);
 
   Future<void> saveTracksForCurrentUser(List<String> ids);
+
+  Future<TrackRecommendations> getRecommendations({
+    required TrackRecommendationSeeds seeds,
+    String? market,
+
+    /// The target size of the list of recommended tracks.
+    /// For seeds with unusually small pools or when highly restrictive filtering is applied,
+    /// it may be impossible to generate the requested number of recommended tracks.
+    /// Default: 20. Minimum: 1. Maximum: 100.
+    int? limit,
+    TrackRecommendationConstraints constraints =
+        const TrackRecommendationConstraints(),
+  });
 }
 
 @immutable

@@ -3,6 +3,7 @@ import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
 import 'package:spotify_api/src/api_models/page.dart';
 import 'package:spotify_api/src/api_models/tracks/response.dart';
+import 'package:spotify_api/src/api_models/tracks/request.dart';
 
 @immutable
 class SpotifyTrackApiImpl implements SpotifyTrackApi {
@@ -149,5 +150,38 @@ class SpotifyTrackApiImpl implements SpotifyTrackApi {
     );
 
     core.checkErrors(response);
+  }
+
+  @override
+  Future<TrackRecommendations> getRecommendations({
+    required TrackRecommendationSeeds seeds,
+    String? market,
+    int? limit,
+    TrackRecommendationConstraints constraints =
+        const TrackRecommendationConstraints(),
+  }) async {
+    final url = core.resolveUri('/recommendations');
+
+    if (limit != null && (limit < 1 || limit > 100)) {
+      throw ArgumentError.value(
+        limit,
+        'limit',
+        'limit must be in range 1-100',
+      );
+    }
+
+    final response = await core.client.get(
+      url,
+      headers: await core.headers,
+      params: {
+        if (market != null) 'market': market,
+        ...seeds.toQueryParameters(),
+        ...constraints.toQueryParameters(),
+      },
+    );
+
+    core.checkErrors(response);
+
+    return response.body.decodeJson(TrackRecommendations.fromJson);
   }
 }
