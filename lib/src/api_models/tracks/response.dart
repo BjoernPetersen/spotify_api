@@ -114,3 +114,63 @@ class SavedTrack {
 
   factory SavedTrack.fromJson(Json json) => _$SavedTrackFromJson(json);
 }
+
+@JsonEnum(fieldRename: FieldRename.screamingSnake)
+enum SeedType {
+  artist,
+  genre,
+  track,
+}
+
+@immutable
+@JsonSerializable(createToJson: false)
+class RecommendationSeedObject {
+  /// The number of tracks available after min_* and max_* filters have been applied.
+  final int? afterFilteringSize;
+
+  /// The number of tracks available after relinking for regional availability.
+  final int? afterRelinkingSize;
+
+  /// A link to the full track or artist data for this seed.
+  /// For tracks this will be a link to a Track Object.
+  /// For artists a link to an Artist object.
+  /// For genre seeds, this value will be null.
+  final String? href;
+
+  /// The id used to select this seed. This will be the same as the string used in the seed_artists,
+  /// seed_tracks or seed_genres parameter.
+  final String id;
+
+  /// The number of recommended tracks available for this seed.
+  final int? initialPoolSize;
+
+  // The entity type of this seed.
+  final SeedType type;
+
+  RecommendationSeedObject({
+    required this.afterFilteringSize,
+    required this.afterRelinkingSize,
+    required this.href,
+    required this.id,
+    required this.initialPoolSize,
+    required this.type,
+  });
+
+  factory RecommendationSeedObject.fromJson(Json json) =>
+      _$RecommendationSeedObjectFromJson(json);
+}
+
+@immutable
+@JsonSerializable(createToJson: false)
+class TrackRecommendations {
+  final List<RecommendationSeedObject> seeds;
+  final List<Track> tracks;
+
+  TrackRecommendations({
+    required this.seeds,
+    required this.tracks,
+  });
+
+  factory TrackRecommendations.fromJson(Json json) =>
+      _$TrackRecommendationsFromJson(json);
+}

@@ -183,5 +183,38 @@ void main() {
         await expectLater(api.tracks.removeUsersSavedTracks(ids), completes);
       });
     });
+
+    group('getRecommendations', () {
+      for (final limit in [-1, 0, 101]) {
+        test('with invalid limit $limit', () {
+          expect(
+            api.tracks.getRecommendations(
+              seeds: TrackRecommendationSeeds(seedTracks: [tracks[0].id]),
+              limit: limit,
+            ),
+            throwsArgumentError,
+          );
+        });
+      }
+
+      group('happy path', () {
+        for (final market in [null, 'US']) {
+          test('with market "$market"', () async {
+            final recommendations = await api.tracks.getRecommendations(
+              seeds: TrackRecommendationSeeds(seedTracks: [tracks[0].id]),
+              market: market,
+            );
+
+            expect(recommendations.seeds, isNotEmpty);
+            expect(
+              recommendations.seeds.first,
+              isA<RecommendationSeedObject>()
+                  .having((o) => o.type, 'type', SeedType.track),
+            );
+            expect(recommendations.tracks, isNotEmpty);
+          });
+        }
+      });
+    });
   });
 }

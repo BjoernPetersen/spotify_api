@@ -12,6 +12,19 @@ enum AlbumType {
   album,
   single,
   compilation,
+  ;
+
+  factory AlbumType.fromJson(String albumType) {
+    // In a fascinating twist, Spotify returns enum values in SCREAMING_SNAKE_CASE for the track
+    // recommendation endpoint, but in lower case (as documented) otherwise.
+    final result = values
+        .where((element) => element.name == albumType.toLowerCase())
+        .firstOrNull;
+    if (result == null) {
+      throw ArgumentError.value(albumType, 'albumType');
+    }
+    return result;
+  }
 }
 
 enum DatePrecision {
@@ -52,7 +65,7 @@ class Album {
   final Page<Track>? tracks;
 
   /// The type of the album.
-  @JsonKey(name: 'album_type')
+  @JsonKey(name: 'album_type', fromJson: AlbumType.fromJson)
   final AlbumType type;
 
   /// The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)
