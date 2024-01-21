@@ -104,7 +104,7 @@ class ResponseBody {
 
   List<T> decodeJsonPrimitiveList<T>() {
     final decoded = _decode() as List;
-    return decoded.map((e) => e as T).toList(growable: false);
+    return decoded.cast();
   }
 
   List<T> decodeJsonList<T>(FromJson<T> itemFromJson) {
