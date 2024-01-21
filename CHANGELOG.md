@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 (2024-01-21)
+
+### Fix
+
+- Revert erroneous dependency bumps.
+
 ## 1.1.0 (2024-01-21)
 
 ### Feat
