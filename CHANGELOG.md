@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 (2024-01-21)
+
+### Feat
+
+- Implement available genre seeds endpoint
+- **#32**: Implement track recommendation endpoint
+
+### Fix
+
+- Introduce SimplifiedTrack for Track.linkedFrom
+
+### Perf
+
+- Optimize literal list JSON deserialization
+
 ## 1.0.0 (2024-01-13)
 
 ### BREAKING CHANGES
