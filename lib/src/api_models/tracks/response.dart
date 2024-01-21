@@ -8,7 +8,30 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Track {
+final class SimplifiedTrack {
+  /// A link to the Web API endpoint providing full details of the track.
+  final String? href;
+
+  /// The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track.
+  final String id;
+
+  /// The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)
+  /// for the track.
+  final String uri;
+
+  SimplifiedTrack({
+    required this.href,
+    required this.id,
+    required this.uri,
+  });
+
+  factory SimplifiedTrack.fromJson(Map<String, dynamic> json) =>
+      _$SimplifiedTrackFromJson(json);
+}
+
+@immutable
+@JsonSerializable(createToJson: false)
+final class Track implements SimplifiedTrack {
   /// The album on which the track appears.
   final Album? album;
 
@@ -22,8 +45,11 @@ class Track {
   /// The track length in milliseconds.
   final int durationMs;
 
-  /// The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track.
+  @override
   final String id;
+
+  @override
+  final String href;
 
   /// Whether or not the track has explicit lyrics (false if unknown).
   @JsonKey(name: 'explicit')
@@ -43,7 +69,7 @@ class Track {
   /// is applied, and the requested track has been replaced with different
   /// track. The track in the linked_from object contains information about the
   /// originally requested track.
-  final Track? linkedFrom;
+  final SimplifiedTrack? linkedFrom;
 
   /// The name of the track.
   final String name;
@@ -70,8 +96,7 @@ class Track {
   /// is the number on the specified disc.
   final int trackNumber;
 
-  /// The [Spotify URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)
-  /// for the track.
+  @override
   final String uri;
 
   Track({
@@ -79,6 +104,7 @@ class Track {
     required this.artists,
     required this.availableMarkets,
     required this.durationMs,
+    required this.href,
     required this.id,
     required this.isExplicit,
     required this.isLocal,
