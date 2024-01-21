@@ -4,6 +4,7 @@ export 'package:spotify_api/src/api_models/artists/response.dart';
 export 'package:spotify_api/src/api_models/auth/request.dart';
 export 'package:spotify_api/src/api_models/auth/response.dart';
 export 'package:spotify_api/src/api_models/error/response.dart';
+export 'package:spotify_api/src/api_models/genres/response.dart';
 export 'package:spotify_api/src/api_models/image.dart';
 export 'package:spotify_api/src/api_models/page.dart';
 export 'package:spotify_api/src/api_models/playlists/request.dart';

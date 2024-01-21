@@ -21,6 +21,8 @@ abstract class SpotifyWebApi {
 
   SpotifyArtistApi get artists;
 
+  SpotifyGenreApi get genres;
+
   SpotifyPlaylistApi get playlists;
 
   SpotifyTrackApi get tracks;
@@ -57,6 +59,12 @@ abstract class SpotifyArtistApi {
     required String artistId,
     required String market,
   });
+}
+
+@immutable
+abstract class SpotifyGenreApi {
+  /// Retrieve a list of available genres seed parameter values for recommendations.
+  Future<List<String>> getAvailableGenreSeeds();
 }
 
 @immutable
