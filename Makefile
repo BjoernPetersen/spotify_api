@@ -13,3 +13,7 @@ integration-test:
 .PHONY: pre-commit
 pre-commit:
 	poetry run pre-commit install --hook-type commit-msg
+
+.PHONY: release
+release:
+	poetry run cz bump
