@@ -45,9 +45,12 @@ class Page<T> implements PageRef<T> {
   @override
   final String href;
   final List<T> items;
+  @JsonKey(fromJson: parseNumAsInt)
   final int limit;
+  @JsonKey(fromJson: parseNumAsInt)
   final int offset;
   @override
+  @JsonKey(fromJson: parseNumAsInt)
   final int total;
   final String? previous;
   final String? next;

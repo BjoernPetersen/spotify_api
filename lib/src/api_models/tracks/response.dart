@@ -88,13 +88,14 @@ final class Track implements SimplifiedTrack {
   ///
   /// Note: the popularity value may lag behind actual popularity by a few days:
   /// the value is not updated in real time.
-  final int? popularity;
+  final double? popularity;
 
   /// A link to a 30 second preview (MP3 format) of the track.
   final String? previewUrl;
 
   /// The number of the track. If an album has several discs, the track number
   /// is the number on the specified disc.
+  @JsonKey(fromJson: parseNumAsInt)
   final int trackNumber;
 
   @override
