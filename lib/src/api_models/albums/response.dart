@@ -59,6 +59,7 @@ class Album {
   /// The precision with which [release_date] value is known.
   final DatePrecision releaseDatePrecision;
 
+  @JsonKey(fromJson: parseNumAsInt)
   final int totalTracks;
 
   /// The tracks of the album. Only present in some responses.
