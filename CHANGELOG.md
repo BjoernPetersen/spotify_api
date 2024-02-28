@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 (2024-02-28)
+
+### Fix
+
+- Made a bunch of response model fields that should be an int able to handle a double value
+
 ## 1.1.1 (2024-01-21)
 
 ### Fix
