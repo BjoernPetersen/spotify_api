@@ -43,6 +43,7 @@ final class Track implements SimplifiedTrack {
   final List<String> availableMarkets;
 
   /// The track length in milliseconds.
+  @JsonKey(fromJson: parseNumAsInt)
   final int durationMs;
 
   @override

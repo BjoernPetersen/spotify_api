@@ -8,12 +8,14 @@ part 'image.g.dart';
 @JsonSerializable(createToJson: false)
 class Image {
   /// The image height in pixels.
+  @JsonKey(fromJson: parseOptionalNumAsInt)
   final int? height;
 
   /// The source URL of the image.
   final String url;
 
   /// The image width in pixels.
+  @JsonKey(fromJson: parseOptionalNumAsInt)
   final int? width;
 
   Image({
