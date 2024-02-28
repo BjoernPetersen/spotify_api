@@ -47,6 +47,7 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   ///
   /// **Note:** if returned, the source URL for the image is temporary and
   /// will expire in less than a day.
+  @JsonKey(defaultValue:  [])
   final List<Image> images;
 
   /// Whether the owner allows other users to modify the playlist.
