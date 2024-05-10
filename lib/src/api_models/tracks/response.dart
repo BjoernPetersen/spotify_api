@@ -27,6 +27,11 @@ final class SimplifiedTrack {
 
   factory SimplifiedTrack.fromJson(Map<String, dynamic> json) =>
       _$SimplifiedTrackFromJson(json);
+
+  @override
+  String toString() {
+    return 'Track<$id>';
+  }
 }
 
 @immutable
@@ -120,6 +125,11 @@ final class Track implements SimplifiedTrack {
   });
 
   factory Track.fromJson(Json json) => _$TrackFromJson(json);
+
+  @override
+  String toString() {
+    return '${artists.map((a) => a.name).join(", ")} - $name <$id>';
+  }
 }
 
 @immutable

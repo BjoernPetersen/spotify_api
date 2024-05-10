@@ -25,6 +25,11 @@ class Artist {
   });
 
   factory Artist.fromJson(Json json) => _$ArtistFromJson(json);
+
+  @override
+  String toString() {
+    return '$name <$id>';
+  }
 }
 
 @immutable
