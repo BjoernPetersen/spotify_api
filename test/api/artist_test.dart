@@ -141,7 +141,7 @@ void main() {
           api.artists.getTopTracks(artistId: artist.id, market: 'xx'),
           completion(const []),
         );
-      });
+      }, skip: 'Spotify will just return a track anyway.');
 
       for (final spec in artists) {
         if (spec.popularSongIds.isNotEmpty) {
