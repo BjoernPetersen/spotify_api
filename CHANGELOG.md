@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3 (2024-05-10)
+
+### Fix
+
+- Fix request body of removePlaylistItems
+
 ## 1.1.2 (2024-02-28)
 
 ### Fix
