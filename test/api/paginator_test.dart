@@ -49,7 +49,7 @@ void main() {
       nextPage!;
       final previousPage = await nextPage.previousPage();
       expect(previousPage?.page, paginator.page);
-    }, skip: 'Spotify returns a different total count right now');
+    });
 
     test('get next page with higher limit', () async {
       final Paginator<Track>? nextPage = await paginator.nextPage(21);
