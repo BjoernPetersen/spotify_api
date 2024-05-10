@@ -142,7 +142,7 @@ class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
     final response = await core.client.delete(
       url,
       headers: await core.headers,
-      body: RequestBody.json(RemoveItemsFromPlaylist(
+      body: RequestBody.json(RemoveItemsFromPlaylist.fromUris(
         uris: uris,
         snapshotId: snapshotId,
       )),

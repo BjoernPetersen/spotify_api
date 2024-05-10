@@ -53,14 +53,30 @@ class AddItemsToPlaylist implements RequestModel {
 
 @immutable
 @JsonSerializable(createFactory: false)
+final class UriObject implements RequestModel {
+  final String uri;
+
+  const UriObject(this.uri);
+
+  @override
+  Json toJson() => _$UriObjectToJson(this);
+}
+
+@immutable
+@JsonSerializable(createFactory: false)
 class RemoveItemsFromPlaylist implements RequestModel {
-  final List<String> uris;
+  final List<UriObject> tracks;
   final String snapshotId;
 
   RemoveItemsFromPlaylist({
-    required this.uris,
+    required this.tracks,
     required this.snapshotId,
   });
+
+  RemoveItemsFromPlaylist.fromUris({
+    required List<String> uris,
+    required this.snapshotId,
+  }) : tracks = uris.map((e) => UriObject(e)).toList(growable: false);
 
   @override
   Json toJson() => _$RemoveItemsFromPlaylistToJson(this);
