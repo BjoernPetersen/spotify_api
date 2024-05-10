@@ -119,6 +119,18 @@ void main() {
         final id = '6K5OMRw5vqUna1tvbbCG';
         expect(
           api.artists.getTopTracks(artistId: id, market: 'de'),
+          throwsA(
+            isA<SpotifyApiException>()
+                .having((e) => e.statusCode, 'statusCode', 400)
+                .having((e) => e.message, 'message', contains('Invalid')),
+          ),
+        );
+      });
+
+      test('unknown artist ID', () {
+        final id = '6uFK5OMRw5vqUna1tvbbCG';
+        expect(
+          api.artists.getTopTracks(artistId: id, market: 'de'),
           throwsA(isA<NotFoundException>()),
         );
       });
@@ -127,7 +139,7 @@ void main() {
         final artist = artists[0];
         expect(
           api.artists.getTopTracks(artistId: artist.id, market: 'xx'),
-          throwsA(isA<NotFoundException>()),
+          completion(const []),
         );
       });
 
