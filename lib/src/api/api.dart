@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
-abstract class SpotifyWebApi {
+abstract interface class SpotifyWebApi {
   factory SpotifyWebApi({
     required AccessTokenRefresher refresher,
   }) = CoreApi;
@@ -35,7 +35,7 @@ abstract class SpotifyWebApi {
 }
 
 @immutable
-abstract class SpotifyAlbumApi {
+abstract interface class SpotifyAlbumApi {
   Future<Album?> getAlbum(
     String albumId, {
     String? market,
@@ -50,7 +50,7 @@ abstract class SpotifyAlbumApi {
 }
 
 @immutable
-abstract class SpotifyArtistApi {
+abstract interface class SpotifyArtistApi {
   Future<Artist?> getArtist(String artistId);
 
   Future<List<Artist>> getArtists(List<String> artistIds);
@@ -62,13 +62,13 @@ abstract class SpotifyArtistApi {
 }
 
 @immutable
-abstract class SpotifyGenreApi {
+abstract interface class SpotifyGenreApi {
   /// Retrieve a list of available genres seed parameter values for recommendations.
   Future<List<String>> getAvailableGenreSeeds();
 }
 
 @immutable
-abstract class SpotifyPlaylistApi {
+abstract interface class SpotifyPlaylistApi {
   /// Add one or more items to a user's playlist.
   ///
   /// Returns a snapshot ID for the playlist.
@@ -150,7 +150,7 @@ abstract class SpotifyPlaylistApi {
 }
 
 @immutable
-abstract class SpotifyTrackApi {
+abstract interface class SpotifyTrackApi {
   Future<List<bool>> checkUsersSavedTracks(List<String> ids);
 
   Future<Track?> getTrack(
@@ -187,12 +187,12 @@ abstract class SpotifyTrackApi {
 }
 
 @immutable
-abstract class SpotifyUserApi {
+abstract interface class SpotifyUserApi {
   Future<User> getCurrentUsersProfile();
 }
 
 @immutable
-abstract class Paginator<T> {
+abstract interface class Paginator<T> {
   Page<T> get page;
 
   List<T> get currentItems;

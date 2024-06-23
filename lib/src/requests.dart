@@ -14,7 +14,7 @@ enum ContentType {
 }
 
 @immutable
-class Header {
+final class Header {
   final String name;
   final String value;
 
@@ -52,7 +52,7 @@ class Header {
 }
 
 @immutable
-class Response {
+final class Response {
   final http.Response _response;
 
   Response(this._response);
@@ -67,7 +67,7 @@ class Response {
 }
 
 @immutable
-class RequestBody {
+final class RequestBody {
   final Object body;
   final List<Header> headers;
 
@@ -91,7 +91,7 @@ class RequestBody {
 }
 
 @immutable
-class ResponseBody {
+final class ResponseBody {
   final List<int> rawBytes;
 
   ResponseBody(this.rawBytes);
@@ -116,8 +116,6 @@ class ResponseBody {
     return fromJson(_decode());
   }
 }
-
-class HttpException implements Exception {}
 
 extension on Uri {
   Uri includeParams(Map<String, String> params) {

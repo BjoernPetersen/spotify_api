@@ -10,7 +10,7 @@ import 'package:spotify_api/src/auth/user_authorization.dart';
 import 'package:spotify_api/src/requests.dart';
 
 @immutable
-class AuthorizationCodeRefresher extends AccessTokenRefresher {
+final class AuthorizationCodeRefresher implements AccessTokenRefresher {
   final String _clientId;
   final String _clientSecret;
   final RefreshTokenStorage _refreshTokenStorage;
@@ -69,7 +69,7 @@ class AuthorizationCodeRefresher extends AccessTokenRefresher {
 }
 
 @immutable
-class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
+final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
   final String _clientSecret;
 
   AuthorizationCodeUserAuthorization({

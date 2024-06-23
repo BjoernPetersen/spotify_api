@@ -134,7 +134,7 @@ final class Track implements SimplifiedTrack {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Tracks {
+final class Tracks {
   final List<Track?> tracks;
 
   Tracks(this.tracks);
@@ -144,7 +144,7 @@ class Tracks {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class SavedTrack {
+final class SavedTrack {
   final DateTime addedAt;
   final Track track;
 
@@ -162,7 +162,7 @@ enum SeedType {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class RecommendationSeedObject {
+final class RecommendationSeedObject {
   /// The number of tracks available after min_* and max_* filters have been applied.
   final int? afterFilteringSize;
 
@@ -200,7 +200,7 @@ class RecommendationSeedObject {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class TrackRecommendations {
+final class TrackRecommendations {
   final List<RecommendationSeedObject> seeds;
   final List<Track> tracks;
 

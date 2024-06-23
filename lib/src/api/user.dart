@@ -2,7 +2,7 @@ import 'package:spotify_api/src/api/api.dart';
 import 'package:spotify_api/src/api/core.dart';
 import 'package:spotify_api/src/api_models/users/response.dart';
 
-class SpotifyUserApiImpl implements SpotifyUserApi {
+final class SpotifyUserApiImpl implements SpotifyUserApi {
   final CoreApi core;
 
   SpotifyUserApiImpl(this.core);

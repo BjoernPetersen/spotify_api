@@ -1,7 +1,7 @@
 import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
-class SpotifyArtistApiImpl implements SpotifyArtistApi {
+final class SpotifyArtistApiImpl implements SpotifyArtistApi {
   final CoreApi core;
 
   SpotifyArtistApiImpl(this.core);

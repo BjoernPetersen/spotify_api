@@ -6,7 +6,7 @@ part 'request.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class UserAuthorizationCallbackBody {
+final class UserAuthorizationCallbackBody {
   final String state;
   final String? code;
   final String? error;

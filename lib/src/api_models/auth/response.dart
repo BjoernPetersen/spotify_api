@@ -6,7 +6,7 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class TokenResponse {
+final class TokenResponse {
   final String accessToken;
   final String? refreshToken;
   final int expiresIn;

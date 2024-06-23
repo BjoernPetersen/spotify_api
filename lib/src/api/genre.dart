@@ -4,7 +4,7 @@ import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
 @immutable
-class SpotifyGenreApiImpl implements SpotifyGenreApi {
+final class SpotifyGenreApiImpl implements SpotifyGenreApi {
   final CoreApi core;
 
   SpotifyGenreApiImpl(this.core);

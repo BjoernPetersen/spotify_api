@@ -1,4 +1,4 @@
-class SpotifyApiException implements Exception {
+base class SpotifyApiException implements Exception {
   final String? message;
   final int? statusCode;
 
@@ -21,11 +21,11 @@ class SpotifyApiException implements Exception {
   }
 }
 
-class AuthenticationException extends SpotifyApiException {}
+final class AuthenticationException extends SpotifyApiException {}
 
-class AuthorizationException extends SpotifyApiException {}
+final class AuthorizationException extends SpotifyApiException {}
 
-class RateLimitException extends SpotifyApiException {
+final class RateLimitException extends SpotifyApiException {
   final DateTime? retryAfter;
 
   RateLimitException(this.retryAfter);
@@ -36,7 +36,7 @@ enum ResourceType {
   market,
 }
 
-class NotFoundException extends SpotifyApiException {
+final class NotFoundException extends SpotifyApiException {
   final ResourceType type;
   final String id;
 

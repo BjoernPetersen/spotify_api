@@ -2,14 +2,14 @@ import 'package:spotify_api/src/api_models/auth/request.dart';
 import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/auth/scopes.dart';
 
-class UserAuthorizationException extends SpotifyApiException {
+final class UserAuthorizationException extends SpotifyApiException {
   UserAuthorizationException([super.message]);
 }
 
-class StateMismatchException extends SpotifyApiException {}
+final class StateMismatchException extends SpotifyApiException {}
 
 /// Creates and validates OAuth states.
-abstract class AuthorizationStateManager {
+abstract interface class AuthorizationStateManager {
   /// Create a new state, potentially based on the given [userContext] (if any).
   Future<String> createState({required String? userContext});
 

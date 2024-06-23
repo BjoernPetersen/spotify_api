@@ -4,20 +4,20 @@ import 'package:meta/meta.dart';
 import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/requests.dart';
 
-class ExpiredTokenException extends SpotifyApiException {}
+final class ExpiredTokenException extends SpotifyApiException {}
 
-class RefreshException extends SpotifyApiException {
+final class RefreshException extends SpotifyApiException {
   RefreshException([super.message]);
 }
 
-abstract class RefreshTokenStorage {
+abstract interface class RefreshTokenStorage {
   Future<void> store(String refreshToken);
 
   Future<String> load();
 }
 
 @immutable
-class TokenInfo {
+final class TokenInfo {
   final String _value;
   final DateTime expiration;
 
@@ -37,6 +37,6 @@ class TokenInfo {
 }
 
 @immutable
-abstract class AccessTokenRefresher {
+abstract interface class AccessTokenRefresher {
   Future<TokenInfo> retrieveToken(RequestsClient client);
 }

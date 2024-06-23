@@ -16,7 +16,7 @@ import 'package:spotify_api/src/auth/access_token_refresher.dart';
 import 'package:spotify_api/src/exceptions.dart';
 import 'package:spotify_api/src/requests.dart';
 
-class CoreApi implements SpotifyWebApi {
+final class CoreApi implements SpotifyWebApi {
   static const String baseUrl = 'https://api.spotify.com/v1';
 
   final RequestsClient client;

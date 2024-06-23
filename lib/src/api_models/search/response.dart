@@ -11,7 +11,7 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class SearchResponse {
+final class SearchResponse {
   final Page<Album>? albums;
   final Page<Artist>? artists;
   final Page<Playlist<PageRef<PlaylistTrack>>>? playlists;
