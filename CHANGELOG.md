@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0 (2024-06-23)
+
+### BREAKING CHANGE
+
+- Introduced seperate constructors for PKCE and non-PKCE
+flows on both `AuthorizationCodeUserAuthorization` and
+`AuthorizationCodeRefresher`.
+
+### Fix
+
+- Don't require client secret with PKCE flow
+
 ## 2.0.0 (2024-06-23)
 
 ### BREAKING CHANGE
