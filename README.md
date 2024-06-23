@@ -119,4 +119,80 @@ final api = SpotifyWebApi(
 
 ### Authorization code flow
 
-TODO: describe
+The authorization code flow must be used if you want to access user data. The flow to initially
+authorize your app and obtain a refresh token is interactive. Once you have a refresh token, it can
+be used virtually forever (as long as the user does not revoke access).
+
+You'll need to implement the relevant user interaction and production ready storage yourself, but
+this package provides a generic framework to implement the OAuth flow with the
+`AuthorizationCodeUserAuthorization` class:
+
+```dart
+final flow = AuthorizationCodeUserAuthorization(
+    clientId: 'myclientid',
+    clientSecret: 'supersecret',
+    stateManager: TtlRandomStateManager(ttl: Duration(minutes: 5)),
+    redirectUri: Uri.parse('https://example.com/spotifyauthcallback'),
+);
+
+// You'll need to direct the user to visit this URL somehow.
+final authUrl = await auth.generateAuthorizationUrl(scopes: [Scopes.playlistReadPrivate]);
+```
+
+The `stateManager` is responsible for creating and verifying the state for each authorization flow
+to prevent CSRF attacks. The TtlRandomStateManager used in the example will create random states,
+store them in memory, and clean them up after the given TTL. That may be enough for some users, but
+most production setups will require a more durable solution, so the flow object doesn't need to be
+stored while waiting for the user.
+
+The redirect URL should match what you've specified in your Spotify app settings in the developer
+portal. Note that this package will not provide a server for you. You'll have to figure out yourself
+how to receive the callback. Once you have the callback data (see the
+`UserAuthorizationCallbackBody` model), you can continue with a flow object like created above:
+
+```dart
+// Let's assume we got the callback data and it's stored in this variable
+final UserAuthorizationCallbackBody callback;
+
+// The flow object is the same as above. If all is well, you now have a refresh token!
+final refreshToken = flow.handleCallback(callback);
+```
+
+#### Using Refresh Tokens
+
+You should store the refresh token somewhere safe. With it, you can initialize a `SpotifyWebApi`
+instance with it. It will refresh access tokens as needed.
+
+```dart
+final api = SpotifyWebApi(
+    refresher: AuthorizationCodeRefresher(
+        clientId: 'myclientid',
+        clientSecret: 'supersecret',
+        refreshTokenStorage: MemoryRefreshTokenStorage(refreshToken),
+    ),
+);
+```
+
+Note that Spotify will occasionally respond with a new refresh token in addition to an access token.
+The new refresh token will be stored using the `refreshTokenStorage` that was passed to the
+`AuthorizationCodeRefresher`. For that reason, it's highly recommended to use a
+`RefreshTokenStorage` implementation that will persist the new refresh tokens somewhere, other than
+the `MemoryRefreshTokenStorage` used in the example above.
+
+#### PKCE Extension
+
+If you want to use the recommended authorization code flow with PKCE, you'll simply need to provide
+a way to store the code verifier (a string) while the user is logging in. A simple implementation
+is available as `MemoryCodeVerifierStorage`, but it's recommended to provide a more durable storage
+(perhaps using a relational database).
+
+```dart
+final flow = AuthorizationCodeUserAuthorization(
+    clientId: 'myclientid',
+    clientSecret: 'supersecret',
+    stateManager: TtlRandomStateManager(ttl: Duration(minutes: 5)),
+    redirectUri: Uri.parse('https://example.com/spotifyauthcallback'),
+    codeVerifierStorage: MemoryCodeVerifierStorage(),
+);
+```
+
