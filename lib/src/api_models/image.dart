@@ -6,7 +6,7 @@ part 'image.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Image {
+final class Image {
   /// The image height in pixels.
   @JsonKey(fromJson: parseOptionalNumAsInt)
   final int? height;

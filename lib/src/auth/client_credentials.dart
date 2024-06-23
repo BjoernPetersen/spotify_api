@@ -5,7 +5,7 @@ import 'package:spotify_api/src/auth/common.dart';
 import 'package:spotify_api/src/requests.dart';
 
 @immutable
-class ClientCredentialsRefresher extends AccessTokenRefresher {
+final class ClientCredentialsRefresher implements AccessTokenRefresher {
   final String _clientId;
   final String _clientSecret;
 

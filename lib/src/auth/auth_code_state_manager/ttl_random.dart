@@ -9,14 +9,14 @@ const _kStateAlphabet =
     'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
 @immutable
-class _Entry {
+final class _Entry {
   final DateTime createdAt;
   final String? userContext;
 
   _Entry(this.userContext) : createdAt = DateTime.now();
 }
 
-class TtlRandomStateManager implements AuthorizationStateManager {
+final class TtlRandomStateManager implements AuthorizationStateManager {
   final Random _random;
   final Map<String, _Entry> _states;
   final Duration _ttl;

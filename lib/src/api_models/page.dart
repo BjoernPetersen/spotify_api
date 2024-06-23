@@ -5,9 +5,8 @@ import 'package:spotify_api/src/api_models/model.dart';
 part 'page.g.dart';
 
 @immutable
-@sealed
 @JsonSerializable(createToJson: false)
-class PageRef<T> {
+base class PageRef<T> {
   final String href;
   final int total;
 
@@ -41,7 +40,7 @@ class PageRef<T> {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Page<T> implements PageRef<T> {
+final class Page<T> implements PageRef<T> {
   @override
   final String href;
   final List<T> items;

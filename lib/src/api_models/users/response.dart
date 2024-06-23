@@ -7,7 +7,7 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class User {
+final class User {
   /// The country of the user, as set in the user's account profile.
   /// An [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
   /// country code.
@@ -76,7 +76,7 @@ class User {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class ExplicitContentSettings {
+final class ExplicitContentSettings {
   /// When true, indicates that explicit content should not be played.
   final bool filterEnabled;
 

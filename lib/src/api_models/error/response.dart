@@ -6,7 +6,7 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class ErrorResponse {
+final class ErrorResponse {
   final ErrorResponseInfo error;
 
   ErrorResponse(this.error);
@@ -16,7 +16,7 @@ class ErrorResponse {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class ErrorResponseInfo {
+final class ErrorResponseInfo {
   final int status;
   final String message;
 

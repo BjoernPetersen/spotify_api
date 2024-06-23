@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:spotify_api/src/requests.dart';
 
 @immutable
-class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
+final class SpotifyPlaylistApiImpl implements SpotifyPlaylistApi {
   final CoreApi core;
 
   SpotifyPlaylistApiImpl(this.core);

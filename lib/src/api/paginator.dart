@@ -11,7 +11,7 @@ import 'package:spotify_api/src/api_models/playlists/response.dart';
 import 'package:spotify_api/src/api_models/tracks/response.dart';
 import 'package:spotify_api/src/exceptions.dart';
 
-abstract class PaginatorImpl {
+sealed class PaginatorImpl {
   PaginatorImpl._();
 
   static FutureOr<Paginator<T>> fromPage<T>(
@@ -25,7 +25,7 @@ abstract class PaginatorImpl {
   }
 }
 
-class _PageRefLoader<T> with _PageLoader<T> {
+final class _PageRefLoader<T> with _PageLoader<T> {
   @override
   final CoreApi core;
   @override
@@ -44,7 +44,7 @@ class _PageRefLoader<T> with _PageLoader<T> {
 }
 
 @immutable
-class _PaginatorImpl<T> with _PageLoader<T> implements Paginator<T> {
+final class _PaginatorImpl<T> with _PageLoader<T> implements Paginator<T> {
   @override
   final CoreApi core;
   @override

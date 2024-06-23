@@ -6,7 +6,7 @@ import 'package:spotify_api/src/api_models/tracks/response.dart';
 import 'package:spotify_api/src/api_models/tracks/request.dart';
 
 @immutable
-class SpotifyTrackApiImpl implements SpotifyTrackApi {
+final class SpotifyTrackApiImpl implements SpotifyTrackApi {
   final CoreApi core;
 
   SpotifyTrackApiImpl(this.core);

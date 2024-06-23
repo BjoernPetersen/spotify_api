@@ -11,7 +11,7 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class PlaylistTrack {
+final class PlaylistTrack {
   final bool isLocal;
   final DateTime? addedAt;
   final User? addedBy;
@@ -29,7 +29,7 @@ class PlaylistTrack {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
+final class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
   /// The playlist description.
   ///
   /// Only returned for modified, verified playlists, otherwise null.
@@ -124,7 +124,7 @@ class Playlist<TrackPage extends PageRef<PlaylistTrack>> {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class PlaylistSnapshot {
+final class PlaylistSnapshot {
   final String snapshotId;
 
   PlaylistSnapshot(this.snapshotId);

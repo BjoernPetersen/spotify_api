@@ -7,7 +7,7 @@ part 'request.g.dart';
 
 @immutable
 @JsonSerializable(createFactory: false)
-class CreatePlaylist implements RequestModel {
+final class CreatePlaylist implements RequestModel {
   final String? description;
   @JsonKey(name: 'collaborative')
   final bool? isCollaborative;
@@ -38,7 +38,7 @@ class CreatePlaylist implements RequestModel {
 
 @immutable
 @JsonSerializable(createFactory: false)
-class AddItemsToPlaylist implements RequestModel {
+final class AddItemsToPlaylist implements RequestModel {
   final List<String> uris;
   final int? position;
 
@@ -64,7 +64,7 @@ final class UriObject implements RequestModel {
 
 @immutable
 @JsonSerializable(createFactory: false)
-class RemoveItemsFromPlaylist implements RequestModel {
+final class RemoveItemsFromPlaylist implements RequestModel {
   final List<UriObject> tracks;
   final String snapshotId;
 
@@ -84,7 +84,7 @@ class RemoveItemsFromPlaylist implements RequestModel {
 
 @immutable
 @JsonSerializable(createFactory: false)
-class ReplacePlaylistItems implements RequestModel {
+final class ReplacePlaylistItems implements RequestModel {
   final List<String> uris;
 
   ReplacePlaylistItems(this.uris);
@@ -95,7 +95,7 @@ class ReplacePlaylistItems implements RequestModel {
 
 @immutable
 @JsonSerializable(createFactory: false)
-class ReorderPlaylistItems implements RequestModel {
+final class ReorderPlaylistItems implements RequestModel {
   final int insertBefore;
   final int rangeLength;
   final int rangeStart;

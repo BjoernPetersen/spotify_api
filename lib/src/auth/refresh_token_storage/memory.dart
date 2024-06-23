@@ -1,6 +1,6 @@
 import 'package:spotify_api/src/auth/access_token_refresher.dart';
 
-class MemoryRefreshTokenStorage implements RefreshTokenStorage {
+final class MemoryRefreshTokenStorage implements RefreshTokenStorage {
   String _refreshToken;
 
   MemoryRefreshTokenStorage(String refreshToken) : _refreshToken = refreshToken;

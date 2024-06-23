@@ -1,6 +1,6 @@
 typedef Json = Map<String, dynamic>;
 
-abstract class RequestModel {
+abstract interface class RequestModel {
   Json toJson();
 }
 

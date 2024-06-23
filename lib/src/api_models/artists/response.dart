@@ -6,7 +6,7 @@ part 'response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Artist {
+final class Artist {
   final String id;
   final String name;
 
@@ -34,7 +34,7 @@ class Artist {
 
 @immutable
 @JsonSerializable(createToJson: false)
-class Artists {
+final class Artists {
   final List<Artist?> artists;
 
   Artists(this.artists);

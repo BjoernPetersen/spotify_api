@@ -3,7 +3,7 @@ import 'package:spotify_api/spotify_api.dart';
 import 'package:spotify_api/src/api/core.dart';
 
 @immutable
-class SpotifyAlbumApiImpl implements SpotifyAlbumApi {
+final class SpotifyAlbumApiImpl implements SpotifyAlbumApi {
   final CoreApi core;
 
   SpotifyAlbumApiImpl(this.core);
