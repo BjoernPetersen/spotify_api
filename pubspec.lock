@@ -386,10 +386,10 @@ packages:
     dependency: "direct dev"
     description:
       name: sane_uuid
-      sha256: "5e83f796a7d19d38d3ba3a940642998fdd8c4a4049be135ed25404e37f76a18c"
+      sha256: "61619aaeda33699d037d1945eddf37ebe8946630aeff742cbf5a97148d696eac"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-alpha.5"
+    version: "1.0.1"
   shelf:
     dependency: "direct dev"
     description:
