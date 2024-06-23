@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.0 (2024-06-23)
+
+### BREAKING CHANGE
+
+- A lot of classes are no longer extendable/implementable
+outside of this package. Realistically, this shouldn't pose an issue to
+any users.
+
+### Feat
+
+- **auth**: Implement PKCE extension (closes #14)
+- Add class modifiers where appropriate
+
 ## 1.1.3 (2024-05-10)
 
 ### Fix
