@@ -71,6 +71,7 @@ Future<void> main() async {
     clientSecret: creds.clientSecret,
     redirectUri: Uri.parse('http://localhost:8082/authcallback'),
     stateManager: TtlRandomStateManager(ttl: timeout),
+    codeVerifierStorage: MemoryCodeVerifierStorage(),
   );
 
   final authUrl = await auth.generateAuthorizationUrl(scopes: Scope.values);

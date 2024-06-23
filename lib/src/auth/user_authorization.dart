@@ -23,17 +23,34 @@ abstract interface class AuthorizationStateManager {
   });
 }
 
+/// Stores code verifiers for the PKCE flow.
+abstract interface class CodeVerifierStorage {
+  /// Store the given [codeVerifier] associated by the given [state].
+  ///
+  /// The implementation may impose a TTL on the stored entry.
+  Future<void> store({required String state, required String codeVerifier});
+
+  /// Load the code verifier associated with the given [state]. Returns null if
+  /// there is none.
+  ///
+  /// The stored value may be dropped after it was loaded.
+  Future<String?> load({required String state});
+}
+
 /// An OAuth flow that can be used to obtain a refresh token.
 abstract class UserAuthorizationFlow {
   final String clientId;
   final Uri redirectUri;
   final AuthorizationStateManager stateManager;
+  final CodeVerifierStorage? codeVerifierStorage;
 
   /// The [stateManager] will be used to generate and validate the OAuth state.
+  /// If a [codeVerifierStorage] is provided, the PKCE flow will be used.
   UserAuthorizationFlow({
     required this.clientId,
     required this.redirectUri,
     required this.stateManager,
+    this.codeVerifierStorage,
   });
 
   /// Generates a URL that the user should visit to authorize the app.

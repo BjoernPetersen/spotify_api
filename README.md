@@ -81,7 +81,7 @@ Before you can do anything in the API, you have to think about authentication. S
 | Name                         | Supported |
 |------------------------------|:---------:|
 | Authorization code           |     ✅     |
-| Authorization code with PKCE |     ⛔     |
+| Authorization code with PKCE |     ✅     |
 | Client credentials           |     ✅     |
 | Implicit grant               |     ⛔     |
 
