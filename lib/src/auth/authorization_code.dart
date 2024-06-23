@@ -7,6 +7,7 @@ import 'package:spotify_api/src/auth/access_token_refresher.dart';
 import 'package:spotify_api/src/auth/common.dart';
 import 'package:spotify_api/src/auth/scopes.dart';
 import 'package:spotify_api/src/auth/user_authorization.dart';
+import 'package:spotify_api/src/auth/pkce.dart';
 import 'package:spotify_api/src/requests.dart';
 
 @immutable
@@ -46,6 +47,7 @@ final class AuthorizationCodeRefresher implements AccessTokenRefresher {
       body: RequestBody.formData({
         'grant_type': 'refresh_token',
         'refresh_token': refreshToken,
+        'client_id': _clientId,
       }),
     );
 
@@ -77,11 +79,13 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
     required super.redirectUri,
     required super.stateManager,
     required String clientSecret,
+    super.codeVerifierStorage,
   }) : _clientSecret = clientSecret;
 
   Future<String> _obtainRefreshToken({
     required RequestsClient client,
     required String authorizationCode,
+    required String? codeVerifier,
   }) async {
     final url = baseAuthUrl.resolve('/api/token');
     final response = await client.post(
@@ -93,6 +97,8 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
         'grant_type': 'authorization_code',
         'code': authorizationCode,
         'redirect_uri': redirectUri.toString(),
+        'client_id': clientId,
+        if (codeVerifier != null) 'code_verifier': codeVerifier,
       }),
     );
 
@@ -112,12 +118,24 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
     return refreshToken;
   }
 
+  Future<String?> _generateCodeChallenge(String state) async {
+    final storage = codeVerifierStorage;
+    if (storage == null) {
+      return null;
+    }
+
+    final codeVerifier = generateCodeVerifier();
+    await storage.store(state: state, codeVerifier: codeVerifier);
+    return generateCodeChallenge(codeVerifier);
+  }
+
   @override
   Future<Uri> generateAuthorizationUrl({
     required List<Scope> scopes,
     String? userContext,
   }) async {
     final state = await stateManager.createState(userContext: userContext);
+    final codeChallenge = await _generateCodeChallenge(state);
     final authorizeUrl = baseAuthUrl.resolve('/authorize');
     return authorizeUrl.replace(
       queryParameters: {
@@ -126,8 +144,24 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
         'redirect_uri': redirectUri.toString(),
         'state': state,
         'scope': scopes.map((s) => s.code).join(' '),
+        if (codeChallenge != null) 'code_challenge_method': 'S256',
+        if (codeChallenge != null) 'code_challenge': codeChallenge,
       },
     );
+  }
+
+  Future<String?> _retrieveCodeVerifier(String state) async {
+    final storage = codeVerifierStorage;
+    if (storage == null) {
+      return null;
+    }
+
+    final verifier = await storage.load(state: state);
+    if (verifier == null) {
+      throw UserAuthorizationException('Did not find code verifier for state');
+    }
+
+    return verifier;
   }
 
   @override
@@ -154,11 +188,14 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
       );
     }
 
+    final codeVerifier = await _retrieveCodeVerifier(callback.state);
+
     final client = RequestsClient();
     try {
       return await _obtainRefreshToken(
         client: client,
         authorizationCode: code,
+        codeVerifier: codeVerifier,
       );
     } finally {
       client.close();
