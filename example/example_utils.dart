@@ -1,11 +1,13 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
+import 'package:meta/meta.dart';
 import 'package:spotify_api/spotify_api.dart';
 
-class ClientCredentials {
+@immutable
+final class ClientCredentials {
   final String clientId;
-  final String clientSecret;
+  final String? clientSecret;
 
   ClientCredentials({required this.clientId, required this.clientSecret});
 }
@@ -15,8 +17,8 @@ ClientCredentials loadCredentials() {
   final clientId = env['CLIENT_ID'];
   final clientSecret = env['CLIENT_SECRET'];
 
-  if (clientId == null || clientSecret == null) {
-    throw StateError('Missing client ID or secret');
+  if (clientId == null) {
+    throw StateError('Missing client ID');
   }
 
   return ClientCredentials(clientId: clientId, clientSecret: clientSecret);
@@ -52,9 +54,17 @@ RefreshTokenStorage fileRefreshTokenStorage() {
 }
 
 AccessTokenRefresher accessTokenRefresher(ClientCredentials creds) {
-  return AuthorizationCodeRefresher(
-    clientId: creds.clientId,
-    clientSecret: creds.clientSecret,
-    refreshTokenStorage: fileRefreshTokenStorage(),
-  );
+  final clientSecret = creds.clientSecret;
+  if (clientSecret == null) {
+    return AuthorizationCodeRefresher.withPkce(
+      clientId: creds.clientId,
+      refreshTokenStorage: fileRefreshTokenStorage(),
+    );
+  } else {
+    return AuthorizationCodeRefresher.withoutPkce(
+      clientId: creds.clientId,
+      clientSecret: clientSecret,
+      refreshTokenStorage: fileRefreshTokenStorage(),
+    );
+  }
 }

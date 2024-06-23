@@ -38,20 +38,8 @@ abstract interface class CodeVerifierStorage {
 }
 
 /// An OAuth flow that can be used to obtain a refresh token.
-abstract class UserAuthorizationFlow {
-  final String clientId;
-  final Uri redirectUri;
-  final AuthorizationStateManager stateManager;
-  final CodeVerifierStorage? codeVerifierStorage;
-
-  /// The [stateManager] will be used to generate and validate the OAuth state.
-  /// If a [codeVerifierStorage] is provided, the PKCE flow will be used.
-  UserAuthorizationFlow({
-    required this.clientId,
-    required this.redirectUri,
-    required this.stateManager,
-    this.codeVerifierStorage,
-  });
+abstract interface class UserAuthorizationFlow {
+  UserAuthorizationFlow();
 
   /// Generates a URL that the user should visit to authorize the app.
   Future<Uri> generateAuthorizationUrl({

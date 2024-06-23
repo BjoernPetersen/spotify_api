@@ -128,7 +128,7 @@ this package provides a generic framework to implement the OAuth flow with the
 `AuthorizationCodeUserAuthorization` class:
 
 ```dart
-final flow = AuthorizationCodeUserAuthorization(
+final flow = AuthorizationCodeUserAuthorization.withoutPkce(
     clientId: 'myclientid',
     clientSecret: 'supersecret',
     stateManager: TtlRandomStateManager(ttl: Duration(minutes: 5)),
@@ -165,7 +165,7 @@ instance with it. It will refresh access tokens as needed.
 
 ```dart
 final api = SpotifyWebApi(
-    refresher: AuthorizationCodeRefresher(
+    refresher: AuthorizationCodeRefresher.withoutPkce(
         clientId: 'myclientid',
         clientSecret: 'supersecret',
         refreshTokenStorage: MemoryRefreshTokenStorage(refreshToken),
@@ -187,12 +187,13 @@ is available as `MemoryCodeVerifierStorage`, but it's recommended to provide a m
 (perhaps using a relational database).
 
 ```dart
-final flow = AuthorizationCodeUserAuthorization(
+final flow = AuthorizationCodeUserAuthorization.withPkce(
     clientId: 'myclientid',
-    clientSecret: 'supersecret',
     stateManager: TtlRandomStateManager(ttl: Duration(minutes: 5)),
     redirectUri: Uri.parse('https://example.com/spotifyauthcallback'),
     codeVerifierStorage: MemoryCodeVerifierStorage(),
 );
 ```
 
+Note that no clientSecret is needed in this case. Use the `AuthorizationCodeRefresher.withPkce`
+constructor to obtain access tokens with your refresh token.

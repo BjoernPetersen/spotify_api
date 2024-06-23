@@ -43,7 +43,7 @@ Future<SpotifyWebApi> loadApi() async {
 
   final storage = MemoryRefreshTokenStorage(refreshToken);
   return SpotifyWebApi(
-    refresher: AuthorizationCodeRefresher(
+    refresher: AuthorizationCodeRefresher.withoutPkce(
       clientId: creds.clientId,
       clientSecret: creds.clientSecret,
       refreshTokenStorage: storage,

@@ -12,7 +12,7 @@ Future<void> main(List<String> args) async {
   final client = SpotifyWebApi(
     refresher: ClientCredentialsRefresher(
       clientId: creds.clientId,
-      clientSecret: creds.clientSecret,
+      clientSecret: creds.clientSecret!,
     ),
   );
 

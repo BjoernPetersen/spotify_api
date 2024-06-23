@@ -65,14 +65,26 @@ Future<void> main() async {
   final creds = loadCredentials();
 
   const timeout = Duration(minutes: 5);
+  final callbackUrl = Uri.parse('http://localhost:8082/authcallback');
 
-  final auth = AuthorizationCodeUserAuthorization(
-    clientId: creds.clientId,
-    clientSecret: creds.clientSecret,
-    redirectUri: Uri.parse('http://localhost:8082/authcallback'),
-    stateManager: TtlRandomStateManager(ttl: timeout),
-    codeVerifierStorage: MemoryCodeVerifierStorage(),
-  );
+  final UserAuthorizationFlow auth;
+  if (creds.clientSecret == null) {
+    print('Using PKCE');
+    auth = AuthorizationCodeUserAuthorization.withPkce(
+      clientId: creds.clientId,
+      redirectUri: callbackUrl,
+      stateManager: TtlRandomStateManager(ttl: timeout),
+      codeVerifierStorage: MemoryCodeVerifierStorage(),
+    );
+  } else {
+    print('Not using PKCE');
+    auth = AuthorizationCodeUserAuthorization.withoutPkce(
+      clientId: creds.clientId,
+      clientSecret: creds.clientSecret!,
+      redirectUri: callbackUrl,
+      stateManager: TtlRandomStateManager(ttl: timeout),
+    );
+  }
 
   final authUrl = await auth.generateAuthorizationUrl(scopes: Scope.values);
   promptUser(authUrl);

@@ -13,15 +13,26 @@ import 'package:spotify_api/src/requests.dart';
 @immutable
 final class AuthorizationCodeRefresher implements AccessTokenRefresher {
   final String _clientId;
-  final String _clientSecret;
+  final String? _clientSecret;
   final RefreshTokenStorage _refreshTokenStorage;
 
-  AuthorizationCodeRefresher({
+  /// Only use this constructor if your refresh token was obtained with regular
+  /// authorization code flow WITHOUT PKCE.
+  AuthorizationCodeRefresher.withoutPkce({
     required String clientId,
     required String clientSecret,
     required RefreshTokenStorage refreshTokenStorage,
   })  : _clientId = clientId,
         _clientSecret = clientSecret,
+        _refreshTokenStorage = refreshTokenStorage;
+
+  /// Only use this constructor if your refresh token was obtained with the PKCE
+  /// flow.
+  AuthorizationCodeRefresher.withPkce({
+    required String clientId,
+    required RefreshTokenStorage refreshTokenStorage,
+  })  : _clientId = clientId,
+        _clientSecret = null,
         _refreshTokenStorage = refreshTokenStorage;
 
   @override
@@ -36,18 +47,20 @@ final class AuthorizationCodeRefresher implements AccessTokenRefresher {
   ) async {
     final url = baseAuthUrl.resolve('/api/token');
     final now = DateTime.now();
+    final clientSecret = _clientSecret;
     final response = await client.post(
       url,
       headers: [
-        Header.basicAuth(
-          username: _clientId,
-          password: _clientSecret,
-        ),
+        if (clientSecret != null)
+          Header.basicAuth(
+            username: _clientId,
+            password: clientSecret,
+          ),
       ],
       body: RequestBody.formData({
         'grant_type': 'refresh_token',
         'refresh_token': refreshToken,
-        'client_id': _clientId,
+        if (clientSecret == null) 'client_id': _clientId,
       }),
     );
 
@@ -71,16 +84,37 @@ final class AuthorizationCodeRefresher implements AccessTokenRefresher {
 }
 
 @immutable
-final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
-  final String _clientSecret;
+final class AuthorizationCodeUserAuthorization
+    implements UserAuthorizationFlow {
+  final String _clientId;
+  final Uri _redirectUri;
+  final AuthorizationStateManager _stateManager;
+  final CodeVerifierStorage? _codeVerifierStorage;
+  final String? _clientSecret;
 
-  AuthorizationCodeUserAuthorization({
-    required super.clientId,
-    required super.redirectUri,
-    required super.stateManager,
+  /// The [stateManager] will be used to generate and validate the OAuth state.
+  AuthorizationCodeUserAuthorization.withPkce({
+    required String clientId,
+    required Uri redirectUri,
+    required AuthorizationStateManager stateManager,
+    required CodeVerifierStorage codeVerifierStorage,
+  })  : _clientSecret = null,
+        _codeVerifierStorage = codeVerifierStorage,
+        _stateManager = stateManager,
+        _redirectUri = redirectUri,
+        _clientId = clientId;
+
+  /// The [stateManager] will be used to generate and validate the OAuth state.
+  AuthorizationCodeUserAuthorization.withoutPkce({
+    required String clientId,
+    required Uri redirectUri,
+    required AuthorizationStateManager stateManager,
     required String clientSecret,
-    super.codeVerifierStorage,
-  }) : _clientSecret = clientSecret;
+  })  : _codeVerifierStorage = null,
+        _stateManager = stateManager,
+        _redirectUri = redirectUri,
+        _clientId = clientId,
+        _clientSecret = clientSecret;
 
   Future<String> _obtainRefreshToken({
     required RequestsClient client,
@@ -88,16 +122,21 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
     required String? codeVerifier,
   }) async {
     final url = baseAuthUrl.resolve('/api/token');
+    final clientSecret = _clientSecret;
     final response = await client.post(
       url,
       headers: [
-        Header.basicAuth(username: clientId, password: _clientSecret),
+        if (clientSecret != null)
+          Header.basicAuth(
+            username: _clientId,
+            password: clientSecret,
+          ),
       ],
       body: RequestBody.formData({
         'grant_type': 'authorization_code',
         'code': authorizationCode,
-        'redirect_uri': redirectUri.toString(),
-        'client_id': clientId,
+        'redirect_uri': _redirectUri.toString(),
+        'client_id': _clientId,
         if (codeVerifier != null) 'code_verifier': codeVerifier,
       }),
     );
@@ -119,7 +158,7 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
   }
 
   Future<String?> _generateCodeChallenge(String state) async {
-    final storage = codeVerifierStorage;
+    final storage = _codeVerifierStorage;
     if (storage == null) {
       return null;
     }
@@ -134,14 +173,14 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
     required List<Scope> scopes,
     String? userContext,
   }) async {
-    final state = await stateManager.createState(userContext: userContext);
+    final state = await _stateManager.createState(userContext: userContext);
     final codeChallenge = await _generateCodeChallenge(state);
     final authorizeUrl = baseAuthUrl.resolve('/authorize');
     return authorizeUrl.replace(
       queryParameters: {
-        'client_id': clientId,
+        'client_id': _clientId,
         'response_type': 'code',
-        'redirect_uri': redirectUri.toString(),
+        'redirect_uri': _redirectUri.toString(),
         'state': state,
         'scope': scopes.map((s) => s.code).join(' '),
         if (codeChallenge != null) 'code_challenge_method': 'S256',
@@ -151,7 +190,7 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
   }
 
   Future<String?> _retrieveCodeVerifier(String state) async {
-    final storage = codeVerifierStorage;
+    final storage = _codeVerifierStorage;
     if (storage == null) {
       return null;
     }
@@ -169,7 +208,7 @@ final class AuthorizationCodeUserAuthorization extends UserAuthorizationFlow {
     String? userContext,
     required UserAuthorizationCallbackBody callback,
   }) async {
-    if (!await stateManager.validateState(
+    if (!await _stateManager.validateState(
       state: callback.state,
       userContext: userContext,
     )) {
