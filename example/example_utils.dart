@@ -10,7 +10,7 @@ class ClientCredentials {
   ClientCredentials({required this.clientId, required this.clientSecret});
 }
 
-ClientCredentials loadCreds() {
+ClientCredentials loadCredentials() {
   final env = DotEnv(includePlatformEnvironment: true)..load();
   final clientId = env['CLIENT_ID'];
   final clientSecret = env['CLIENT_SECRET'];
@@ -30,7 +30,8 @@ class _FileRefreshTokenStorage implements RefreshTokenStorage {
   @override
   Future<String> load() async {
     if (!await _file.exists()) {
-      throw RefreshException('Refresh token storage file does not exist');
+      throw RefreshException(
+          'Refresh token storage file does not exist. Try running "dart run tool/retrieve_refresh_token.dart"');
     }
     final content = _file.readAsStringSync();
     return content.trim();

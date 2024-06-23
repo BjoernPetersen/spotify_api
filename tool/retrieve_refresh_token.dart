@@ -62,7 +62,7 @@ void promptUser(Uri url) {
 
 Future<void> main() async {
   // TODO: accept args for URI
-  final creds = loadCreds();
+  final creds = loadCredentials();
 
   const timeout = Duration(minutes: 5);
 

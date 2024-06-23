@@ -3,9 +3,12 @@ import 'package:spotify_api/spotify_api.dart';
 import 'example_utils.dart';
 
 Future<void> main() async {
-  final creds = loadCreds();
+  final creds = loadCredentials();
   final client = SpotifyWebApi(
-    refresher: accessTokenRefresher(creds),
+    refresher: ClientCredentialsRefresher(
+      clientId: creds.clientId,
+      clientSecret: creds.clientSecret,
+    ),
   );
 
   try {
