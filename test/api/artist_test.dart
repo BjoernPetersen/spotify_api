@@ -135,13 +135,17 @@ void main() {
         );
       });
 
-      test('unknown market', () {
-        final artist = artists[0];
-        expect(
-          api.artists.getTopTracks(artistId: artist.id, market: 'xx'),
-          completion(const []),
-        );
-      }, skip: 'Spotify will just return a track anyway.');
+      test(
+        'unknown market',
+        () {
+          final artist = artists[0];
+          expect(
+            api.artists.getTopTracks(artistId: artist.id, market: 'xx'),
+            completion(const []),
+          );
+        },
+        skip: 'Spotify will just return a track anyway.',
+      );
 
       for (final spec in artists) {
         if (spec.popularSongIds.isNotEmpty) {
