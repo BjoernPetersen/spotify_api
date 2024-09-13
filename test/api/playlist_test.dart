@@ -87,7 +87,6 @@ void main() {
           );
           expect(playlist, isNull);
         },
-        skip: 'Spotify responds with an internal server error for this one.',
       );
 
       test('doof', () async {
