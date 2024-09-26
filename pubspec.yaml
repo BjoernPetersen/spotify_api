@@ -21,7 +21,7 @@ dev_dependencies:
   file: ^7.0.0
   file_testing: ^3.0.0
   json_serializable: ^6.0.0
-  lints: ^4.0.0
+  lints: ^5.0.0
   sane_uuid: ^1.0.0
   shelf: ^1.4.0
   test: ^1.0.0
