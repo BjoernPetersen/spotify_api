@@ -178,18 +178,18 @@ packages:
     dependency: "direct dev"
     description:
       name: file
-      sha256: "5fc22d7c25582e38ad9a8515372cd9a93834027aacf1801cf01164dac0ffa08c"
+      sha256: a3b4f84adafef897088c160faf7dfffb7696046cb13ae90b508c2cbc95d3b8d4
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.0.1"
   file_testing:
     dependency: "direct dev"
     description:
       name: file_testing
-      sha256: "0aaadb4025bd350403f4308ad6c4cea953278d9407814b8342558e4946840fb5"
+      sha256: eb0c85fd118ddc0d41c295c09f64e0924c256b071087cdc9828d5372c80d554d
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.2"
   fixnum:
     dependency: transitive
     description:
