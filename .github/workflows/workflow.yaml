@@ -22,6 +22,8 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+        with:
+          log_level: debug
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
