@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v3
+      - uses: jdx/mise-action@v2
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
@@ -45,7 +45,7 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v3
+      - uses: jdx/mise-action@v2
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
@@ -72,7 +72,7 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v3
+      - uses: jdx/mise-action@v2
       - name: Check lib formatting
         run: dart format lib --set-exit-if-changed
       - name: Check test formatting
@@ -86,7 +86,7 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v3
+      - uses: jdx/mise-action@v2
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
