@@ -10,5 +10,7 @@ renovate.json
 state.json
 refresh.txt
 
+.venv/
+.mise.toml
 pyproject.toml
 poetry.lock

@@ -14,3 +14,7 @@
 
 state.json
 refresh.txt
+
+# Mise/asdf
+asdf-*/
+.venv/

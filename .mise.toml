@@ -1,0 +1,6 @@
+[tools]
+dart = "3.5.4"
+python = "3.12"
+
+[env]
+_.python.venv = { path = '.venv/3.12', create = true }
