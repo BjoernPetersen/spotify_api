@@ -41,7 +41,6 @@ jobs:
           files: .coverage/lcov.info
 
   integration_test:
-    if: false
     name: Integration Tests
     concurrency: integration
     runs-on: ubuntu-latest
