@@ -24,6 +24,7 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           cache: false
+          install_args: dart
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
@@ -50,6 +51,7 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           cache: false
+          install_args: dart
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
@@ -79,6 +81,7 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           cache: false
+          install_args: dart
       - name: Check lib formatting
         run: dart format lib --set-exit-if-changed
       - name: Check test formatting
@@ -95,6 +98,7 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           cache: false
+          install_args: dart
       - name: Get dependencies
         run: dart pub get
       - name: Run code generation
