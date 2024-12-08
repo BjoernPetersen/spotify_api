@@ -7,8 +7,8 @@ on:
 
 
 jobs:
-  validate-renovate-config:
-    uses: BlindfoldedSurgery/renovate-config/.github/workflows/validate.yml@main
+  required-meta:
+    uses: BlindfoldedSurgery/actions-meta/.github/workflows/required.yml@v1
 
   check-commits:
     uses: BlindfoldedSurgery/actions-releases/.github/workflows/commitizen-check.yml@v2
