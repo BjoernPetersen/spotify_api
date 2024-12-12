@@ -1,18 +1,9 @@
 # spotify_api
 
-[![Workflow](https://github.com/BjoernPetersen/spotify_api/actions/workflows/workflow.yaml/badge.svg)](https://github.com/BjoernPetersen/spotify_api/actions/workflows/workflow.yaml)
-[![codecov](https://codecov.io/gh/BjoernPetersen/spotify_api/branch/main/graph/badge.svg?token=c7hHoMDzxM)](https://codecov.io/gh/BjoernPetersen/spotify_api)
-
 A Spotify Web API wrapper written in Dart.
 
-## Stability
-
-This project is in an early stage. Most notably, not all endpoints are available yet, and some
-response fields are not modeled. If you are missing something in particular, feel free to
-[open a new issue on GitHub](https://github.com/BjoernPetersen/spotify_api/issues).
-
-This project follows semantic versioning, so minor and patch version updates will not contain
-breaking changes.
+**Note:** Spotify is terrible at keeping their API available, they randomly change the response
+formats, and have recently cut a lot of API functionality. Therefore, this project was abandoned.
 
 ## Usage
 
