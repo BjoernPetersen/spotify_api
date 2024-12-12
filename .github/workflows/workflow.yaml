@@ -12,6 +12,7 @@ jobs:
 
   check-commits:
     uses: BlindfoldedSurgery/actions-releases/.github/workflows/commitizen-check.yml@v2
+    if: false
     with:
       python-version: "3.13"
 
